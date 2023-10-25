@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="no_due_generation_tree_view" model="ir.ui.view">
+            <field name="name">no.due.generation.view.tree</field>
+            <field name="model">no.due.gen</field>
+            <field name="arch" type="xml">
+                <tree string="No Due Generation" editable="bottom">
+                    <field name="name"/>
+                    <field name="student_detail_id"/>
+                    <field name="course_id"/>
+                    <field name="degree_id"/>
+                    <field name="course_year"/>
+                    <field name="company_id"/>  
+                </tree>
+            </field>
+        </record>
+
+        <record id="no_due_generation_action" model="ir.actions.act_window">
+            <field name="name">No Due Generation</field>
+            <field name="res_model">no.due.gen</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem
+            id="menu_no_due_generation_type_tree"
+            action="no_due_generation_action"
+            parent="account.menu_finance_receivables"
+            sequence="6"/>
+    </data>
+</odoo>

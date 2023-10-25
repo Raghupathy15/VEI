@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record model="degree.master" id="degree_bca">
+			<field name="name">B.C.A</field>
+		</record>
+		<record model="degree.master" id="degree_cs">
+			<field name="name">B.Sc (Computer Science)</field>
+		</record>
+		<record model="degree.master" id="degree_it">
+			<field name="name">B.Sc (Information Technology)</field>
+		</record>
+		<record model="degree.master" id="degree_ds">
+			<field name="name">B.Sc (Data Science)</field>
+		</record>
+		<record model="degree.master" id="degree_cys">
+			<field name="name">B.Sc (Cyber Security)</field>
+		</record>
+		<record model="degree.master" id="degree_aiml">
+			<field name="name">B.Sc (Artificial Intelligence &amp; Machine Learning)</field>
+		</record>
+		<record model="degree.master" id="degree_mca">
+			<field name="name">M.C.A</field>
+		</record>
+		<record model="degree.master" id="degree_msccs">
+			<field name="name">M.Sc (Computer Science)</field>
+		</record>
+		<record model="degree.master" id="degree_b_cs">
+			<field name="name">B.sc (Computer Science)</field>
+		</record>
+		<record model="degree.master" id="degree_bcom">
+			<field name="name">B.Com</field>
+		</record>
+		<record model="degree.master" id="degree_bcomca">
+			<field name="name">B.Com (Computer Applications)</field>
+		</record>
+		<record model="degree.master" id="degree_bcombi">
+			<field name="name">B.Com (Banking &amp; Insurance)</field>
+		</record>
+		<record model="degree.master" id="degree_bcom_afin">
+			<field name="name">B.Com (Accounting &amp; Finance)</field>
+		</record>
+		<record model="degree.master" id="degree_bcom_bps">
+			<field name="name">B.Com (Business Process Service)</field>
+		</record>
+		<record model="degree.master" id="degree_bcom_pa">
+			<field name="name">B.Com (Professional Accounting)</field>
+		</record>
+		<record model="degree.master" id="degree_mcom">
+			<field name="name">M. Com</field>
+		</record>
+		<record model="degree.master" id="degree_com">
+			<field name="name">Commerce</field>
+		</record>
+		<record model="degree.master" id="degree_bsc_phy">
+			<field name="name">B. Sc Physics</field>
+		</record>
+		<record model="degree.master" id="degree_phy">
+			<field name="name">Physics</field>
+		</record>
+		<record model="degree.master" id="degree_bsc_che">
+			<field name="name">B. Sc Chemistry</field>
+		</record>
+		<record model="degree.master" id="degree_msc_che">
+			<field name="name">M. Sc Chemistry</field>
+		</record>
+		<record model="degree.master" id="degree_che">
+			<field name="name">Chemistry</field>
+		</record>
+		<record model="degree.master" id="degree_ba_tamil">
+			<field name="name">BA Tamil</field>
+		</record>
+		<record model="degree.master" id="degree_ma_tamil">
+			<field name="name">MA Tamil</field>
+		</record>
+		<record model="degree.master" id="degree_tamil">
+			<field name="name">Tamil</field>
+		</record>
+		<record model="degree.master" id="degree_ba_eng">
+			<field name="name">BA Engish</field>
+		</record>
+		<record model="degree.master" id="degree_ma_eng">
+			<field name="name">MA English</field>
+		</record>
+		<record model="degree.master" id="degree_english">
+			<field name="name">English</field>
+		</record>
+		<record model="degree.master" id="degree_bsc_bot">
+			<field name="name">B. Sc Botany</field>
+		</record>
+		<record model="degree.master" id="degree_msc_bot">
+			<field name="name">M. Sc Botany</field>
+		</record>
+		<record model="degree.master" id="degree_bot">
+			<field name="name">Botany</field>
+		</record>
+		<record model="degree.master" id="degree_msc_mic">
+			<field name="name">B. Sc Microbiology</field>
+		</record>
+		<record model="degree.master" id="degree_mic">
+			<field name="name">Microbiology</field>
+		</record>
+		<record model="degree.master" id="degree_bsc_bio">
+			<field name="name">B. Sc Biochemistry</field>
+		</record>
+		<record model="degree.master" id="degree_msc_bio">
+			<field name="name">M. Sc Biochemistry</field>
+		</record>
+		<record model="degree.master" id="degree_bio">
+			<field name="name">Biochemistry</field>
+		</record>
+		<record model="degree.master" id="degree_bsc_zoo">
+			<field name="name">B. Sc Zoology</field>
+		</record>
+		<record model="degree.master" id="degree_msc_zoo">
+			<field name="name">M. Sc Zoology</field>
+		</record>
+		<record model="degree.master" id="degree_zoo">
+			<field name="name">Zoology</field>
+		</record>
+	</data>
+</odoo>

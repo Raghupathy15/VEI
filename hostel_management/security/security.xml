@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="groups_for_room_allocator" model="res.groups">
+            <field name="name">Hostel Room Allocator</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+        </record>
+
+        <record id="groups_for_room_un_allocator" model="res.groups">
+            <field name="name">Hostel Room Un-Allocator</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+        </record>
+
+    </data>
+</odoo>

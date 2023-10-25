@@ -1,0 +1,217 @@
+<odoo>
+    <data>
+        <record id="inherit_student_details_form_view" model="ir.ui.view">
+            <field name="name">Student Details Room Type</field>
+            <field name="model">student.details</field>
+            <field name="inherit_id" ref="vg_colg.student_details_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='concessions']" position="after">
+                    <page name="hostel_attendance" string="Hostel Attendance">
+                        <div class="row">
+                            <div class="col-3">
+                                <button class="oe_highlight btn-primary" type="object" name="action_return_student_hostel_attendance"
+                                        icon="fa-bed" option="{'color':'blue'}">
+                                    <div class="o_stat_info">
+                                        <span class="o_stat_text">Room Attendance</span>
+                                    </div>
+                                </button>    
+                            </div>
+                            <div class="col-3">
+                                <button class="oe_highlight btn-primary" type="object" name="action_return_student_room_history"
+                                        icon="fa-building" option="{'color':'blue'}">
+                                    <div class="o_stat_info">
+                                        <span class="o_stat_text">Room Change History</span>
+                                    </div>
+                                </button>        
+                            </div>
+                            <!-- <div> -->
+                            <div class="col-6" style="text-align:right;">
+                                <field name="attendance_status" invisible="1"/>
+                                <div class="btn btn-success" style="height:70px;width:120px;" icon="fa-bed" attrs="{'invisible':[('attendance_status','=','absent')]}">
+                                    <div class="o_stat_info">
+                                        <b><span class="o_stat_text">Present</span></b>
+                                    </div>
+                                </div>
+                                <div class="btn btn-danger" style="height:70px;width:120px;" icon="fa-bed"  attrs="{'invisible':[('attendance_status','=','present')]}">
+                                    <div class="o_stat_info">
+                                        <b><span class="o_stat_text">Absent</span></b>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </group> -->
+                        </div>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='room']" position="replace">
+                    <field name="room_type_id" attrs="{'invisible': [('accomodation_check_box', '!=', 'hosteler')],'required': [('accomodation_check_box', '=', 'hosteler')]}" string="Room Type" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                    <!-- domain="[('courses_ids','in',courses_id)]" -->
+                    <field name="special_care" string="Special Care Required?" attrs="{'invisible':[('room_type_id','=',False)]}"/>
+                    <field name="special_care_reason" string="Special Care Reason" attrs="{'invisible':[('special_care','=',False)],'required':[('special_care','=',True)]}"/>
+                    <field name="room_id" attrs="{'invisible':[('accomodation_check_box','!=','hosteler')]}" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_student_admission_details_search_view" model="ir.ui.view">
+			<field name="name">student.details.search</field>
+			<field name="model">student.details</field>
+            <field name="inherit_id" ref="vg_colg.student_admission_details_search_view"/>
+			<field name="arch" type="xml">
+                <xpath expr="//search/group" position="inside">
+					<filter name="room_type_id" domain="[]" context="{'group_by':'room_type_id'}"/>
+                    <filter name="room_id" domain="[]" context="{'group_by':'room_id'}"/>
+                    <filter name="special_care" domain="[]" context="{'group_by':'special_care'}"/>
+                </xpath>
+                <xpath expr="//search" position="inside">
+                    <field name="room_id" string="Room"/>
+                </xpath>
+
+				<!-- <search string="Student Details">
+					<field name="role_no"/>
+					<field name="name"/>
+					<group expand="0" string="Group By...">
+						<filter name="courses_id" domain="[]" context="{'group_by':'courses_id'}" />
+						<filter name="degree_level_id" domain="[]" context="{'group_by':'degree_level_id'}"/>
+						<filter name="section_id" domain="[]" context="{'group_by':'section_id'}"/>
+						<filter name="room_type_id" domain="[]" context="{'group_by':'room_type_id'}"/>
+					</group>
+				</search> -->
+			</field>
+		</record>
+
+        <record id="view_student_hostel_calendar_calendar" model="ir.ui.view">
+            <field name="name">student.hostel.calendar</field>
+            <field name="model">student.hostel.calendar</field>
+            <field name="arch" type="xml">
+                <calendar string="Stduent Hostel Calendar" date_start="start_datetime" date_stop="end_datetime">
+                    <field name="name"/>
+                    <field name="student_id" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                    <field name="room_id" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_student_hostel_calendar_tree" model="ir.ui.view">
+            <field name="name">student.hostel.calendar.tree</field>
+            <field name="model">student.hostel.calendar</field>
+            <field name="arch" type="xml">
+                <tree string="Hostel Attendance">
+                    <field name="name"/>
+                    <field name="student_id" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                    <field name="start_datetime"/>
+                    <field name="end_datetime"/>
+                    <field name="room_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_student_hostel_calendar_form" model="ir.ui.view">
+            <field name="name">student.hostel.calendar.form</field>
+            <field name="model">student.hostel.calendar</field>
+            <field name="arch" type="xml">
+                <form string="Hostel Attendance" create="0" edit="0" delete="0" copy="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="student_id" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                            </group>
+                            <group>
+                                <field name="start_datetime"/>
+                                <field name="end_datetime"/>
+                                <field name="room_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_student_room_history_tree" model="ir.ui.view">
+            <field name="name">student.room.history.tree</field>
+            <field name="model">student.room.history</field>
+            <field name="arch" type="xml">
+                <tree string="Stduent Room History">
+                    <field name="name"/>
+                    <field name="student_id" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="room_id" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_student_room_history_form" model="ir.ui.view">
+            <field name="name">student.room.history.form</field>
+            <field name="model">student.room.history</field>
+            <field name="arch" type="xml">
+                <form string="Student Room History" create="0" edit="0" delete="0" copy="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="student_id" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="room_id" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_room_attendance_search" model="ir.ui.view">
+            <field name="name">student.hostel.calendar.search</field>
+            <field name="model">student.hostel.calendar</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Name"/>
+                    <field name="student_id" string="Role No"/>
+                    <field name="room_id" string="Room"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_room" string="Room" context="{'group_by':'room_id'}"/>
+                        <filter name="group_by_role_no" string="Role No" context="{'group_by':'student_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_room_change_search" model="ir.ui.view">
+            <field name="name">student.room.history.search</field>
+            <field name="model">student.room.history</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Name"/>
+                    <field name="student_id" string="Role No"/>
+                    <field name="room_id" string="Room"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_room" string="Room" context="{'group_by':'room_id'}"/>
+                        <filter name="group_by_role_no" string="Role No" context="{'group_by':'student_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action for the Student Attendance -->
+        <record id="action_student_room_attendance" model="ir.actions.act_window">
+            <field name="name">Student Room Attendance</field>
+            <field name="res_model">student.hostel.calendar</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Action for the Student Room Change -->
+        <record id="action_student_room_history" model="ir.actions.act_window">
+            <field name="name">Student Room History</field>
+            <field name="res_model">student.room.history</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu item for the Attendance and Room History -->
+        <menuitem id="menu_student_room_attendance" name="Room Attendance" parent="hostel_management.rooms_menu_id" action="hostel_management.action_student_room_attendance"/>
+        <menuitem id="menu_student_room_history" name="Room Change History" parent="hostel_management.rooms_menu_id" action="hostel_management.action_student_room_history"/>
+
+    </data>
+</odoo>

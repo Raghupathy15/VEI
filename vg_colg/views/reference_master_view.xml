@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="reference_master_form_view" model="ir.ui.view">
+            <field name="name">reference.master.form</field>
+            <field name="model">reference.master</field>
+            <field name="arch" type="xml">
+                <form string="Reference">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="reference_master_tree_view" model="ir.ui.view">
+            <field name="name">reference.master.tree</field>
+            <field name="model">reference.master</field>
+            <field name="arch" type="xml">
+                <tree string="Reference" editable="bottom">
+                    <field name="name" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="reference_master_search_view" model="ir.ui.view">
+            <field name="name">reference.master.search</field>
+            <field name="model">reference.master</field>
+            <field name="arch" type="xml">
+                <search string="Reference">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="reference_master_act_window" model="ir.actions.act_window">
+            <field name="name">Reference</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reference.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Reference" id="reference_master_menu" parent="configuration_child_menu" action="reference_master_act_window"/>
+
+    </data>
+</odoo>

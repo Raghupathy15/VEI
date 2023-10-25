@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="district_master_form_view" model="ir.ui.view">
+            <field name="name">district.master.form</field>
+            <field name="model">district.master</field>
+            <field name="arch" type="xml">
+                <form string="District">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="district_master_tree_view" model="ir.ui.view">
+            <field name="name">district.master.tree</field>
+            <field name="model">district.master</field>
+            <field name="arch" type="xml">
+                <tree string="District" editable="bottom">
+                    <field name="name" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="district_master_search_view" model="ir.ui.view">
+            <field name="name">district.master.search</field>
+            <field name="model">district.master</field>
+            <field name="arch" type="xml">
+                <search string="District">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="district_master_act_window" model="ir.actions.act_window">
+            <field name="name">District</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">district.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="District" id="district_master_menu" parent="configuration_child_menu" action="district_master_act_window"/>
+
+    </data>
+</odoo>

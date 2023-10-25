@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="student_onetime_fees_tree_view" model="ir.ui.view">
+			<field name="name">student.onetime.fees.tree</field>
+			<field name="model">student.onetime.fees</field>
+			<field name="arch" type="xml">
+				<tree string="One time fees" create="false" edit="false">
+					<field name="student_id"/>
+                    <field name="onetimefees_id"/>
+                    <field name="course_id"/>
+                    <field name="degree_id" invisible="1"/>
+					<field name="degree_level_id"/>
+					<field name="currency_id" invisible="1"/>
+                    <field name="college_id"/>
+                    <field name="amount"/>
+					<field name="invoice_created" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="student_onetime_fees_search_view" model="ir.ui.view">
+			<field name="name">student.onetime.fees.search</field>
+			<field name="model">student.onetime.fees</field>
+			<field name="arch" type="xml">
+				<search string="Student One time Fees">
+					<field name="student_id"/>
+                    <field name="onetimefees_id"/>
+					<field name="course_id"/>
+					<!-- <field name="degree_level_id"/> -->
+					<!-- <group expand="0" string="Group By...">
+						<filter name="Fees Name" domain="[]" context="{'group_by':'name'}"/>
+						<filter name="course_id" domain="[]" context="{'group_by':'course_id'}"/>
+						<filter name="degree_id" domain="[]" context="{'group_by':'degree_id'}"/>
+					</group> -->
+				</search>
+			</field>
+		</record>
+
+		<record id="student_onetime_fees_act_window" model="ir.actions.act_window">
+			<field name="name">Student One Time Fees</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">student.onetime.fees</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<!-- <menuitem name="Student One Time Fees" id="student_onetime_fees_menu" parent="configuration_fees_child_menu" action="student_onetime_fees_act_window" sequence="4"/> -->
+
+
+	</data>
+</odoo>

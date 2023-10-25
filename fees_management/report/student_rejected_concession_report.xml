@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="paperformat_student_rejected_concession_report" model="report.paperformat">
+        <field name="name">Student Rejected Concession Report</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_spacing">10</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <template id="report_student_rejected_concession_document">
+        <t t-set="company" t-value="user.company_id"/>
+        <t t-call="web.external_layout_standard">
+            <div class="page">
+                <div class="oe_structure"/>
+                <t t-set="admission_data" t-value="docs.load_admission_list_data()"/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="mb-4 mt-3"><h2 style="display: inline;">Students Rejected Concession: </h2><h3 class="text-dark" style="display: inline;">
+                <t t-if="docs.start_date">
+                    <t t-esc="docs.start_date"/>
+                </t>
+                <t t-if="not docs.start_date">
+                    <span> Day one </span>
+                </t>
+                <span>To</span>
+                <t t-if="docs.end_date">
+                    <t t-esc="docs.end_date"/>
+                </t>
+                <t t-if="not docs.end_date">
+                    <span> Till Today</span>
+                </t>
+                </h3></div>
+                <table class="table table-sm">
+                    <thead style="display: table-row-group">
+                        <tr>
+                            <th name="admission_no"><strong>Admission No</strong></th>
+                            <th name="roll_no"><strong>Roll No</strong></th>
+                            <th name="name"><strong>Student Name</strong></th>
+                            <!-- <th name="date"><strong>Date</strong></th> -->
+                            <!-- <th name="concession_type"><strong>Concession Type</strong></th> -->
+                            <!-- <th name="general_concession_type"><strong>General Concession Type</strong></th> -->
+                            <!-- <th name="special_concession_type"><strong>Special Concession Type</strong></th> -->
+                            <th name="courses_id"><strong>Course</strong></th>
+                            <th name="college_id"><strong>College</strong></th>
+                            <th name="amount"><strong>Amount</strong></th>
+                            <th name="remarks"><strong>Remarks</strong></th>
+                            <th name="state"><strong>State</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="admission_data" t-as="line">
+                            <tr class="fst-italic">
+                                <td id="admission_no" class="text-center"> 
+                                    <span t-field="line.admission_id.admission_no"/>
+                                </td>
+                                <td id="roll_no" class="text-center">
+                                    <span t-field="line.roll_no_id.role_no"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.student_name"/>
+                                </td>
+                                <!-- <td class="text-center">
+                                    <span t-field="line.date"/>
+                                </td> -->
+                                <!-- <td class="text-center">
+                                    <span t-field="line.concession_type"/>
+                                </td> -->
+                                <!-- <td class="text-center">
+                                    <span t-field="line.general_concession_type.name"/>
+                                </td> -->
+                                <!-- <td class="text-center">
+                                    <span t-field="line.special_concession_type.name"/>
+                                </td> -->
+                                <td class="text-center">
+                                    <span t-field="line.courses_id.name"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.company_id.name"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-field="line.amount"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.remarks"/>
+                                </td>
+                                <td class="text-center">
+                                    <span class="text-danger">Rejected</span>
+                                </td>
+                            </tr> 
+                        </t> 
+                    </tbody>
+                </table>
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_student_rejected_concession">
+        <t t-call="web.html_container">
+            <t t-if="docs">
+                <t t-call="fees_management.report_student_rejected_concession_document" t-lang="context.get('lang')"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_student_rejected_concession" model="ir.actions.report">
+        <field name="name">Student Rejected Concession</field>
+        <field name="model">admission.concession.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">fees_management.report_student_rejected_concession</field>
+        <field name="report_file">fees_management.report_student_rejected_concession</field>
+        <field name="print_report_name">
+            'Students Rejected Concession Report'</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_student_rejected_concession_report"/>
+    </record>
+</odoo>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_daily_collection_report" model="report.paperformat">
+            <field name="name">Daily Collection Report</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">33</field>
+            <field name="margin_bottom">22</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_spacing">28</field>
+            <field name="dpi">96</field>
+        </record>
+
+        <template id="custom_1_external_layout_standard">
+            <div class="header" style="width:100%;">
+                <!-- <div class="row" style="border-bottom: 1px solid black;background-color:red;align:center;">
+                    <div class="col-2">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:130px;max-width:150px;" alt="Logo"/>
+                    </div>
+                    <div class="col-10" style="color:rgb(8, 104, 129);align:center;">
+                        <h3><b><span style="text-align:center;" t-field="company.name"/></b></h3>
+                        <span style="margin-left:245px;" t-field="company.street"/>,<span t-field="company.street2"/><br/>
+                        <span style="margin-left:310px;" t-field="company.city"/> 
+                        <br/>
+                    </div>
+                </div> -->
+                <div class="row" style="border-bottom: 1px solid black; text-align: center;height: 115px;">
+                    <div class="col-2">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 110px; max-width: 130px;" alt="Logo"/>
+                    </div>
+                    <div class="col-10" style="color: rgb(8, 104, 129);">
+                        <h3><b><span t-field="company.name"/></b></h3>
+                        <span t-field="company.street"/><span t-field="company.street2"/><br/>
+                        <span t-field="company.city"/><br/>
+                    </div>
+                </div>
+            </div>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <!-- <div>
+                    <t t-call="web.address_layout"/>
+                </div> -->
+                <t t-out="0"/>
+            </div>
+
+            <div t-attf-class="footer" style="padding-top:5px;">
+                <div class="text-center" style="border-top: 1px solid black;">
+                    <table class="table table-borderless" style="border-collapse: collapse; border: none;" width="100%">
+                        <tr style="border:none;">
+                            <td style="border:none;" align="left" width="20%"><span>Report Taken By</span></td>
+                            <td style="border:none;" align="left" width="30%">: <b><span t-esc="o.create_uid.name"/></b></td>
+                            <td width="5%"></td>
+                            <td style="border:none;" align="left" width="15%"><span>Page No</span></td>
+                            <td style="border:none;" align="left" width="30%">: <b><span class="page"/></b></td>
+                        </tr>
+                        <tr style="border:none;">
+                            <td style="border:none;" align="left" width="20%"><span>Date &amp; Time</span></td>
+                            <td style="border:none;" align="left" width="30%">: <b><span t-esc="o.get_current_time()"/></b></td>
+                            <td width="5%"></td>
+                            <td style="border:none;" colspan="2" width="45%" align="left"><span><b>Vivekanandha Eductional Instituion ( Confidential)</b></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="custom_1_externl_layout">
+            <t t-if="not o">
+                <t t-set="o" t-value="doc"/>
+            </t>
+
+            <t t-if="not company">
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+            <t t-call="fees_management.custom_1_external_layout_standard"><t t-out="0"/></t>
+        </template>
+
+        <template id="report_daily_report_collection_document">
+            <t t-call="fees_management.custom_1_externl_layout">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div style="margin-top:0px;" class="page">
+                    <div style="width:100%;">
+                        <div style="width:100%;margin-top:15px;">
+                            <p style="font-size:20px;text-align:right">
+                                
+                            </p>
+                        </div>
+                    </div>
+                    <t t-set="objs" t-value="o.get_payments()"/>
+
+                    <table class="table table-striped" style="width:100%;margin-bottom:0px;">
+                        <tr style="border-left:1px solid black;border-right:1px solid black;border-top:1px solid black;">
+                            <td style="background-color:rgb(6, 136, 171); color:white;" colspan="8" align="center"><span style="font-size: 14pt;">DAILY COLLECTION REPORT</span></td>
+                        </tr>
+                        <tr style="border-left:1px solid black;border-right:1px solid black;">
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">College Code </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.company_id.college_code">
+                                                    : <span style="color:solid black;" t-esc="o.company_id.college_code"/>
+                                                </t>
+                                                <t t-if="not o.company_id.college_code">
+                                                    : <span style="color:solid black;">Nill</span>
+                                                </t>
+                                            </b>
+
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">Start Date </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.start_date">
+                                                <b>: <span t-esc="o.start_date.strftime('%d - %b - %Y')" style="color:solid black;"/></b>
+                                            </t>
+                                            <t t-if="not o.start_date">
+                                                <b>: <span style="color:solid black;"/>Day One</b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr style="border-left:1px solid black;border-right:1px solid black;">
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">Course</span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.course_id">
+                                                    : <span style="color:solid black;" t-esc="o.course_id.name.split('-')[0]"/>
+                                                </t>
+                                                <t t-if="not o.course_id">
+                                                    : <span style="color:solid black;">All</span>
+                                                </t>
+                                            </b>
+
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">End Date </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.end_date">
+                                                <b>: <span t-esc="o.end_date.strftime('%d - %b - %Y')" style="color:solid black;"/></b>
+                                            </t>
+                                            <t t-if="not o.end_date">
+                                                <b>: <span style="color:solid black;"/></b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr style="border-left:1px solid black;border-right:1px solid black;">
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">Batch &amp; Term</span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.batch_id">
+                                                    : <span style="color:solid black;" t-esc="o.batch_id.name"/>
+                                                </t>
+                                                <t t-if="not o.batch_id">
+                                                    : <span style="color:solid black;">All</span>
+                                                </t>
+                                                <t t-if="o.term_id">
+                                                    &amp; <span style="color:solid black;" t-esc="o.term_id.name"/>
+                                                </t>
+                                                <t t-if="not o.term_id">
+                                                    &amp; <span style="color:solid black;">All</span>
+                                                </t>
+                                            </b>
+
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">Student Status </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.status == 'true' or not o.status ">
+                                                <b>: <span style="color:solid black;"/>Active</b>
+                                            </t>
+                                            <t t-if="o.status == 'false'">
+                                                <b>: <span style="color:solid black;"/>In Active</b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table class="table table-striped" style="width:100%;margin-bottom:0px;">
+                        <thead style="font-size: 12pt;background-color:rgb(6, 136, 171);color:white;" align="center">
+                            <th style="border-left:1px solid black;">College Code</th>
+                            <th>Batch</th>
+                            <th>Semester</th>
+                            <th>Term</th>
+                            <th>Fee Description</th>
+                            <th>Cashier Name</th>
+                            <!-- <th>Payment Method</th> -->
+                            <th style="border-right:1px solid black;">Collected Amount</th>
+                        </thead>
+                        <tbody style="font-size:10pt;">
+                            <t t-set="total" t-value="0.00"/>
+                            <t t-set="fee_vals" t-value="{}"/>
+                            <t t-foreach="objs.items()" t-as="value">
+                                <tr>
+                                    <td style="border-left:1px solid black;" align="left"> <span t-esc="value[1].get('college_code')"/>  </td>
+                                    <td align="left"> <span t-esc="value[1].get('batch')"/>   </td>
+                                    <td align="left"> <span t-esc="value[1].get('semester')"/>  </td>
+                                    <td align="left"> <span t-esc="value[1].get('term')"/> </td>
+                                    <td align="left">   <span t-esc="value[1].get('fees_head')"/>  </td>
+                                    <td align="left"> <b><span t-esc="value[1].get('sales_person')"/> </b></td>
+                                    <!-- <td align="center"> <span t-esc="value[1].get('payment_method')"/></td> -->
+                                    <td style="border-right:1px solid black;" align="right"><b><span t-esc="value[1].get('paid_amount')"/></b> </td>
+                                    <t t-set="total" t-value="total + value[1].get('paid_amount')"/>
+                                    <t t-set="fee_vals" t-value="o.get_sum(fee_vals,value[1].get('paid_amount'),value[1].get('fees_head'))"/>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td colspan="6" style="font-size: 11pt;border-bottom:2px solid black;border-left:1px solid black;" align="right"><b>Total:</b></td>
+                                <td style="border-bottom:2px solid black;border-right:1px solid black;" align="right"><b><span t-esc="total"></span></b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table" width="100%" style="page-break-inside:avoid; margin-top:0px;">
+                        <tbody>
+                            <tr>
+                                <td colspan="2" style="font-size: 12pt;background-color:rgb(6, 136, 171);color:white;border-top:1px solid black;border-bottom:2px solid black;border-right:2px solid black;border-left:2px solid black;" align="center"><b>SUMMARY</b></td>
+                                <td></td>
+                            </tr>
+                            <t t-foreach="enumerate(fee_vals.items())" t-as="fee">
+                                <tr style="font-size:10pt;">
+                                    <t t-if="fee[0] == 0">
+                                        <td align="left" widht="40%" style="border-top:2px solid black;border-left:2px solid black;">
+                                            <span t-esc="fee[1][0]"/>
+                                        </td>
+                                        <td align="right" width="10%" style="border-right:2px solid black;border-top:2px solid black;">
+                                            <b><span t-esc="fee[1][1]"/></b>
+                                        </td>
+                                    </t>
+                                    <t t-if="fee[0] != 0">
+                                        <td align="left" width="40%" style="border-left:2px solid black;">
+                                            <span t-esc="fee[1][0]"/>
+                                        </td>
+                                        <td align="right" widht="10%" style="border-right:2px solid black;">
+                                            <b><span t-esc="fee[1][1]"/></b>
+                                        </td>
+                                    </t>
+                                    <td widht="50%"></td>
+                                </tr>
+                            </t>
+                            <tr style="font-size:10pt;">
+                                <td align="left" width="40%" style="border-left:2px solid black;border-top:2px solid black; border-bottom:2px solid black;">
+                                    <span><b>Total</b></span>
+                                </td>
+                                <td align="right" width="10%" style="border-right:2px solid black; border-bottom:2px solid black;border-top:2px solid black;">
+                                    <b><span t-esc="total"/></b>
+                                </td>
+                                <td width="50%"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="daily_fees_collection_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.company_id.partner_id.lang"/>
+                    <t t-call="fees_management.report_daily_report_collection_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_daily_collection_report" model="ir.actions.report">
+            <field name="name">Daily Collection Report</field>
+            <field name="model">custom.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">fees_management.daily_fees_collection_report_template</field>
+            <field name="report_file">fees_management.daily_fees_collection_report_template</field>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="fees_management.paperformat_daily_collection_report"/>
+        </record>
+
+    </data>
+</odoo>

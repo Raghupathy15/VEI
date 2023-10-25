@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Report 1 -->
+    <template id="dc_wise_report_templete">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id"></t>
+                </t>
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"></t>
+                </t>
+                <div class="header">
+                    <div class="row mt32 mb32">
+                        <div class="col-12 text-center">
+                            <hr style="margin:0px; width:100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <t t-call="web.basic_layout">
+
+                    <style>
+                        th, td {
+                          padding: 10px !important;
+                        }
+                    </style>
+
+                    <div class="page">
+
+                        <table style="width:100%;">
+                            <tr style="width:100%;">
+                                <td style="width:20%; height:24pt; border: 1px solid black;">
+                                    <img src="/vg_colg/static/image/cg_admission_logo.jpeg"
+                                         style="height: 75px;width:100%"/>
+                                </td>
+                                <td style="width:80%; height:24pt; border: 1px solid black;">
+                                    <h4>&#160;&#160;&#160; &#160; VIVEKANANDHA EDUCATIONAL INSTITUTIONS</h4>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table style="width:100%;">
+                            <tr style="width:100%; background-color: yellow;">
+                                <td style="width:100%; border: 1px solid black;"><center><h5>Report For <t t-esc="counter_name"/> Counter From : <t t-esc="doc.from_date"/> to <t t-esc="doc.to_date"/></h5></center></td>
+                            </tr>
+                        </table>
+
+                        <table style="width:100%;">
+                            <tr style="width:100%;" class="text-center">
+                                <th style="width:30%; background-color: #808080;border: 1px solid black;">College Code</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">Batch</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">Term</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">Sem</th>
+                                <th style="width:25%; background-color: #808080;border: 1px solid black;">Fee Description</th>
+                                <th style="width:15%; background-color: #808080;border: 1px solid black;">Collected Amount</th>
+                            </tr>
+
+                            <t t-if="moves">
+                                <t t-set="total" t-value="0"/>
+                                <t t-foreach="moves" t-as="move">
+                                    <t t-foreach="move.invoice_line_ids" t-as="line">
+                                        <tr style="width:100%;">
+                                            <td style="border: 1px solid black;">
+                                                <t t-esc="move.company_id.name"/>
+                                            </td>
+                                            <td style="border: 1px solid black;"
+                                                class="text-center">
+                                                <t t-esc="move.batch_id.name"/>
+                                            </td>
+                                            <td style="border: 1px solid black;"
+                                                class="text-center">
+                                                <t t-esc="move.term"/>
+                                            </td>
+                                            <td style="border: 1px solid black;"
+                                                class="text-center">
+                                                <t t-esc="move.semester_id.name"/>
+                                            </td>
+                                            <td style="border: 1px solid black;">
+                                                <t t-esc="line.product_id.name"/>
+                                            </td>
+                                            <td style="border: 1px solid black;text-align:right"
+                                                class="text-right">
+                                                <t t-esc="line.price_total"/>
+                                                <t t-set="total" t-value="total+line.price_total"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                                <tr style="width:100%;">
+                                    <th style="border: 1px solid black;">
+                                    </th>
+                                    <th style="border: 1px solid black;"
+                                        class="text-center">
+                                    </th>
+                                    <th style="border: 1px solid black;"
+                                        class="text-center">
+                                    </th>
+                                    <th style="border: 1px solid black;"
+                                        class="text-center">
+                                    </th>
+                                    <th style="border: 1px solid black;">
+                                        Total
+                                    </th>
+                                    <th style="border: 1px solid black;text-align:right"
+                                        class="text-right">
+                                        <t t-esc="total"/>
+                                    </th>
+                                </tr>
+                            </t>
+
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_daily_counter_wise_report_report_pdf" model="ir.actions.report">
+        <field name="name">Daily Counter Wise Report</field>
+        <field name="model">daily.counter.wise.report</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">vc_accounting_reports.dc_wise_report_templete</field>
+        <field name="report_file">vc_accounting_reports.dc_wise_report_templete</field>
+        <field name="print_report_name">'Daily Counter Wise Report'</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="vg_colg.paperformat_admission_report"/>
+    </record>
+
+    <!--Report 1 XSLX  -->
+    <record id="report_daily_counter_xlsx" model="ir.actions.report">
+			<field name="name">Daily Counter Wise Report</field>
+			<field name="model">daily.counter.wise.report</field>
+			<field name="report_type">xlsx</field>
+			<field name="report_name">vc_accounting_reports.dc_report</field>
+			<field name="report_file">vc_accounting_reports.dc_report</field>
+			<field name="print_report_name">'Daily Counter Wise Report'</field>
+			<field name="binding_type">report</field>
+		</record>
+
+
+    <!-- Report 2 -->
+    <template id="dc_detailed_report_temp">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id"></t>
+                </t>
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"></t>
+                </t>
+                <div class="header">
+                    <div class="row mt32 mb32">
+                        <div class="col-12 text-center">
+                            <hr style="margin:0px; width:100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <t t-call="web.basic_layout">
+                    <div class="page">
+
+                        <style>
+                            th, td {
+                              padding: 10px !important;
+                            }
+                        </style>
+
+                        <table style="width:100%;">
+                            <tr style="width:100%;">
+                                <td style="width:20%; height:24pt; border: 1px solid black;">
+                                    <img src="/vg_colg/static/image/cg_admission_logo.jpeg"
+                                         style="height: 75px;width:100%"/>
+                                </td>
+                                <td style="width:80%; height:24pt; border: 1px solid black;">
+                                    <h4>&#160;&#160;&#160; &#160; VIVEKANANDHA EDUCATIONAL INSTITUTIONS</h4>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table style="width:100%;">
+                            <tr style="width:100%; background-color: yellow;">
+                                <td style="width:100%; border: 1px solid black;"><center><h5>Detail Report For Counter From : <t t-esc="doc.from_date"/> to <t t-esc="doc.to_date"/></h5></center></td>
+                            </tr>
+                        </table>
+
+                        <table style="width:100%;">
+                            <tr style="width:100%;" class="text-center">
+                                <th style="width:20%; background-color: #808080;border: 1px solid black;">Student Name</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">Course</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">Year</th>
+                                <th style="width:20%; background-color: #808080;border: 1px solid black;">Bank</th>
+                                <th style="width:15%; background-color: #808080;border: 1px solid black;">Number</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">Date</th>
+                                <th style="width:15%; background-color: #808080;border: 1px solid black;">Amount</th>
+                            </tr>
+
+
+                            <t t-if="payments">
+                                <t t-set="total" t-value="0"/>
+                                <t t-foreach="payments" t-as="payment">
+                                    <t t-set="invoice" t-value="request.env['account.move'].sudo().search([('name','=',payment.ref)],limit=1)"/>
+                                    <tr style="width:100%;">
+                                        <td style="border: 1px solid black;">
+                                            <t t-esc="payment.partner_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-center">
+                                            <t t-esc="invoice.degree_level_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;">
+                                            <t t-esc="invoice.course_year"/>
+                                        </td>
+                                        <td style="border: 1px solid black;">
+                                            <t t-esc="payment.payment_method_bank"/>
+                                        </td>
+                                        <td style="border: 1px solid black;">
+                                            <t t-esc="payment.payment_method_number"/>
+                                        </td>
+                                        <td style="border: 1px solid black;">
+                                            <t t-esc="payment.payment_method_date"/>
+                                        </td>
+                                        <td style="border: 1px solid black;text-align:right">
+                                            <t t-esc="payment.amount"/>
+                                            <t t-set="total" t-value="total+payment.amount"/>
+                                        </td>
+                                    </tr>
+                                </t>
+
+                                <tr style="width:100%;">
+                                    <th style="border: 1px solid black;">
+                                    </th>
+                                    <th style="border: 1px solid black;"
+                                        class="text-center">
+                                    </th>
+                                    <th style="border: 1px solid black;"
+                                        class="text-center">
+                                    </th>
+                                    <th style="border: 1px solid black;"
+                                        class="text-center">
+                                    </th>
+                                    <th style="border: 1px solid black;"
+                                        class="text-center">
+                                    </th>
+                                    <th style="border: 1px solid black;">
+                                        Total
+                                    </th>
+                                    <th style="border: 1px solid black;text-align:right"
+                                        class="text-right">
+                                        <t t-esc="total"/>
+                                    </th>
+                                </tr>
+                            </t>
+
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_daily_counter_wise_detailed_report_report_pdf" model="ir.actions.report">
+        <field name="name">Daily Counter Wise Detailed Report</field>
+        <field name="model">daily.counter.wise.detailed.report</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">vc_accounting_reports.dc_detailed_report_temp</field>
+        <field name="report_file">vc_accounting_reports.dc_detailed_report_temp</field>
+        <field name="print_report_name">'Daily Counter Wise Detailed Report'</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="vg_colg.paperformat_admission_report"/>
+    </record>
+
+    <!--Report 2 XSLX  -->
+    <record id="report_daily_counter_detailed_xlsx" model="ir.actions.report">
+        <field name="name">Daily Counter Wise Detailed Report</field>
+        <field name="model">daily.counter.wise.detailed.report</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">vc_accounting_reports.dc_detailed_report</field>
+        <field name="report_file">vc_accounting_reports.dc_detailed_report</field>
+        <field name="print_report_name">'Daily Counter Wise Detailed Report'</field>
+        <field name="binding_type">report</field>
+    </record>
+
+
+</odoo>

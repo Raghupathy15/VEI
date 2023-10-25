@@ -1,0 +1,84 @@
+<odoo>
+    <data>
+        <record id="view_hostel_master_form" model="ir.ui.view">
+            <field name="name">Hostel Master</field>
+            <field name="model">hostel.master</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <field name="floor_ids" invisible="1"/>
+                            <button class="oe_stat_button" type="object" name="action_open_floors"
+                                    icon="fa-building" attrs="{'invisible':[('floor_ids','=',False)]}">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Floors</span>
+                                </div>
+                            </button>  
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <!-- <field name="floor_ids" widget="many2many_tags"/> -->
+                            </group>
+                            <group>
+                                <!-- <field name="employee_ids" widget="many2many_tags"/> -->
+                            </group>
+                        </group>
+                        <notebook>
+                            <!-- <page name="Floors" id="floor_ids">
+                                <field name="floor_ids" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="room_type_ids" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page> -->
+                            <!-- <page name="Staff/Warden" id="employee_ids">
+                                <field name="employee_ids" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="empl_id"/>
+                                        <field name="job_id"/>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page> -->
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form> 
+            </field>
+        </record>
+
+        <record id="view_hostel_tree" model="ir.ui.view">
+			<field name="name">Hostel Master</field>
+			<field name="model">hostel.master</field>
+			<field name="arch" type="xml">
+				<tree string="Hostel ">
+					<field name="name"/>
+					<field name="floor_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hostel_act_window" model="ir.actions.act_window">
+			<field name="name">Hostel </field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hostel.master</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Hostel" id="hostel_menu_id" parent="hostel_management.configuration_hostel_mgt_menu" action="hostel_management.action_hostel_act_window" sequence="10"/>
+
+    </data>
+</odoo>

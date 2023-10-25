@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="admission_concession_report_form" model="ir.ui.view">
+            <field name="name">admission.concession.report.form.view</field>
+            <field name="model">admission.concession.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Admission Concession Report">
+                    <group>
+                        <group attrs="{'invisible':[('report_type','in',['approved_report','rejected_report'])]}">
+                            <field name="start_date" string="Start Date"/>
+                            <field name="end_date" string="End Date"/>
+                        </group>
+                        <group>
+                            <field name="report_type" force_save="1" invisible="1"/>
+                            <field name="course_ids" widget="many2many_tags" string="Courses" options="{'no_create':True,'no_edit':True,'no_quick_create':True}"/>
+                            <field name="send_by_mail" attrs="{'invisible':[('report_type','in',['approved_report','rejected_report'])]}"/>
+                            <!-- <field name="final_mail_body" required="1"/> -->
+                        </group>
+                    </group>
+                    <br/>
+                    <div class="row" style="margin: 2px; padding: 2px;" attrs="{'invisible':[('send_by_mail','=',False)]}">
+                        <h2 style="padding: 0px;">Enter Email details below</h2>
+                        <hr style="color:black !important;"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="users_ids" widget="many2many_tags" attrs="{'required':[('send_by_mail','=',True)],'invisible':[('send_by_mail','=',False)]}" options="{'no_create':True,'no_edit':True,'no_quick_create':True}"/>
+                        </group>
+                        <group>
+                            <field name="mail_subject" attrs="{'required':[('send_by_mail','=',True)],'invisible':[('send_by_mail','=',False)]}"/>
+                        </group>
+                    </group>
+                    <div class="row" attrs="{'invisible':[('send_by_mail','=',False)]}">
+                        <label class="fw-bold text-dark"  for="mail_body" string="Body of the Mail"/>
+                        <br/>
+                        <br/>
+                        <div class="col-12">
+                            <field name="mail_body" no-label="1" attrs="{'required':[('send_by_mail','=',True)],'invisible':[('send_by_mail','=',False)]}" widget="html" preview="True"/>
+                        </div>
+                    </div>
+                    <div class="row" attrs="{'invisible':[('send_by_mail','=',False)]}">
+                        <center>
+                            <i class="text-info">Above Email body will used to send an individual Email for all selected recepient's</i>
+                        </center>
+                    </div>
+                    <footer>
+                        <button name="print_report" type="object" string="Print"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_admission_concession_report_wizard" model="ir.actions.act_window">
+            <field name="name">Admission Concession Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admission.concession.report.wizard</field>
+            <field name="view_id" ref="admission_concession_report_form"/>
+            <field name="context">{}</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_admission_concession_report_wizard" name="Admission Concession Report" action="action_admission_concession_report_wizard"
+                  parent="vg_colg.menu_parent_report_wizard" sequence="10"/>
+
+    </data>
+</odoo>

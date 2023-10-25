@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_cash_flow_view" model="ir.ui.view">
+        <field name="name">Cash Flow</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//page[@name='accounting']" position="after">
+                    <page id="bank_details" name="bank_details" string="Bank Details">
+                        <group>
+                            <group>
+                            <field name="ifsc_code"/>
+                            <field name="account_number"/>
+                            <field name="account_name"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+
+</odoo>
+

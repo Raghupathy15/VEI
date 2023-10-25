@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="open_action_move_to_principal_approval" model="ir.actions.server">
+		<field name="name">Move to Principal Approval</field>
+		<field name="model_id" ref="vg_colg.model_admission_list"/>
+		<field name="binding_model_id" ref="vg_colg.model_admission_list"/>
+		<field name="binding_view_types">list</field>
+		<field name="state">code</field>
+		<field name="code">
+			if records:
+			action = records.action_move_to_principal_approval()
+		</field>
+		<field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+	</record>
+
+    <record id="open_action_move_to_college_list" model="ir.actions.server">
+			<field name="name">Move to Colleges</field>
+			<field name="model_id" ref="vg_colg.model_admission_list"/>
+			<field name="binding_model_id" ref="vg_colg.model_admission_list"/>
+            <field name="binding_view_types">list</field>
+			<field name="state">code</field>
+			<field name="code">
+				if records:
+				action = records.action_multi_confirm_admissions()
+			</field>
+            <field name="groups_id"  eval="[(4, ref('base.group_user'))]"/>
+		</record>
+
+	<record id="open_action_mail_notification" model="ir.actions.server">
+			<field name="name">Mail Notification</field>
+			<field name="model_id" ref="vg_colg.model_admission_list"/>
+			<field name="binding_model_id" ref="vg_colg.model_admission_list"/>
+            <field name="binding_view_types">list</field>
+			<field name="state">code</field>
+			<field name="code">
+				if records:
+				action = records.action_mail_notification()
+			</field>
+            <field name="groups_id"  eval="[(4, ref('base.group_user'))]"/>
+		</record>
+
+	<record id="open_action_payment_notification" model="ir.actions.server">
+			<field name="name">Payment Notification</field>
+			<field name="model_id" ref="vg_colg.model_admission_list"/>
+			<field name="binding_model_id" ref="vg_colg.model_admission_list"/>
+            <field name="binding_view_types">list</field>
+			<field name="state">code</field>
+			<field name="code">
+				if records:
+				action = records.action_payment_notification()
+			</field>
+            <field name="groups_id"  eval="[(4, ref('base.group_user'))]"/>
+		</record>
+
+	<record id="action_server_create_contact" model="ir.actions.server">
+		<field name="name">Create Contacts</field>
+		<field name="model_id" ref="vg_colg.model_student_details"/>
+		<field name="binding_model_id" ref="vg_colg.model_student_details"/>
+		<field name="binding_view_types">list</field>
+		<field name="state">code</field>
+		<field name="code">
+			if records:
+			action = records.server_action_create_contacts()
+		</field>
+	</record>
+
+</odoo>

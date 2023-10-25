@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="semester_master_form_view" model="ir.ui.view">
+            <field name="name">semester.master.form</field>
+            <field name="model">semester.master</field>
+            <field name="arch" type="xml">
+                <form string="semester">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="semester_master_tree_view" model="ir.ui.view">
+            <field name="name">semester.master.tree</field>
+            <field name="model">semester.master</field>
+            <field name="arch" type="xml">
+                <tree string="semester">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="semester_master_search_view" model="ir.ui.view">
+            <field name="name">semester.master.search</field>
+            <field name="model">semester.master</field>
+            <field name="arch" type="xml">
+                <search string="semester">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="semester_master_act_window" model="ir.actions.act_window">
+            <field name="name">semester</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">semester.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Semester" id="semester_master_menu" parent="vg_colg.configuration_child_menu" action="semester_master_act_window" sequence="27"/>
+
+    </data>
+</odoo>

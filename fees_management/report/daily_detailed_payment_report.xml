@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_daily_detailed_payment_report" model="report.paperformat">
+            <field name="name">Daily Detailed Payment Report</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">33</field>
+            <field name="margin_bottom">22</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_spacing">28</field>
+            <field name="dpi">96</field>
+        </record>
+        <template id="daily_detailed_payment_report_document">
+            <t t-call="fees_management.custom_1_externl_layout">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div style="margin-top:10px !important;" class="page">
+                    <div style="width:100%;">
+                        <div style="width:100%;margin-top:15px;">
+                            <p style="font-size:20px;text-align:right">
+                                
+                            </p>
+                        </div>
+                    </div>
+                    <t t-set="objs" t-value="o.get_payments()"/>
+                    
+                    <table class="table table-striped" style="margin-bottom:0px;">
+                        <thead style="border-left:1px solid black;border-right:1px solid black;">
+                            <th style="background-color:rgb(6, 136, 171); color:white;border-top:2px solid black;border-bottom:2px solid black;" colspan="10" align="center"><span style="font-size: 14pt;">Daily Detailed Payment Report</span></th>
+                        </thead>
+                        <tr style="border-left:1px solid black;border-right:1px solid black;">
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">College Code </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.company_id.college_code">
+                                                    : <span style="color:solid black;" t-esc="o.company_id.college_code"/>
+                                                </t>
+                                                <t t-if="not o.company_id.college_code">
+                                                    : <span style="color:solid black;">Nill</span>
+                                                </t>
+                                            </b>
+
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">Start Date </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.start_date">
+                                                <b>: <span t-esc="o.start_date.strftime('%d - %b - %Y')" style="color:solid black;"/></b>
+                                            </t>
+                                            <t t-if="not o.start_date">
+                                                <b>: <span style="color:solid black;"/>Day One</b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr style="border-left:1px solid black;border-right:1px solid black;">
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">Course</span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.course_id">
+                                                    : <span style="color:solid black;" t-esc="o.course_id.name.split('-')[0]"/>
+                                                </t>
+                                                <t t-if="not o.course_id">
+                                                    : <span style="color:solid black;">All</span>
+                                                </t>
+                                            </b>
+
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">End Date </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.end_date">
+                                                <b>: <span t-esc="o.end_date.strftime('%d - %b - %Y')" style="color:solid black;"/></b>
+                                            </t>
+                                            <t t-if="not o.end_date">
+                                                <b>: <span style="color:solid black;"/></b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr style="border-left:1px solid black;border-right:1px solid black;"> 
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">Batch &amp; Term</span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.batch_id">
+                                                    : <span style="color:solid black;" t-esc="o.batch_id.name"/>
+                                                </t>
+                                                <t t-if="not o.batch_id">
+                                                    : <span style="color:solid black;">All</span>
+                                                </t>
+                                                <t t-if="o.term_id">
+                                                    &amp; <span style="color:solid black;" t-esc="o.term_id.name"/>
+                                                </t>
+                                                <t t-if="not o.term_id">
+                                                    &amp; <span style="color:solid black;">All</span>
+                                                </t>
+                                            </b>
+
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">Student Status </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.status == 'true' or not o.status ">
+                                                <b>: <span style="color:solid black;"/>Active</b>
+                                            </t>
+                                            <t t-if="o.status == 'false'">
+                                                <b>: <span style="color:solid black;"/>In Active</b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr style="border-left:1px solid black;border-right:1px solid black;">
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">Cashier Name</span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.cashier_ids">
+                                                    : <span style="color:solid black;" t-esc="', '.join(cashier.name or '' for cashier in o.cashier_ids)"/>
+                                                </t>
+                                                <t t-if="not o.cashier_ids">
+                                                    : <span style="color:solid black;">All</span>
+                                                </t>
+                                            </b>
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">Cashier StaffId</span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>: <span style="color:solid black;"/></b>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-striped" style="width:100%layout-width:fixed;max-width:1000px;margin-top:0px;margin-bottom:0px;">
+                        <thead style="font-size: 12pt;background-color:rgb(6, 136, 171);color:white;border-top:2px solid black;" align="center">
+                            <!-- <th style="border-left:1px solid black;">S.N</th> -->
+                            <th style="border-left:1px solid black;">Student ID</th>
+                            <th style="border-left:1px solid black;">Student Name</th>
+                            <th style="border-left:1px solid black;">College Code</th>
+                            <th style="border-left:1px solid black;">Course</th>
+                            <th style="border-left:1px solid black;">Batch</th>
+                            <th style="border-left:1px solid black;">Semester/Term</th>
+                            <th style="border-left:1px solid black;">Section</th>
+                            <th style="border-left:1px solid black;">Receipt No</th>
+                            <th style="border-left:1px solid black;">Payment Mode</th>
+                            <th style="border-left:1px solid black;">DD/Cheque/Gpay Bank</th>
+                            <th style="border-left:1px solid black;">DD/Cheque/Gpay No</th>
+                            <th style="border-left:1px solid black;">DD/Cheque/Gpay Amount</th>
+                            <!-- <th style="border-left:1px solid black;border-right:1px solid black;">Total</th> -->
+                        </thead>
+                        <tbody style="font-size:12pt;">
+                            <t t-set="total_paid" t-value="0.00"/>
+                            <t t-set="count" t-value="0"/>
+                            <t t-foreach="objs.items()" t-as="value">
+                                <t t-if="value[0] != 'move_total' and value[0] != 'method_vals'">
+                                    <t t-foreach="value[1].get('payment_objs')" t-as="payment">
+                                        <tr>
+                                            <td style="border-left:1px solid black;" align="left"><b><span t-esc="value[1].get('move_obj').details_id.role_no or ''"/></b></td>
+                                            <td style="border-left:1px solid black;" align="left"><b><span t-esc="value[1].get('move_obj').details_id.name or ''"/></b></td>   
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="value[1].get('move_obj').details_id.company_id.college_code or ''"/></td>   
+                                            <t t-if="value[1].get('move_obj').course_id.name">
+                                                <td style="border-left:1px solid black;" align="left"><span t-esc="value[1].get('move_obj').course_id.name.split('-')[0] or ''"/></td>   
+                                            </t>
+                                            <t t-if="not value[1].get('move_obj').course_id.name">
+                                                <td style="border-left:1px solid black;"></td>
+                                            </t>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="value[1].get('move_obj').batch_id.name or ''"/></td>   
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="(value[1].get('move_obj').semester_id.name or '') + '/' + (value[1].get('move_obj').fees_for_id.name or '')"/></td>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="value[1].get('move_obj').details_id.section_id.name"/></td>
+                                            <td style="border-left:1px solid black;" align="right"><b><span t-esc="payment.name"/></b></td>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="payment.payment_method_line_id.name"/></td>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="payment.payment_method_bank"/></td>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="payment.payment_method_number"/></td>
+                                            <td style="border-left:1px solid black;border-right:1px solid black;" align="right"><span t-esc="value[1].get('payment_vals').get(str(payment.id)).get('amount')"/></td>
+                                            <!-- <td style="border-left:1px solid black;border-right:1px solid black;" align="right"><b><span t-esc="value[1].get('move_obj').amount_total"/></b></td> -->
+                                            <t t-set="total_paid" t-value="total_paid + value[1].get('payment_vals').get(str(payment.id)).get('amount')"/>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+                            <t t-if="objs.get('move_total')">
+                                <tr style="background-color:rgb(52, 170, 202);color:white;border-bottom:2px solid black;border-top:2px solid black;border-left:1px solid black;border-right:1px solid black;">
+                                    <td colspan="11" align="right" style="font-size: 12pt;"><b>Total:</b></td>
+                                    <td align="right" style="font-size: 12pt;"><b><span t-esc="total_paid"/></b></td>
+                                    <!-- <td></td> -->
+                                    <!-- <td align="right" style="font-size: 12pt;"><b><span t-esc="objs.get('move_total')"></span></b></td> -->
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <table class="table" width="100%" style="payment_method_total-break-inside:avoid; margin-top:0px;font-size:12pt;">
+                        <tbody>
+                            <tr>
+                                <td colspan="2" style="font-size: 12pt;background-color:rgb(6, 136, 171);color:white;border-top:1px solid black;border-bottom:2px solid black;border-right:2px solid black;border-left:2px solid black;" align="center"><b>SUMMARY</b></td>
+                                <td></td>
+                            </tr>
+                            <t t-set="payment_method_total" t-value="0"/>
+                            <t t-if="objs.get('method_vals')">
+                                <t t-foreach="enumerate(objs.get('method_vals').items())" t-as="fee">
+                                    <tr style="font-size:12pt;">
+                                        <t t-if="fee[0] == 0">
+                                            <td align="left" widht="20%" style="border-top:2px solid black;border-left:2px solid black;">
+                                                <span t-esc="fee[1][0]"/>
+                                            </td>
+                                            <td align="right" width="10%" style="border-right:2px solid black;border-top:2px solid black;">
+                                                <b><span t-esc="fee[1][1]"/></b>
+                                            </td>
+                                        </t>
+                                        <t t-if="fee[0] != 0">
+                                            <td align="left" width="20%" style="border-left:2px solid black;">
+                                                <span t-esc="fee[1][0]"/>
+                                            </td>
+                                            <td align="right" widht="10%" style="border-right:2px solid black;">
+                                                <b><span t-esc="fee[1][1]"/></b>
+                                            </td>
+                                        </t>
+                                        <td widht="70%"></td>
+                                    </tr>
+                                    <t t-set="payment_method_total" t-value="payment_method_total + fee[1][1]"/>
+                                </t>
+                            </t>
+                            <tr style="font-size:12pt;">
+                                <td align="left" width="20%" style="border-left:2px solid black;border-top:2px solid black; border-bottom:2px solid black;">
+                                    <span><b>Total</b></span>
+                                </td>
+                                <td align="right" width="10%" style="border-right:2px solid black; border-bottom:2px solid black;border-top:2px solid black;">
+                                    <b><span t-esc="payment_method_total"/></b>
+                                </td>
+                                <td width="70%"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="daily_detailed_payment_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.company_id.partner_id.lang"/>
+                    <t t-call="fees_management.daily_detailed_payment_report_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_daily_detailed_payment_report" model="ir.actions.report">
+            <field name="name">Daily Detailed Payment Report</field>
+            <field name="model">daily.detailed.payment.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">fees_management.daily_detailed_payment_report_template</field>
+            <field name="report_file">fees_management.daily_detailed_payment_report_template</field>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_daily_detailed_payment_report"/>
+        </record>
+
+    </data>
+</odoo>

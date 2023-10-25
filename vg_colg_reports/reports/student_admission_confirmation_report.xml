@@ -1,0 +1,692 @@
+<odoo>
+    <data>
+
+        <!-- Report Action -->
+        <record id="action_report_student_admission_confirmation" model="ir.actions.report">
+            <field name="name">Admission Confirmation</field>
+            <field name="type">ir.actions.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="model">admission.confirmation</field>
+            <field name="report_name">vg_colg_reports.report_student_admission_confirmation</field>
+            <field name="report_file">vg_colg_reports.report_student_admission_confirmation</field>
+            <field name="binding_model_id" ref="vg_colg.model_admission_confirmation"/>
+<!--            <field name="paperformat_id" ref="vg_colg.paperformat_admission_report"/>-->
+        </record>
+
+         <template id="report_student_admission_confirmation">
+            <t t-call="web.html_container">  
+                <t t-foreach="docs" t-as="doc">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"></t>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"></t>
+                    </t>
+                    
+                    <div class="header">
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <p style="margin: 0;">Bar code No:</p>
+                            </div>
+                            <div class="col-6 text-right">
+                                <p style="margin: 0;">College Name: </p>
+                            </div>
+                        </div> 
+                    </div> 
+                   
+                    <div class="footer">
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <p style="margin: 0;">Parent Signature:</p>
+                            </div>
+                            <div class="col-6 text-right">
+                                <p style="margin: 0;">Student Signature:</p>
+                            </div>
+                        </div>
+                    </div>
+                <t t-call="web.external_layout">
+                    <div class="page" style="border: 5px double black;   padding: 5px;">
+
+                    <style>
+                      
+                        .tb1 {
+                            width: 960px;
+                            padding: 6px;
+                            border-collapse: separate;
+                            border-spacing: 10px;
+                        }
+
+                        .box{
+                            display: inline-block;
+                            border: 1px solid black;
+                            margin-right: 10px;
+                            padding: 5px;
+                            font-size: 14px;
+                            border-radius: 10px;
+
+                        }
+                        .box2 {
+                            display: inline-block;
+                            border: 1px solid black;
+                            margin-right: 10px;
+                            padding: 5px;
+                            font-size: 14px;
+                            border-radius: 10px;
+                        }
+                        .main-tb1 {
+                            width: 960px;
+                            border: 1px solid white !important;
+                            border-collapse: separate;
+                            border-spacing: 2px;
+                        }
+                        .main-tb1 td {
+                            vertical-align: top; 
+                            text-align: center; 
+                        }
+                        .rounded-box {
+                            width: 400px;
+                            text-align: center;
+                            margin: 0 auto;
+                            padding: 10px;
+                            border: 2px solid black;
+                            border-radius: 10px;
+                        }               
+    
+                        .main-tb2 {
+                            width: 960px;
+                            border: 1px solid white !important;
+                            padding: 10px; 
+                        }
+      
+
+                        .personal-info1 {
+                            width: 450px;
+                            border: 1px solid white !important;
+                            padding: 10px; 
+                        }
+                        .personal-info1 th, .personal-info1 td {
+                            padding: 1px;
+                            
+                        }
+
+                        .Institute-info {
+                            width: 450px;
+                            border: 1px solid white !important;
+                            padding: 10px; 
+                        }
+                        .Institute-info th, .Institute-info td {
+                            padding: 3px;
+                            
+                        }
+                        .institution-name td {
+                            font-size: 16px;
+                            font-weight: bold;
+                        }
+                        .main-tb3 {
+                            border-collapse: separate;
+                            border-spacing: 3px;
+                            width: 960px;
+                            border: 1px solid white !important;
+                        }
+                        .communication {
+                            background-color: darkblue;
+                            color: white;
+                            border-radius: 10px;
+                            overflow: hidden;
+                            padding: 6px;
+                            width: 260px;
+                            
+                        }
+                        .address {
+                            border: 2px solid black !important;
+                            width: 450px;
+                            padding: 10px; 
+                            border-spacing: 0;
+                            border-collapse: separate;
+                            border-radius: 10px;
+                            width: 450px;
+                            height:200px
+                        }
+                        .address th, .address td {
+                            padding: 2px;
+                            height: 25px;
+                            
+                        }
+                        
+                        .pin_code {
+                            font-size: 0; 
+                       }
+                        .pin_cell {
+                            display: inline-block;
+                            border: 1px solid black;
+                            margin-right: 10px;
+                            padding: 8px;
+                            font-size: 14px;
+                        }
+                       
+                        .marklist {
+                            border-collapse: separate;
+                            border-spacing: 0; 
+                            border-radius: 10px;
+                            overflow: hidden;
+                            border: 1px solid black;
+                            height:300px
+                            table-layout: fixed;
+
+                        }
+                        .marklist th, .marklist td {
+                            padding: 1px;
+                            border: 1px solid black;
+                            height: 15px;
+                        }
+
+                       .fee-box {
+                            border: 1px solid black;
+                            border-radius: 10px;
+                            padding: 5px;
+                            font-weight: bold;
+                            font-size: 16px;
+                            text-align: center;
+                            width:200px;
+                        }
+                        .fee-detail {
+                            border-collapse: separate;
+                            border-spacing: 0;
+                            border: 1px solid black !important;
+                            border-radius:10px;
+                            overflow: hidden;
+                            text-align: center;
+                            width:920;
+                            table-layout: fixed;
+                        }
+                        .fee-detail tr, .fee-detail td {                           
+                            border: 1px solid black;
+                            padding: 1px;
+                            height: 21px;
+                        }
+                        .fee-detail th.term-fee, .fee-detail td.term-fee {
+                            background-color: darkblue;
+                            color: white;
+                        }
+
+                        .fee-detail th.other-fee, .fee-detail td.other-fee {
+                            background-color: darkblue;
+                            color: white;
+                        }
+
+                        .fee-detail th.rr, .fee-detail td.rr {
+                            background-color: darkblue;
+                            color: white;
+                        }
+
+                        .remark {
+                            border-collapse: separate;  
+                            border-spacing: 0;                          
+                            border: 1px solid black !important; 
+                            border-radius:10px;
+                            overflow: hidden;
+                            height:80px
+                        }
+                        .remark th, .remark td {
+                            padding: 1px;
+                            border: 1px solid black;
+                        }
+                    </style>
+
+                    <table class="tb1"  cellpadding="1" cellspacing="1" style="border:1px solid white !important; width:960px">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="box" style="width:180px">
+                                    <p>M.App No :</p>
+                                </div>
+                                <div class="box" style="width:200px">
+                                    <p>Quota : <t t-if="doc.quota_id"><span t-field="docs.quota_id.name"/></t></p>
+                                </div>
+                                <div class="box" style="width:180px">
+                                    <p>Date :</p>
+                                </div>
+                                <div class="box" style="width:300px">
+                                    <p>Hostel/Dayscholar App.No :</p>
+                                </div>
+                            </td>                                              
+                        </tr>
+                        <tr>
+                            <td>                           
+                                <div class="box2" style="width:200px">
+                                    <p>Sys.App No :</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+               
+                  <!--Main table1-->
+                        <table class="main-tb1" border="1" cellpadding="1" cellspacing="2" style="border:1px solid white !important; width:960px">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <table border="1" style="border:1px solid white !important; width:200px;  height:150px;">
+                                            <tbody>
+                                                <tr>
+                                                    <td><img alt="logo" src="/vg_colg/static/image/cg_admission_logo.jpeg" style="height:150px; width:150px" /></td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table align="center" border="1" cellpadding="2" cellspacing="2" style="border:1px solid white !important; width:400px; height:100px;">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="institution-name">
+                                                        <p style="text-align:center" ><h3>VIVEKANANDHA</h3></p>
+                                                    </td> 
+
+                                                </tr>                                                                      
+                                                <tr>
+                                                    <td class="institution-name">
+						                                <p style="text-align:center"><h3>EDUCATIONAL INSTITUTIONS</h3></p>
+                                                    </td>
+                                                </tr>
+                                                <t t-set="rec" t-value="doc.get_field_value()"/>
+
+                                                <tr>
+                                                    <td>
+                                                    <p style="text-align:center">ADMISSION  CARD  <t t-if="rec['batch']" t-esc="rec['batch']"></t></p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="rounded-box" style="width:400px;  text-align: center; margin: 0 auto; ">                           
+                                                            COURSE :  <t t-if="doc.courses_id"><span t-field="doc.courses_id"/></t>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table align="center" border="1" cellpadding="1" cellspacing="1" style="border:2px solid black !important; width:180px;height:180px;">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width:180px"> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        
+                <!--Main table2-->
+                        <table  class="main-tb2" cellpadding="2" cellspacing="2" style="width:960px;  border:1px solid white !important;">
+                            <tr>    
+                                <td>         
+                                    <table  class="personal-info1" border="0" cellpadding="2" cellspacing="2" style="width:450px ;  border:1px solid white !important;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:200px">Name</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;"><t t-if="doc.name"><span t-field="doc.name"/></t></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:20px">Date Of Birth</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240; border-bottom: 2px solid black; border-style: dotted;">
+                                                    <table border="0" cellpadding="2" cellspacing="2" style="border:1px solid white !important;" >
+                                                        <tbody>
+                                                            <tr>  
+                                                                <td style="width:150px;"><t t-if="doc.date_of_brith"><span t-field="doc.date_of_brith"/></t></td>                                   
+<!--                                                                <td style="width:50px;">Age :</td>-->
+<!--                                                                <td style="width:50px;"><t t-if="doc.age"><span t-field="doc.age"/></t></td>-->
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:200px">Cummunity</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px; border-bottom: 2px solid black; border-style: dotted;"><t t-if="doc.community_id"><span t-field="doc.community_id.name"/></t></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:200px">Caste</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;"><t t-if="doc.caste"><span t-field="doc.caste"/></t></td>                        
+                                            </tr>
+                                            <tr>
+                                                <td style="width:200px">Name of Parent/Guardian</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;"><t t-if="doc.name_of_the_parent_guardian"><span t-field="doc.name_of_the_parent_guardian"/></t></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:210px">Parent/Guardian's Occupation</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px; border-bottom: 2px solid black; border-style: dotted;"><t t-if="doc.parent_guardian_occupation"><span t-field="doc.parent_guardian_occupation"/></t></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table class="Institute-info" cellpadding="2" cellspacing="2" style="width:450px ; border:1px solid white !important;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:200px">Dayscholar/Hosteler</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;">
+
+                                                    <t t-if="doc.accomodation_check_box">
+                                                        <t t-if="doc.accomodation_check_box == 'dayscholar' ">
+                                                            <span t-field="doc.accomodation_check_box"/>
+                                                        </t>
+                                                        <t t-if="doc.accomodation_check_box == 'hosteler' ">
+                                                            <span t-field="doc.accomodation_check_box"/> <t t-if="doc.room">[ <span t-field="doc.room"/> ]</t>
+                                                        </t>
+                                                    </t>
+                                                    
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td style="text-align:center; width:300px"><strong><u>INSTITUTE LAST STUDIED</u></strong></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="width:200px">Name</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;"><t t-if="doc.institute_last_studied"><span t-field="doc.institute_last_studied"/></t></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:200px">Place</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;"><t t-if="rec['place_id']" t-esc="rec['place_id'][1]"></t></td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <td style="width:200px">Taluk</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;"><t t-if="rec['taluk_id']" t-esc="rec['taluk_id'][1]"></t></td>
+                                            </tr> -->
+                                            <tr>
+                                                <td style="width:200px">District</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;"><t t-if="rec['district_id']" t-esc="rec['district_id'][1]"></t></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:200px">Educational Qualification</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:240px ; border-bottom: 2px solid black; border-style: dotted;"><t t-if="doc.education_qualification"><span t-field="doc.education_qualification"/></t></td>
+                                            </tr>
+                                               
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+                        
+                    <!--Main Table 3-->                                                  
+                        <table class="main-tb3" border="1" cellpadding="1" cellspacing="3" style="width:960px; border:1px solid white !important;">
+                            <tbody>
+                                <tr>
+                                    <td>     
+                                    <div class="communication">
+                                        COMMUNICATION ADDRESS
+                                    </div>                                             
+                                    <table  border="1"  cellspacing="1" class="address" style="border:2px solid black !important; width:450px">
+                                         <tbody style="border:2px solid white !important;">
+
+                                            <tr>
+                                                <td>Door No</td>
+                                                <td style="width:10px"> :</td>
+                                                <td style="border-bottom:2px solid black; border-style:dotted; "><t t-if="doc.present_door_no"> <span t-field="doc.present_door_no"/></t></td>
+                                            </tr>
+                                            <tr>
+                                                <td> Street</td>
+                                                <td style="width:10px">: </td>
+                                                <td style="border-bottom:2px solid black; border-style:dotted; "><t t-if="doc.present_street"> <span t-field="doc.present_street"/></t> </td>
+                                            </tr>
+                                           
+                                            <!-- <tr>
+                                                <td>Taluk</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="border-bottom:2px solid black; border-style:dotted;"><t t-if="rec['taluk_id']" t-esc="rec['taluk_id'][1]"></t></td>
+                                            </tr> -->
+                                            <tr>
+                                                <td>District</td>
+                                                <td style="width:10px">:</td>
+<!--                                                <td style="border-bottom:2px solid black; border-style:dotted;"><t t-if="rec['district_id']" t-esc="rec['district_id'][1]"></t></td>-->
+                                                <td style="border-bottom:2px solid black; border-style:dotted;"><t t-if="doc.present_district"> <span t-field="doc.present_district"/></t> </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>State</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="border-bottom:2px solid black; border-style:dotted;"><t t-if="doc.present_state"><span t-field="doc.present_state"/></t></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pin</td>
+                                                <td style="width:10px">:</td>
+                                                <td>
+                                                    <t t-if="doc.zip_code">
+                                                        <t t-set="pin" t-value="doc.zip_code"/>
+
+                                                        <div class="pin_code">
+                                                            <div class="pin_cell"><t t-esc="pin[0]"/></div>
+                                                            <div class="pin_cell"><t t-esc="pin[1]"/></div>
+                                                            <div class="pin_cell"><t t-esc="pin[2]"/></div>
+                                                            <div class="pin_cell"><t t-esc="pin[3]"/></div>
+                                                            <div class="pin_cell"><t t-esc="pin[4]"/></div>
+                                                            <div class="pin_cell"><t t-esc="pin[5]"/></div>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                            
+                                            </tr>
+                                            <tr>
+                                                <td>Phone</td>
+                                                <td style="width:10px">:</td>
+                                                <td style="width:290px">
+                                                <table border="1" cellpadding="1" cellspacing="1" style="border:1px solid white !important">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width:150px"><t t-if="doc.student_phone_no"><span t-field="doc.student_phone_no"/></t></td>
+                                                            <td style="width:70px">Mobile :</td>
+                                                            <td style="width:100px"><t t-if="doc.student_whatsapp"><span t-field="doc.student_whatsapp"/></t></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>PP</td>
+                                                <td style="width:10px">:</td>
+                                                <td>
+                                                <table border="1" cellpadding="1" cellspacing="1" style="border:1px solid white !important">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width:150px"> </td>
+                                                            <td style="width:70px">Mobile :</td>
+                                                            <td style="width:100px"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                    </td>
+                                    <!--Mark list Table-->
+                                    <td>
+                                    <table border="1" cellpadding="1" cellspacing="1" class="marklist" style="width:450px ; border:1px solid black !important;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:center"><strong>Name of Subject</strong></td>
+                                                <td style="text-align:center"><strong>Marks</strong></td>
+                                                <td style="text-align:center"><strong>%</strong></td>
+                                            </tr>
+                                            <t t-foreach="doc.education_qualification_ids" t-as="subject" t-attf-index="subject_index">
+                                                <tr>
+                                                    <td> <p><span t-esc="subject_index + 1"/>. <span t-field="subject.name"/></p></td>
+                                                    <td> <span t-field="subject.marks"/> </td>
+                                                    <td> <span t-field="subject.per"/> </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--Fee Details table-->
+                       
+                        <table class="fee-detail" style="width:920px">
+                            <tbody>
+                             	<tr>
+                                    <td colspan="8" style="text-align:center; width:920px">                                       
+                                            <div class="fee-box" style="text-align: center; margin: 0 auto;">
+                                                FEE DETAILS
+                                            </div>                 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="term-fee" style="width:110px"><strong>Term fee</strong></td>
+                                    <td style="width:110px"><strong>Date</strong></td>
+                                    <td style="width:110px"><strong>Rec.No.</strong></td>
+                                    <td style="width:110px"><strong>Signature</strong></td>
+                                    <td  class="other-fee" style="width:110px"><strong>Other fee</strong></td>
+                                    <td style="width:110px"><strong>Date</strong></td>
+                                    <td style="width:110px"><strong>Rec.No.</strong></td>
+                                    <td style="width:110px"><strong>Signature</strong></td>
+                                </tr>
+                                
+
+                                <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr> 
+                                 <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr> 
+                                 <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr>      
+                                 <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr>      
+                                 <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr>  
+                                 <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr>                        
+                                <tr>
+                                    <td class="rr" style="width:110px"><strong>R.R</strong></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr>   
+                                 <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr>  
+                                 <tr>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                    <td style="width:110px"></td>
+                                </tr>                                                             
+                            </tbody>
+                        </table>
+                        <br/>
+                        <!--Remark-->
+                        <table  class="remark" border="1" cellpadding="1" cellspacing="1" style="width:920px">
+                            <tbody>
+                            
+                               <tr>
+                                    <td rowspan="2" style="width:600px"><strong>Remark :</strong> <t t-if="doc.remarks"><span t-field="doc.remarks"/></t></td>
+                                    <td style="width:300px; height:20px"><strong>Reffered By</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:300px; height:30px"><t t-if="doc.referred_by"><span t-field="doc.referred_by"/></t></td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+
+ 
+                    </div>
+                </t>
+            </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+                

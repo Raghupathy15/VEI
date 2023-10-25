@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record model="category.master" id="category_arts">
+			<field name="name">Arts &amp; Science/Education</field>
+		</record>
+		<record model="category.master" id="room_engg">
+			<field name="name">Engineering</field>
+		</record>
+		<record model="category.master" id="room_mgt">
+			<field name="name">Management Studies</field>
+		</record>
+		<record model="category.master" id="room_para">
+			<field name="name">Paramedical</field>
+		</record>
+		<record model="category.master" id="room_dental">
+			<field name="name">Dental</field>
+		</record>
+		<record model="category.master" id="room_medical">
+			<field name="name">Medical Hostel</field>
+		</record>
+		
+	</data>
+</odoo>

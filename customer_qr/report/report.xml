@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <report id="customer_qr.print_qr"
+            model="res.company"
+            name="customer_qr.customer_qr_template"
+            file="customer_qr.customer_qr_template"
+            string="QR Code"
+            report_type="qweb-pdf"
+                menu="False"
+        />
+
+        <record id="customer_qr.print_qr" model="ir.actions.report">
+            <field name="paperformat_id" ref="customer_qr.customer_badge_paperformat"/>
+        </record>
+
+    </data>
+</odoo>

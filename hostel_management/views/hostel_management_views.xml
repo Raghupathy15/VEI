@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="hostel_management_form_view" model="ir.ui.view">
+			<field name="name">hostel.management.form</field>
+			<field name="model">hostel.management</field>
+			<field name="arch" type="xml">
+				<form string="Hostel Management">
+					<sheet>
+						<group>
+							<group>
+								<field name="category_id"/>
+								<field name="course_id"/>
+								<field name="room_id"/>
+								<field name="occupancy"/>
+							</group>
+							<group>
+								<field name="room_no"/>
+								<field name="fees"/>
+								<field name="term"/>
+								<field name="total_fees" force_save="1"/>
+							</group>
+							<field name="notes" placeholder="Internal notes ..."/>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="hostel_management_tree_view" model="ir.ui.view">
+			<field name="name">hostel.management.tree</field>
+			<field name="model">hostel.management</field>
+			<field name="arch" type="xml">
+				<tree string="Hostel Management">
+					<field name="room_no"/>
+					<field name="category_id"/>
+					<field name="course_id"/>
+					<field name="room_id"/>
+					<field name="occupancy"/>
+					<field name="total_fees"/>
+					<!-- <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'draft'" decoration-danger="state == 'rejected'"/> -->
+				</tree>
+			</field>
+		</record>
+
+		<!-- <record id="fees_management_search_view" model="ir.ui.view">
+			<field name="name">fees.management.search</field>
+			<field name="model">fees.management</field>
+			<field name="arch" type="xml">
+				<search string="Fees management">
+					<field name="seq_code"/>
+					<field name="name"/>
+					<group expand="0" string="Group By...">
+						<filter name="date" domain="[]" context="{'group_by':'create_date'}"/>
+						<filter name="courses_id" domain="[]" context="{'group_by':'courses_id'}"/>
+						<filter name="location" domain="[]" context="{'group_by':'location'}"/>
+						<filter name="referred_by_id" domain="[]" context="{'group_by':'referred_by_id'}"/>
+						<filter name="referred_name" domain="[]" context="{'group_by':'referred_name'}"/>
+					</group>
+				</search>
+			</field>
+		</record> -->
+
+		<record id="hostel_management_act_window" model="ir.actions.act_window">
+			<field name="name">Hostel Details</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hostel.management</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Hostel Management" id="main_hostel_management_menu" web_icon="hostel_management,static/description/icon.png"/>
+		<menuitem name="Hostel Details" id="hostel_management_menu" parent="main_hostel_management_menu" action="hostel_management_act_window" sequence="1"/>
+		<menuitem name="Configurations" id="configuration_hostel_mgt_menu" parent="main_hostel_management_menu" sequence="10"/>
+
+
+	</data>
+</odoo>

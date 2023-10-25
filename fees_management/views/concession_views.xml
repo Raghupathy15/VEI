@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="student_concession_form_view" model="ir.ui.view">
+			<field name="name">student.concession.form.view</field>
+			<field name="model">student.concession</field>
+			<field name="arch" type="xml">
+				<form string="Student Concession">
+					<header>
+						<button string="Sent for Approval" name="send_for_approval" type="object" states="draft" class="oe_highlight"/>
+						<button string="Approve" name="action_to_first_level_approve" type="object" states="to_approve" class="oe_highlight" groups="fees_management.concession_first_level_approver"/>
+						<button string="Approve" name="action_to_second_level_approve" type="object" states="first_level_approve" class="oe_highlight" groups="fees_management.concession_second_level_approver"/>
+						<button string="Reject" name="return_reject_wizard" type="object" states="to_approve,first_level_approve,approved" class="oe_highlight" groups="fees_management.concession_first_level_approver,fees_management.concession_second_level_approver"/>
+						<button string="Set to Draft" name="action_to_draft" type="object" states="first_level_approve,to_approve,second_level_approve,approved,rejected" class="oe_highlight"/>
+						<field name="state" widget="statusbar"/> 
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<button class="oe_stat_button" type="object" name="action_open_invoices"
+									icon="fa-money">
+								<div class="o_stat_info">
+									<span class="o_stat_text">Invoices</span>
+								</div>
+							</button>   
+						</div>
+						<div class="oe_title">
+							<span class="o_form_label">Admission No</span>
+							<h1>
+								<field name="admission_id" options="{'no_create':True,'no_edit':True,'no_quick_create':True}" attrs="{'readonly':[('state','=','approved')]}" force_save="1" placeholder="Admission No"/>
+							</h1>
+						</div> 
+						<group>
+							<group>
+								<field class="h2" name="roll_no_id" options="{'no_create':True,'no_edit':True,'no_quick_create':True}" attrs="{'readonly':[('state','=','approved')]}"/>
+								<field name="student_name" attrs="{'readonly':[('state','=','approved')]}"/>
+								<!-- <field name="name"/> -->
+                                <!-- <field name="concession_type" required="1" force_save="1"/> -->
+                                <!-- <field name="special_concession_type" options="{'no_create':True,'no_edit':True,'no_quick_create':True}" attrs="{'required':[('concession_type','=','special_concession')],'invisible':[('concession_type','=','general_concession')]}"/> -->
+								<field name="concession_type" options="{'no_create':True,'no_edit':True,'no_quick_create':True}" required="1" attrs="{'readonly':[('state','=','approved')]}"/>
+                            </group>
+                            <group>
+                                <field name="courses_id" options="{'no_create':True,'no_edit':True,'no_quick_create':True}" attrs="{'readonly':[('state','=','approved')]}"/>
+                                <field name="company_id" options="{'no_create':True,'no_edit':True,'no_quick_create':True}" attrs="{'readonly':[('state','=','approved')]}"/>
+								<field name="amount" attrs="{'readonly':[('state','=','approved')]}"/>
+								<field name="concession_used_amount"/>
+								<field name="concession_balance_amount"/>
+                                <field name="remarks" attrs="{'readonly':[('state','=','approved')]}"/>
+                            </group>
+						</group>
+
+						<notebook colspan="4">
+							<page string="Documents">
+								<!-- Documents -->
+								<group name="attachments" string="Attachments">
+									<field name="attachment_ids" widget="many2many_binary" attrs="{'readonly':[('state','=','approved')]}"/>
+
+									<field name="display_attachment_ids" invisible="1"/>
+								</group>
+							</page>
+							<page string="Concessions">
+								<field name="child_concession_ids">
+									<tree editable="bottom" create='0' edit='0' delete='0'>
+										<field name='concession_type'/>
+										<!-- <field name='special_concession_type'/> -->
+										<!-- <field name='general_concession_type'/> -->
+										<field name='amount'/>
+										<field name="concession_used_amount"/>
+										<field name="concession_balance_amount"/>
+										<field name='remarks'/>
+										<field name='state' widget='badge'/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="student_concession_tree_view" model="ir.ui.view">
+			<field name="name">student.concession.tree.view</field>
+			<field name="model">student.concession</field>
+			<field name="arch" type="xml">
+				<tree string="Fees Management">
+					<!-- <field name="name"/> -->
+					<field name="admission_id" string="Admission No"/>
+					<field name="student_name"/>
+					<field name="roll_no_id" string="Roll No"/> 
+					<field name="concession_type"/>
+					<field name="courses_id"/>
+					<field name="company_id" force_save="1"/>
+					<field name="amount" sum="amount"/>
+					<field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'draft'" decoration-danger="state == 'rejected'"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="student_special_concession_type_form_view" model="ir.ui.view">
+			<field name="name">student.special.concession.type.form</field>
+			<field name="model">special.concession.type</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<group>
+								<field name="name" required="1"/>
+							</group>
+							<group>
+								<field name="technical_name" required="1"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="student_general_concession_type_form_view" model="ir.ui.view">
+			<field name="name">student.general.concession.type.form</field>
+			<field name="model">general.concession.type</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<group>
+								<field name="name" required="1"/>
+							</group>
+							<group>
+								<field name="technical_name" required="1"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="student_special_concession_type_tree_view" model="ir.ui.view">
+			<field name="name">student.special.concession.type.tree.view</field>
+			<field name="model">special.concession.type</field>
+			<field name="arch" type="xml">
+				<tree string="Concession Type Configuration">
+					<field name="name" required='1'/>
+					<field name="technical_name" required='1'/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="student_general_concession_type_tree_view" model="ir.ui.view">
+			<field name="name">student.general.concession.type.tree.view</field>
+			<field name="model">general.concession.type</field>
+			<field name="arch" type="xml">
+				<tree string="Concession Type Configuration">
+					<field name="name" required='1'/>
+					<field name="technical_name" required='1'/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="student_concession_search_view" model="ir.ui.view">
+			<field name="name">student.concession.search</field>
+			<field name="model">student.concession</field>
+			<field name="arch" type="xml">
+				<search string="Student Concession">
+					<field name="admission_id"/>
+					<field name="roll_no_id"/>
+                    <field name="courses_id"/>
+                    <field name="company_id"/>
+					<group expand="0" string="Group By...">
+						<filter name="courses_id" domain="[]" context="{'group_by':'courses_id'}"/>
+						<filter name="company_id" domain="[]" context="{'group_by':'company_id'}"/>
+						<filter name="state" domain="[]" context="{'group_by':'state'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="student_general_concession_view_actions" model="ir.actions.act_window">
+			<field name="name">Concession</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">student.concession</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="student_special_concession_view_actions" model="ir.actions.act_window">
+			<field name="name">Special Concession</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">student.concession</field>
+            <!-- <field name="domain">[('concession_type','=','special_concession')]</field> -->
+            <!-- <field name="context">{'default_concession_type':'special_concession'}</field> -->
+			<field name="view_mode">tree,form</field>
+		</record>
+
+        <record id="student_special_concession_type_view_actions" model="ir.actions.act_window">
+			<field name="name">Student Special Concession Type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">special.concession.type</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="student_general_concession_type_view_actions" model="ir.actions.act_window">
+			<field name="name">Student Concession Type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">general.concession.type</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_concession_first_level_bulk_approve" model="ir.actions.server">
+			<field name="name">First Level Approve</field>
+			<field name="model_id" ref="vg_colg.model_student_concession"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_concession"/>
+			<field name="state">code</field>
+			<field name="code">
+				action = model.action_to_first_level_approve()
+			</field>
+			<field name="groups_id" eval="[(4,ref('fees_management.concession_first_level_approver'))]"/>
+		</record>
+
+		<record id="action_concession_second_level_bulk_approve" model="ir.actions.server">
+			<field name="name">Second Level Approve</field>
+			<field name="model_id" ref="vg_colg.model_student_concession"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_concession"/>
+			<field name="state">code</field>
+			<field name="code">
+				action = model.action_to_second_level_approve()
+			</field>
+			<field name="groups_id" eval="[(4,ref('fees_management.concession_second_level_approver'))]"/>
+		</record>
+
+		<record id="action_concession_bulk_reject" model="ir.actions.server">
+			<field name="name">Reject</field>
+			<field name="model_id" ref="vg_colg.model_student_concession"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_concession"/>
+			<field name="state">code</field>
+			<field name="code">
+				action = model.return_reject_wizard()
+			</field>
+			<field name="groups_id" eval="[(4,ref('fees_management.concession_first_level_approver')),(4,ref('fees_management.concession_second_level_approver'))]"/>
+		</record>
+
+		<record id="action_concession_bulk_set_to_draft" model="ir.actions.server">
+			<field name="name">Set to Draft</field>
+			<field name="model_id" ref="vg_colg.model_student_concession"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_concession"/>
+			<field name="state">code</field>
+			<field name="code">
+				action = model.action_to_draft()
+			</field>
+			<field name="groups_id" eval="[(4,ref('fees_management.concession_first_level_approver')),(4,ref('fees_management.concession_second_level_approver'))]"/>
+		</record>
+
+		<record id="action_concession_bulk_send_for_approval" model="ir.actions.server">
+			<field name="name">Send for Approval</field>
+			<field name="model_id" ref="vg_colg.model_student_concession"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_concession"/>
+			<field name="state">code</field>
+			<field name="code">
+				action = model.send_for_approval()
+			</field>
+		</record>
+
+		<!-- <menuitem name="Special Concession Type" id="special_concession_type_menu" parent="configuration_fees_menu" action="student_special_concession_type_view_actions" sequence='5'/> -->
+		<menuitem name="Concession Type" id="general_concession_type_menu" parent="configuration_fees_menu" action="student_general_concession_type_view_actions" sequence='6'/>
+		<menuitem name="Concession" id="concession_second_level_menu" parent="fees_management.main_fees_management_menu" sequence="11"/>
+		<menuitem name="Concession" id="general_concession_third_level_menu" parent="fees_management.concession_second_level_menu" action="student_general_concession_view_actions" sequence="1"/>
+        <!-- <menuitem name="Special Concession" id="special_concession_third_level_menu" parent="fees_management.concession_second_level_menu" action="student_special_concession_view_actions" sequence="2"/> -->
+		<menuitem name="Configurations" id="configuration_fees_menu" parent="main_fees_management_menu" sequence="12"/>
+	</data>
+</odoo>

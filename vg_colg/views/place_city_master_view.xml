@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="place_city_master_form_view" model="ir.ui.view">
+            <field name="name">place.city.master.form</field>
+            <field name="model">place.city.master</field>
+            <field name="arch" type="xml">
+                <form string="Place/City">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="place_city_master_tree_view" model="ir.ui.view">
+            <field name="name">place.city.master.tree</field>
+            <field name="model">place.city.master</field>
+            <field name="arch" type="xml">
+                <tree string="Place/City" editable="bottom">
+                    <field name="name" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="place_city_master_search_view" model="ir.ui.view">
+            <field name="name">place.city.master.search</field>
+            <field name="model">place.city.master</field>
+            <field name="arch" type="xml">
+                <search string="Place/City">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="place_city_master_act_window" model="ir.actions.act_window">
+            <field name="name">Place/City</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">place.city.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Place/City" id="place_city_master_menu" parent="configuration_child_menu" action="place_city_master_act_window"/>
+
+    </data>
+</odoo>

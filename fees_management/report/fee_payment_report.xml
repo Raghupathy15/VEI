@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        
+
+        <template id="external_layut_standard">
+            <!-- <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style"> -->
+            <div class="header" style="width:100%;">
+                <div style="width:100%;">
+                    <div style="width:100%;margin-top:15px;">
+                        <p style="font-size:20px;text-align:right">College Copy</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="height:130px;width:150px;">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:130px;max-width:150px;" alt="Logo"/>
+                    </div>
+                    <div>
+                        <h3><span style="text-align:left;" t-field="company.name"/></h3>
+                        <span style="margin-left:245px;" t-field="company.street"/>,<span t-field="company.street2"/><br/>
+                        <span style="margin-left:310px;" t-field="company.city"/> 
+                    </div>
+                </div>
+            </div>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!-- <div> -->
+                <div>
+                    <t t-call="web.address_layout"/>
+                </div>
+                <t t-out="0"/>
+            </div>
+        </template>
+
+        <template id="externl_layout">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+            <!-- <t t-if="company.external_report_layout_id" t-call="{{company.external_report_layout_id.sudo().key}}"><t t-out="0"/></t> -->
+            <t t-call="fees_management.external_layut_standard"><t t-out="0"/></t>
+
+        </template>
+
+        <template id="report_fee_payment_receipt_document">
+            <t t-call="fees_management.externl_layout">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div style="margin-top:18px !important;" class="page">
+                    <div style="width:100%;">
+                        <div style="width:100%;margin-top:15px;">
+                            <p style="font-size:20px;text-align:right">
+                                
+                                <!-- <t t-if="page == 2">
+                                    College Copy
+                                </t>
+                                <t t-else="">
+                                    Student Copy
+                                </t> -->
+                            </p>
+                        </div>
+                    </div>
+                    <!-- <t t-set="vals" t-value="o.move_id._get_reconciled_invoices_part(o.id,o.move_id.id)"/> -->
+                    <t t-set="vals" t-value="o._get_reconciled_invoices_part()"/>
+                    <t t-set="restot" t-value="o.get_total_residual()"/>
+                    <t t-set="resco" t-value="o.get_total_invoice()"/>
+
+                    <t t-set="student_detail" t-value="vals[1]"/>
+                    <t t-set="invoices" t-value="vals[0]"/>
+
+                    <table style="width:100%; !important">
+                        <tbody>
+                            <tr style="border:1px solid black;">
+                                <td colspan="5" style="width:100%;text-align:center;">Fees Receipt</td>
+                            </tr>
+                            <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Receipt No</td>
+                                <td style="width:20%;text-align:left;">: <span t-field="o.name"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Payment Date</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-field="o.date"/></td>
+                            </tr>
+                            <tr style="width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Roll Number</td>
+                                <td style="width:20%;text-align:left;">: <span t-esc="student_detail['role_no']"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Invoice No</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-esc="student_detail['name']"/></td>
+                            </tr>
+                            <tr style="width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Student Name</td>
+                                <td style="width:20%;text-align:left;">: <span t-field="o.partner_id.name"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Course</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-esc="student_detail['course']"/></td>
+                            </tr>
+                            <tr style="width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Barcode</td>
+                                <td style="width:20%;text-align:left;">: <span t-esc="student_detail['barcode']"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Batch</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-esc="student_detail['batch']"/></td>
+                                
+                            </tr>
+                            <tr style="border-bottom:1px solid black;width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Quota</td>
+                                <td style="width:20%;text-align:left;">: <span t-esc="student_detail['quota']"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Accomodation</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-esc="student_detail['accomodation']"/></td>         
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <t t-if="resco == 1">
+                        <table style="width:100%;">
+                            <thead> 
+                                <tr>
+                                    <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:60%;text-align:center;"><span>Particulars</span></th>
+                                    <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:20%;text-align:center;"><span>Term</span></th>
+                                    <th colspan="2" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:20%;text-align:center;"><span>Amount</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set='total' t-value='0'/>
+                                <t t-foreach="invoices" t-as="inv">
+                                    <tr style="width:100%;">
+                                        <td style="border-left:1px solid black;border-right:1px solid black;width:60%;text-align:left;"><span t-esc="inv['name']"/></td>
+                                        <td style="border-left:1px solid black;border-right:1px solid black;width:20%;text-align:center;"><span t-esc="inv['term']"/></td>
+                                        <td colspan="2" style="border-right:1px solid black;width:20%;text-align:right;"><span t-esc="o.currency_id.symbol"/><span t-esc="inv['price_total']"/>&amp;nbsp;</td>
+                                    </tr>
+                                    <t t-set="total" t-value="total + inv['price_total']"/>
+                                </t>
+                                    <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                        <t t-set="words" t-value="o.move_id.get_words_from_number(total)"/>
+                                        <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"><span t-esc="words"/></td>
+                                        <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Total Amount</strong></td>
+                                        <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="total"/>&amp;nbsp;</strong></td>
+                                    </tr>
+                                    <!-- <t t-if="restot[1]">
+                                        <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                            <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"></td>
+                                            <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Balance Amount</strong></td>
+                                            <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="restot[1]"/>&amp;nbsp;</strong></td>
+                                        </tr>
+                                    </t> -->
+                                    <t t-if="vals[2]">
+                                        <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                            <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"></td>
+                                            <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Excess Amount</strong></td>
+                                            <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="vals[2]"/>&amp;nbsp;</strong></td>
+                                        </tr>
+                                    </t>
+                                    <tr style="border:1px solid black;width:100%;">
+                                        <td colspan="4" style="border-left:1px solid black;border-right:1px solid black;width:100%;text-align:left;">Payment Method: <span t-esc="o.journal_id.name"/></td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <t t-if="invoices">
+                            <table style="width:100%;">
+                                <thead> 
+                                    <tr>
+                                        <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:60%;text-align:center;"><span>Particulars</span></th>
+                                        <!-- <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:60%;text-align:center;"><span>Invoice</span></th> -->
+                                        <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:20%;text-align:center;"><span>Term</span></th>
+                                        <th colspan="2" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:20%;text-align:center;"><span>Amount</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set='total' t-value='0'/>
+                                    <t t-foreach="invoices" t-as="inv">
+                                        <tr style="width:100%;">
+                                            <td style="border-left:1px solid black;border-right:1px solid black;width:40%;text-align:left;"><span t-esc="inv['name']"/></td>
+                                            <!-- <td style="border-left:1px solid black;border-right:1px solid black;width:250%;text-align:left;"><span t-esc="inv['inv_name']"/></td> -->
+                                            <td style="border-left:1px solid black;border-right:1px solid black;width:20%;text-align:center;"><span t-esc="inv['term']"/></td>
+                                            <td colspan="2" style="border-right:1px solid black;width:20%;text-align:right;"><span t-esc="o.currency_id.symbol"/><span t-esc="inv['price_total']"/>&amp;nbsp;</td>
+                                        </tr>
+                                        <t t-set="total" t-value="total + inv['price_total']"/>
+                                    </t>
+                                        <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                            <t t-set="words" t-value="o.move_id.get_words_from_number(total)"/>
+                                            <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"><span t-esc="words"/></td>
+                                            <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Total:</strong></td>
+                                            <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="total"/>&amp;nbsp;</strong></td>
+                                        </tr>
+
+                                        <!-- <t t-if="restot[1]">
+                                            <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                                <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"></td>
+                                                <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Balance:</strong></td>
+                                                <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="restot[1]"/>&amp;nbsp;</strong></td>
+                                            </tr>
+                                        </t> -->
+
+                                    <t t-if="vals[2]">
+                                            <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                                <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"></td>
+                                                <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Excess Amount</strong></td>
+                                                <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="vals[2]"/>&amp;nbsp;</strong></td>
+                                            </tr>
+                                        </t>
+                                        <tr style="border:1px solid black;width:100%;">
+                                            <td colspan="4" style="border-left:1px solid black;border-right:1px solid black;width:100%;text-align:left;">Payment Method: <span t-esc="o.journal_id.name"/></td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <table style="width:100%;">
+                                <tbody>
+                                    <t t-set='total' t-value="o.amount"/>
+                                    <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                        <t t-set="words" t-value="o.move_id.get_words_from_number(total)"/>
+                                        <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"><span t-esc="words"/></td>
+                                        <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Total:</strong></td>
+                                        <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="total"/>&amp;nbsp;</strong></td>
+                                    </tr>
+                                    <tr style="border:1px solid black;width:100%;">
+                                        <td colspan="4" style="border-left:1px solid black;border-right:1px solid black;width:100%;text-align:left;">Payment Method: <span t-esc="o.journal_id.name"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+
+                        
+                    </t>
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr style="font-size:12px;">
+                                <td></td>
+                                <td></td>
+                                <td style="font-size:16px;text-align:right;" >Authorised By</td>
+                                
+                            </tr>
+                            <tr style="font-size:12px;text-align:left;">
+                                <td>Report Taken by <span t-esc="student_detail['cashier']"/>/Time :<span t-esc="student_detail['datetime']"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+
+
+        <template id="external_layut_standard_student">
+            <!-- <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style"> -->
+            <div class="header" style="width:100%;">
+                <div style="width:100%;">
+                    <div style="width:100%;margin-top:15px;">
+                        <p style="font-size:20px;text-align:right">Student Copy</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="height:130px;width:150px;">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:130px;max-width:150px;" alt="Logo"/>
+                    </div>
+                    <div>
+                        <h3><span style="text-align:left;" t-field="company.name"/></h3>
+                        <span style="margin-left:245px;" t-field="company.street"/>,<span t-field="company.street2"/><br/>
+                        <span style="margin-left:310px;" t-field="company.city"/> 
+                    </div>
+                </div>
+            </div>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!-- <div> -->
+                <div>
+                    <t t-call="web.address_layout"/>
+                </div>
+                <t t-out="0"/>
+            </div>
+        </template>
+
+        <template id="externl_layout_student">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+            <!-- <t t-if="company.external_report_layout_id" t-call="{{company.external_report_layout_id.sudo().key}}"><t t-out="0"/></t> -->
+            <t t-call="fees_management.external_layut_standard_student"><t t-out="0"/></t>
+
+        </template>
+
+        <template id="report_fee_payment_receipt_document_student">
+            <t t-call="fees_management.externl_layout_student">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div style="margin-top:18px !important;" class="page">
+                    <div style="width:100%;">
+                        <div style="width:100%;margin-top:15px;">
+                            <p style="font-size:20px;text-align:right">
+                                
+                                <!-- <t t-if="page == 2">
+                                    College Copy
+                                </t>
+                                <t t-else="">
+                                    Student Copy
+                                </t> -->
+                            </p>
+                        </div>
+                    </div>
+                    <!-- <t t-set="vals" t-value="o.move_id._get_reconciled_invoices_part(o.id,o.move_id.id)"/> -->
+                    <t t-set="vals" t-value="o._get_reconciled_invoices_part()"/>
+                    <t t-set="restot" t-value="o.get_total_residual()"/>
+                    <t t-set="resco" t-value="o.get_total_invoice()"/>
+
+                    <t t-set="student_detail" t-value="vals[1]"/>
+                    <t t-set="invoices" t-value="vals[0]"/>
+
+                    <table style="width:100%; !important">
+                        <tbody>
+                            <tr style="border:1px solid black;">
+                                <td colspan="5" style="width:100%;text-align:center;">Fees Receipt</td>
+                            </tr>
+                            <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Receipt No</td>
+                                <td style="width:20%;text-align:left;">: <span t-field="o.name"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Payment Date</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-field="o.date"/></td>
+                            </tr>
+                            <tr style="width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Roll Number</td>
+                                <td style="width:20%;text-align:left;">: <span t-esc="student_detail['role_no']"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Invoice No</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-esc="student_detail['name']"/></td>
+                            </tr>
+                            <tr style="width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Student Name</td>
+                                <td style="width:20%;text-align:left;">: <span t-field="o.partner_id.name"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Course</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-esc="student_detail['course']"/></td>
+                            </tr>
+                            <tr style="width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Barcode</td>
+                                <td style="width:20%;text-align:left;">: <span t-esc="student_detail['barcode']"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Batch</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-esc="student_detail['batch']"/></td>
+                                
+                            </tr>
+                            <tr style="border-bottom:1px solid black;width:100%; !important">
+                                <td style="width:15%;text-align:left;border-left:1px solid black;">Quota</td>
+                                <td style="width:20%;text-align:left;">: <span t-esc="student_detail['quota']"/></td>
+                                <td style="width:30%;text-align:right;"></td>
+                                <td style="width:15%;text-align:left;">Accomodation</td>
+                                <td style="width:20%;text-align:left;border-right:1px solid black;">: <span t-esc="student_detail['accomodation']"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <t t-if="resco == 1">
+                        <table style="width:100%;">
+                            <thead> 
+                                <tr>
+                                    <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:60%;text-align:center;"><span>Particulars</span></th>
+                                    <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:20%;text-align:center;"><span>Term</span></th>
+                                    <th colspan="2" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:20%;text-align:center;"><span>Amount</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set='total' t-value='0'/>
+                                <t t-foreach="invoices" t-as="inv">
+                                    <tr style="width:100%;">
+                                        <td style="border-left:1px solid black;border-right:1px solid black;width:60%;text-align:left;"><span t-esc="inv['name']"/></td>
+                                        <td style="border-left:1px solid black;border-right:1px solid black;width:20%;text-align:center;"><span t-esc="inv['term']"/></td>
+                                        <td colspan="2" style="border-right:1px solid black;width:20%;text-align:right;"><span t-esc="o.currency_id.symbol"/><span t-esc="inv['price_total']"/>&amp;nbsp;</td>
+                                    </tr>
+                                    <t t-set="total" t-value="total + inv['price_total']"/>
+                                </t>
+                                    <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                        <t t-set="words" t-value="o.move_id.get_words_from_number(total)"/>
+                                        <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"><span t-esc="words"/></td>
+                                        <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Total Amount</strong></td>
+                                        <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="total"/>&amp;nbsp;</strong></td>
+                                    </tr>
+                                    <!-- <t t-if="restot[1]">
+                                        <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                            <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"></td>
+                                            <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Balance Amount</strong></td>
+                                            <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="restot[1]"/>&amp;nbsp;</strong></td>
+                                        </tr>
+                                    </t> -->
+                                    <t t-if="vals[2]">
+                                        <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                            <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"></td>
+                                            <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Excess Amount</strong></td>
+                                            <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="vals[2]"/>&amp;nbsp;</strong></td>
+                                        </tr>
+                                    </t>
+                                    <tr style="border:1px solid black;width:100%;">
+                                        <td colspan="4" style="border-left:1px solid black;border-right:1px solid black;width:100%;text-align:left;">Payment Method: <span t-esc="o.journal_id.name"/></td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <t t-if="invoices">
+                            <table style="width:100%;">
+                                <thead> 
+                                    <tr>
+                                        <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:60%;text-align:center;"><span>Particulars</span></th>
+                                        <!-- <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:60%;text-align:center;"><span>Invoice</span></th> -->
+                                        <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:100%; width:20%;text-align:center;"><span>Term</span></th>
+                                        <th colspan="2" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;width:20%;text-align:center;"><span>Amount</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set='total' t-value='0'/>
+                                    <t t-foreach="invoices" t-as="inv">
+                                        <tr style="width:100%;">
+                                            <td style="border-left:1px solid black;border-right:1px solid black;width:40%;text-align:left;"><span t-esc="inv['name']"/></td>
+                                            <!-- <td style="border-left:1px solid black;border-right:1px solid black;width:250%;text-align:left;"><span t-esc="inv['inv_name']"/></td> -->
+                                            <td style="border-left:1px solid black;border-right:1px solid black;width:20%;text-align:center;"><span t-esc="inv['term']"/></td>
+                                            <td colspan="2" style="border-right:1px solid black;width:20%;text-align:right;"><span t-esc="o.currency_id.symbol"/><span t-esc="inv['price_total']"/>&amp;nbsp;</td>
+                                        </tr>
+                                        <t t-set="total" t-value="total + inv['price_total']"/>
+                                    </t>
+                                        <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                            <t t-set="words" t-value="o.move_id.get_words_from_number(total)"/>
+                                            <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"><span t-esc="words"/></td>
+                                            <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Total:</strong></td>
+                                            <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="total"/>&amp;nbsp;</strong></td>
+                                        </tr>
+
+                                        <!-- <t t-if="restot[1]">
+                                            <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                                <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"></td>
+                                                <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Balance:</strong></td>
+                                                <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="restot[1]"/>&amp;nbsp;</strong></td>
+                                            </tr>
+                                        </t> -->
+
+                                    <t t-if="vals[2]">
+                                            <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                                <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"></td>
+                                                <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Excess Amount</strong></td>
+                                                <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="vals[2]"/>&amp;nbsp;</strong></td>
+                                            </tr>
+                                        </t>
+                                        <tr style="border:1px solid black;width:100%;">
+                                            <td colspan="4" style="border-left:1px solid black;border-right:1px solid black;width:100%;text-align:left;">Payment Method: <span t-esc="o.journal_id.name"/></td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <table style="width:100%;">
+                                <tbody>
+                                    <t t-set='total' t-value="o.amount"/>
+                                    <tr style="border-top:1px solid black;border-bottom:1px solid black;width:100%;">
+                                        <t t-set="words" t-value="o.move_id.get_words_from_number(total)"/>
+                                        <td colspan="2" style="border-left:1px solid black;border-right:1px solid black;width:50%;text-align:left;"><span t-esc="words"/></td>
+                                        <td style="border-left:1px solid black;width:20%;text-align:left;"><strong>Total:</strong></td>
+                                        <td style="border-right:1px solid black;width:30%;text-align:right;"><strong><span t-esc="o.currency_id.symbol"/><span t-esc="total"/>&amp;nbsp;</strong></td>
+                                    </tr>
+                                    <tr style="border:1px solid black;width:100%;">
+                                        <td colspan="4" style="border-left:1px solid black;border-right:1px solid black;width:100%;text-align:left;">Payment Method: <span t-esc="o.journal_id.name"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </t>
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr style="font-size:12px;">
+                                <td></td>
+                                <td></td>
+                                <td style="font-size:16px;text-align:right;" >Authorised By</td>
+                                
+                            </tr>
+                            <tr style="font-size:12px;text-align:left;">
+                                <td>Report Taken by <span t-esc="student_detail['cashier']"/>/Time :<span t-esc="student_detail['datetime']"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_fee_payment_receipt">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                    <t t-call="fees_management.report_fee_payment_receipt_document" t-lang="lang"/>
+                    <t t-call="fees_management.report_fee_payment_receipt_document_student" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_fee_payment_receipt" model="ir.actions.report">
+            <field name="name">Payment Receipt</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">fees_management.report_fee_payment_receipt</field>
+            <field name="report_file">fees_management.report_fee_payment_receipt</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>
+

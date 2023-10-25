@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<menuitem id="account.menu_finance_receivables" parent="account.menu_finance" name="Students" sequence="2" />
+		<menuitem id="account.menu_action_move_out_invoice_type" parent="account.menu_finance_receivables" name="Fees Collection" action="account.action_move_out_invoice_type" sequence="1"/>
+		<menuitem id="account.menu_account_customer" name="Students" parent="account.menu_finance_receivables" action="account.res_partner_action_customer" sequence="110"/>
+
+		<record id="student_details_form_view" model="ir.ui.view">
+			<field name="name">student.details.form</field>
+			<field name="model">student.details</field>
+			<field name="arch" type="xml">
+				<form string="Student details">
+					<header>
+						<button string="Create contacts" name="action_create_contacts" type="object" class="oe_highlight" invisible="1"/>
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<!-- <button class="oe_stat_button" type="object" name="action_open_fees_structure"
+									icon="fa-money" attrs="{'invisible':[('fees_structure_count','=',0)]}">
+								<div class="o_stat_info">
+									<field name="fees_structure_count" class="o_stat_value"/>
+									<span class="o_stat_text">Fees Structure</span>
+								</div>
+							</button>                            -->
+
+							<!-- <button class="oe_stat_button" type="object" name="action_open_fees"
+									icon="fa-inr" attrs="{'invisible':[('fees_count','=',0)]}">
+								<div class="o_stat_info">
+									<field name="fees_count" class="o_stat_value"/>
+									<span class="o_stat_text">Fees payment</span>
+								</div>
+							</button>
+
+							<button class="oe_stat_button" type="object" name="action_open_fees_heads"
+									icon="fa-list" attrs="{'invisible':[('fees_heads_count','=',0)]}">
+								<div class="o_stat_info">
+									<field name="fees_heads_count" class="o_stat_value"/>
+									<span class="o_stat_text">Fees Details</span>
+								</div>
+							</button>
+							<button class="oe_stat_button" type="object" name="action_open_one_time_fees"
+									icon="fa-money" attrs="{'invisible':[('one_time_fees_count','=',0)]}">
+								<div class="o_stat_info">
+									<field name="one_time_fees_count" class="o_stat_value"/>
+									<span class="o_stat_text">One Time Fees</span>
+								</div>
+							</button> -->
+						</div>
+
+						<div class="oe_title">
+							<span class="o_form_label">Roll No</span>
+							<h1>
+								<field name="role_no" placeholder="Role No" readonly="0"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<label for="name" class="oe_edit_only"/>
+								<div class="row">
+									<div class="col-6">
+										<field name="name"  required="1" readonly="0"/>
+									</div>
+									<div class="col-2">
+										<label for ="name_initial"/>
+									</div>
+									<div class="col-2">
+										<field name="name_initial" required="1"/>
+									</div>
+									<div class="col-2">
+									</div>
+								</div>
+								<field name="partner_id"/>
+								<field name="gender" readonly="0"/>
+								<field name="email" readonly="0"/>
+								<field name="stud_entry" readonly="0"/>
+								<field name="aadhar_no" force_save="1" readonly="0" required="1"/>
+								<field name="section_id" options="{'no_create': True, 'no_open': True}" attrs="{'readonly':[('is_hod','=',False)]}"/>
+								<field name="is_hod" invisible="1"/>
+								<field name="enquiry_id" options="{'no_open': True}" readonly="0"/>
+								<field name="date_of_birth" readonly="0"/>
+								<field name="blood_group" readonly="0"/>
+								<field name="community_id" readonly="0"/>
+								<field name="caste" readonly="0"/>
+								<field name="company_id" options="{'no_open': True}" readonly="0"/>
+								<field name="emergeny_contact" readonly="0"/>
+							</group>
+							<group>
+								<!-- <field name="degree_id" readonly="0"/> -->
+								<field name="stream_id" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+								<field name="company_id" domain="[('stream_ids','in',stream_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+								<field name="grade_id" domain="[('stream_ids','in',stream_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+								<field name="degree_level_id" domain="[('stream_id','=',stream_id),('grade_id','=',grade_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+								<field name="courses_id" domain="[('stream_id','=',stream_id),('company_id','=',company_id),('grade_id','=',grade_id),('degree_level_id','=',degree_level_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+								<field name="quota_id" readonly="0" required="1" options="{'no_open': True, 'no_create': True}"/>
+								<field name="special_quota_id" readonly="0"/>
+								<field name="accomodation_check_box" readonly="0"/>
+								 <field name="room"
+									   attrs="{'invisible': [('accomodation_check_box', '=', 'dayscholar')]}" readonly="0"/>
+								<field name="stages_id"
+									   attrs="{'invisible': [('accomodation_check_box', '!=', 'dayscholar')]}" readonly="0"/>
+								<field name="bus_root" readonly="0"/>
+								<field name="institute_last_studied" readonly="0"/>
+								<field name="education_qualification" readonly="0"/>
+								
+								<field name="barcode_no"/>
+								<field name="barcode_image" readonly="0" class="o_lunch_image o_kanban_image_fill_left" options="{'size': [200, 200]}" widget="image" force_save="1"/>
+							</group>
+						</group>
+						<!-- <group string="Communication Details">
+							<group string="Address">
+								<label for="street" string="Address"/>
+								<div class="o_address_format">
+									<field name="street" placeholder="Street..." class="o_address_street" readonly="0"/>
+									<field name="street2" placeholder="Street 2..." class="o_address_street" readonly="0"/>
+									<field name="city" placeholder="City" class="o_address_city" readonly="0"/>
+									<field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True}" context="{'country_id': country_id, 'zip': zip_code}" readonly="0"/>
+									<field name="zip_code" placeholder="ZIP" class="o_address_zip" readonly="0"/>
+									<field name="country_id" placeholder="Country" class="o_address_country" options="{'no_open': True, 'no_create': True}" readonly="0"/>
+								</div>
+							</group>
+							<group string="Contacts">
+								<field name="c_phone" readonly="0"/>
+								<field name="c_mobile" readonly="0"/>
+								<field name="student_phone_no" readonly="0"/>
+								<field name="student_whatsapp" readonly="0"/>
+							</group>
+						</group> -->
+
+						<notebook>
+							<page string="Addresses">
+								<group>
+									<group string="Present Address">
+										<label for="present_door_no" string="Present Address"/>
+										<div class="o_address_format">
+											<field name="present_door_no" placeholder="Door No" class="o_address_street" readonly="0"/>
+											<field name="present_street" placeholder="Street" class="o_address_street" readonly="0"/>
+											<field name="present_district" placeholder="District" class="o_address_city" readonly="0"/>
+											<field name="present_taluk" placeholder="Taluk" class="o_address_city" readonly="0"/>
+											<field name="present_city" placeholder="City" class="o_address_city" readonly="0"/>
+											<field name="present_state" class="o_address_state" placeholder="State" options="{'no_open': True,'no_create': True}" readonly="0"/>
+											<field name="zip_code" placeholder="ZIP" class="o_address_zip" readonly="0"/>
+										</div>
+									</group>
+									<group string="Contacts">
+										<field name="student_phone_no" readonly="0"/>
+										<field name="student_whatsapp" readonly="0"/>
+									</group>
+									<group string="Permenant Address">
+										<label for="perm_door_no" string="Permenant Address"/>
+										<div class="o_address_format">
+											<field name="perm_door_no" placeholder="Door No" class="o_address_street" readonly="0"/>
+											<field name="perm_street" placeholder="Street" class="o_address_street" readonly="0"/>
+											<field name="perm_district" placeholder="District" class="o_address_city" readonly="0"/>
+											<field name="perm_taluk" placeholder="Taluk" class="o_address_city" readonly="0"/>
+											<field name="perm_city" placeholder="City" class="o_address_city" readonly="0"/>
+											<field name="perm_state" class="o_address_state" placeholder="State" options="{'no_open': True,'no_create': True}" readonly="0"/>
+											<field name="perm_zip" placeholder="ZIP" class="o_address_zip" readonly="0"/>
+										</div>
+									</group>
+								</group>
+							</page>
+							<page string="Parents/Guardian" invisible="1">	
+								<group>
+									<group string="Father">
+										<field name="father_name"/>
+										<field name="father_mobile"/>
+										<field name="father_whatsapp_no"/>
+										<field name="father_occupation"/>
+										<field name="father_birth_place"/>
+										<field name="father_aadhar_no"/>
+									</group>
+									<group string="Mother">
+										<field name="mother_name"/>
+										<field name="mother_mobile"/>
+										<field name="mother_whatsapp_no"/>
+										<field name="mother_occupation"/>
+										<field name="mother_birth_place"/>
+										<field name="mother_aadhar_no"/>
+									</group>
+									<group string="Guardian">
+										<field name="name_of_the_parent_guardian"/>
+										<field name="parent_guardian_occupation"/>
+										<field name="guardian_mobile"/>
+										<field name="guardian_whatsapp_no"/>
+									</group>
+								</group>
+							</page>
+							<page string="Reference Details">
+								<group>
+									<group>
+										<field name="referred_name"/>
+										<field name="ref_mobile"/>
+									</group>
+									<group>
+										<field name="ref_designation_id"/>
+										<field name="ref_college_id"/>
+									</group>
+								</group>
+							</page>
+							<page string="Education Qualification" >
+								<!-- <group>
+                                    <field name="sslc_school"/>
+                                    <field name="hsc_school"/>
+                                </group> -->
+								<field name="education_qualification_ids" readonly="0" widget="section_and_note_one2many">
+									<tree editable="bottom">
+										<control>
+											<create name="add_qualification_control" string="Add a line"/>
+											<create name="add_section_control" string="Add a section"
+													context="{'default_display_type': 'line_section'}"/>
+										</control>
+										<field name="display_type" invisible="1"/>
+										<field name="ug_id"/>
+										<field name="stream_id" options="{'no_create':True,'no_edit':True,'no_quick_create':True}"/>
+										<field name="school"/>
+										<field name="place_id"/>
+										<field name="state_id"/>
+										<field name="board_id"/>
+										<field name="name" string="Marks"/>
+										<field name="marks" sum="Total"/>
+										<field name="per"/>
+									</tree>
+								</field>
+								<br/>
+							</page>
+							<page name="concessions" string="Concession">
+								<field name="concession_ids">
+									<tree editable="bottom">
+										<field name="admission_id" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+										<!-- <field name="name"/> -->
+										<field name="concession_type"/>
+										<!-- <field name="special_concession_type" attrs="{'readonly':[('concession_type','=','general_concession')]}"/> -->
+										<!-- <field name="general_concession_type" attrs="{'readonly':[('concession_type','=','special_concession')]}"/> -->
+										<field name="courses_id" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+										<field name="company_id" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+										<field name="amount"/>
+										<field name="remarks"/>
+									</tree>
+								</field> 
+							</page>
+							<page string="Remarks">
+								<field name="remarks" readonly="0"/>
+							</page>
+							<page string="Documents">
+								<field name="inspection_ids">
+									<tree editable="bottom">
+										<field name="name" required="1"/>
+										<field name="image" string="Attachment" filename="file_name"/>
+                                        <field name="file_name" invisible="1"/>
+                                        <field name="is_mandatory" readonly="1"/>
+                                        <field name="verified" readonly="0"/>
+										<field name="is_collected"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Batch Details">
+							<group>
+								<group>
+									<field name="batch_id" force_save="1" readonly="1" options="{'no_create':True,'no_edit':True,'no_open':True}" required="1"/>
+									<field name="batch_start_year" readonly="1" force_save="1"/>
+									<field name="duration" readonly="1" force_save="1"/>
+									<field name="batch_ending_year" readonly="1" force_save="1"/>
+								</group>
+								<group>
+								</group>
+							</group>
+						</page>
+							<page string="Relationship">
+								<field name="relationship_ids">
+									<tree editable="bottom">
+										<field name="guardian_id"/>
+										<field name="status"/>
+										<field name="company"/>
+										<field name="mobile"/>
+										<field name="whatsapp"/>
+										<field name="occupation"/>
+										<field name="birth_place"/>
+										<field name="aadhar_no"/>
+										<field name="phote" widget="binary" filename="phote_name"/>
+										<field name="visitor_allowed"/>
+										<field name="phote_name" invisible="1"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Health Information">
+								<field name="health_info_ids">
+									<tree editable="bottom">
+										<field name="health_id"/>
+										<field name="description"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Bank Account Details">
+								<group>
+									<group string="Student">
+										<field name="student_account_no"/>
+										<field name="student_ifsc"/>
+										<field name="student_bank"/>
+										<field name="student_branch"/>
+									</group>
+									<group string="Parent">
+										<field name="father_account_no"/>
+										<field name="father_ifsc"/>
+										<field name="father_bank"/>
+										<field name="father_branch"/>
+									</group>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="student_details_tree_view" model="ir.ui.view">
+			<field name="name">student.details.tree</field>
+			<field name="model">student.details</field>
+			<field name="arch" type="xml">
+				<tree string="Student Details" multi_edit="1">
+					<field name="role_no" readonly="0" optional="show"/>
+					<field name="name" readonly="0" optional="show"/>
+					<field name="stream_id" optional="show"/>
+					<field name="company_id" optional="show"/>
+					<field name="grade_id" optional="show"/>
+					<field name="degree_level_id" optional="show"/>
+					<field name="courses_id" readonly="0"/>
+					<field name="quota_id" optional="hide"/>
+					<field name="is_hod" invisible="1"/>
+					<field name="section_id" options="{'no_create': True, 'no_open': True}" attrs="{'readonly':[('is_hod','=',False)]}"/>
+					<field name="aadhar_no" readonly="0"/>
+					<field name="present_state" optional="hide"/>
+					<field name="perm_state" optional="hide"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="student_admission_details_search_view" model="ir.ui.view">
+			<field name="name">student.details.search</field>
+			<field name="model">student.details</field>
+			<field name="arch" type="xml">
+				<search string="Student Details">
+					<field name="role_no"/>
+					<field name="name"/>
+					<group expand="0" string="Group By...">
+						<filter name="courses_id" domain="[]" context="{'group_by':'courses_id'}" />
+						<filter name="degree_level_id" domain="[]" context="{'group_by':'degree_level_id'}"/>
+						<filter name="section_id" domain="[]" context="{'group_by':'section_id'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="student_details_act_window" model="ir.actions.act_window">
+			<field name="name">Student Details</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">student.details</field>
+			<field name="context">{'search_default_courses_id': 1,'search_default_degree_level_id': 1'search_default_section_id': 1}</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Student Details" id="admission_details_menu" parent="main_get_pass_menu"
+				  sequence="3" action="student_details_act_window"/>
+
+		<!-- Menu for Current students -->
+		<record id="regular_students_list_act_window" model="ir.actions.act_window">
+			<field name="name">Current Students</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">student.details</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'search_default_courses_id': 1,'search_default_degree_level_id': 1'search_default_section_id': 1}</field>
+			<field name="domain">[('state', '!=', 'alumini')]</field>
+		</record>
+
+		<menuitem name="Current Students" id="regular_student_menu" parent="admission_details_menu"
+				  sequence="1" action="regular_students_list_act_window"/>
+
+		<!-- Menu for Alumini students -->
+		<record model="ir.actions.act_window" id="alumini_students_list_act_window">
+	        <field name="name">Alumini Students</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">student.details</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'search_default_courses_id': 1,'search_default_degree_level_id': 1'search_default_section_id': 1}</field>
+	        <field name="domain">[('state', '=', 'alumini')]</field>
+	    </record>
+
+	    <menuitem name="Alumini Students" id="alumini_students_menu" parent="admission_details_menu"
+				  sequence="2" action="alumini_students_list_act_window"/>
+
+
+		<record id="action_account_payment_id" model="ir.actions.act_window">
+			<field name="name">Advance Payment</field>
+			<field name="res_model">account.payment</field>
+			<field name="view_mode">tree,kanban,form</field>
+			<field name="view_id" ref="account.view_out_invoice_tree"/>
+			<!-- <field name="search_view_id" ref="account.view_account_invoice_filter"/> -->
+			<field name="domain">[('payment_type', '=', 'inbound'),('is_advance_payment','=',True)]</field>
+			<field name="context">{'default_payment_type': 'inbound','default_is_advance_payment': True}</field>
+			<field name="help" type="html">
+			  <p class="o_view_nocontent_smiling_face">
+				Create a Advance Payment
+			  </p>
+			</field>
+		</record>
+
+		<menuitem name="Advance Payment" id="advance_payment_menu" parent="main_get_pass_menu"
+				  sequence="4" action="action_account_payment_id" groups="account.group_account_invoice"/>
+
+		<record id="open_action_transfer_college" model="ir.actions.server">
+			<field name="name">Transfer College</field>
+			<field name="model_id" ref="vg_colg.model_student_details"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_details"/>
+			<field name="state">code</field>
+			<field name="code">
+				if records:
+				action = records.action_transfer_college()
+			</field>
+		</record>
+
+		<record id="open_action_transfer_courses" model="ir.actions.server">
+			<field name="name">Transfer Courses</field>
+			<field name="model_id" ref="vg_colg.model_student_details"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_details"/>
+			<field name="state">code</field>
+			<field name="code">
+				if records:
+				action = records.action_transfer_courses()
+			</field>
+		</record>
+
+
+	</data>
+</odoo>

@@ -1,0 +1,70 @@
+<odoo>
+	
+	<!-- Gate pass form view -->
+	<record id="gate_pass_form_view" model="ir.ui.view">
+		<field name="name">gate.pass.form</field>
+		<field name="model">gate.pass</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>					
+					<button string="Visitor check In" states="new" name="visitor_check_in" type="object" class="oe_highlight"/>
+					<button string="Visitor check Out" states="check_in" name="visitor_check_out" type="object" class="oe_highlight"/>
+					<field name="state" widget="statusbar"/> 
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<h1>
+							<field name="name" readonly="1"/>
+						</h1>
+					</div>
+					<group>
+						<group>
+
+							<field name="visitor_name" attrs="{'readonly':[('state','=','check_out')]}"/>
+							<field name="mob_no" attrs="{'readonly':[('state','=','check_out')]}"/>
+						</group>
+						<group>
+							<field name="date_in"/>
+							<field name="date_out"/>
+							<field name="company_id"/>
+						</group>
+					</group>
+				</sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="message_ids" widget="mail_thread" />
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<!-- Gate pass tree view -->
+	<record model="ir.ui.view" id="gate_pass_tree_view">
+		<field name="name">gate.pass.form</field>
+		<field name="model">gate.pass</field>
+		<field name="arch" type="xml">
+			<tree default_order='id desc'>
+				<field name="name"/>
+				<field name="visitor_name"/>
+				<field name="mob_no"/>
+				<field name="date_in"/>
+				<field name="date_out"/>
+				<field name="state" widget='badge' decoration-success="state == 'check_out'" decoration-info="state == 'check_in'"/>
+			</tree>
+		</field>
+	</record>
+
+	<!-- gate pass action view -->
+	<record model="ir.actions.act_window" id="gate_pass_action_window">
+		<field name="name">Gate Pass</field>
+		<field name="res_model">gate.pass</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<!-- Menu item -->
+
+   <menuitem name="Gate Pass" id="menu_gate_pass" sequence="1" web_icon="gate_pass,static/description/icon.png"/>
+
+   <menuitem name="Gate Pass" id="sub_menu_gate_pass" parent="menu_gate_pass" action="gate_pass_action_window" sequence="1"/>
+
+</odoo>

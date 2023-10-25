@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <record model="ir.module.category" id="module_category_document_templates">
+        <field name="name">Document Templates</field>
+        <field name="sequence">102</field>
+        <field name="parent_id" eval="False"/>
+    </record>
+
+    <record model="ir.module.category" id="module_category_document_templates_administration">
+        <field name="name">Document Templates</field>
+        <field name="parent_id" ref="module_category_document_templates"/>
+    </record>
+
+    <!-- Document Management groups -->
+    <record id="group_user_document_management" model="res.groups">
+        <field name="name">Document User</field>
+        <field name="category_id" ref="document_management.module_category_document_templates_administration"/>
+    </record>
+
+    <record id="group_manager_document_management" model="res.groups">
+        <field name="name">Document Manager</field>
+        <field name="category_id" ref="document_management.module_category_document_templates_administration"/>
+        <field name="implied_ids" eval="[(4, ref('document_management.group_user_document_management'))]"/>
+    </record>
+
+</odoo>

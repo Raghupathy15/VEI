@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="degree_master_form_view_2" model="ir.ui.view">
+            <field name="name">degree.master.form</field>
+            <field name="model">degree.master</field>
+            <field name="arch" type="xml">
+                <form string="Degree">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="stream_id" required="1" options="{'no_create':True,'no_open':True,'no_edit':True}"/>
+                                <field name="grade_id" domain="[('stream_ids','in',stream_id)]" required="1" options="{'no_create':True,'no_open':True,'no_edit':True}"/>
+                                <field name="description" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="degree_master_tree_view" model="ir.ui.view">
+            <field name="name">degree.master.tree</field>
+            <field name="model">degree.master</field>
+            <field name="arch" type="xml">
+                <tree string="Degree" editable="top">
+                    <field name="name"/>
+                    <field name="stream_id" required="1" options="{'no_create':True,'no_open':True,'no_edit':True}"/>
+                    <field name="grade_id" domain="[('stream_ids','in',stream_id)]" options="{'no_create':True,'no_open':True,'no_edit':True}" required="1"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="degree_master_search_view" model="ir.ui.view">
+            <field name="name">degree.master.search</field>
+            <field name="model">degree.master</field>
+            <field name="arch" type="xml">
+                <search string="Degree">
+                    <field name="name"/>
+                    <field name="stream_id"/>
+                    <field name="grade_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="degree_master_act_window_1" model="ir.actions.act_window">
+            <field name="name">Courses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">degree.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Courses Master" sequence="3" id="degree_master_menu" parent="configuration_child_menu" action="degree_master_act_window_1"/>
+
+    </data>
+</odoo>

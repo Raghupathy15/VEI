@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="quota_master_form_view" model="ir.ui.view">
+            <field name="name">quota.master.form</field>
+            <field name="model">quota.master</field>
+            <field name="arch" type="xml">
+                <form string="Quota">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="bulk_create"/>
+                        </group>
+                        <group>
+                            <field name="is_default"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="quota_master_tree_view" model="ir.ui.view">
+            <field name="name">quota.master.tree</field>
+            <field name="model">quota.master</field>
+            <field name="arch" type="xml">
+                <tree string="Quota">
+                    <field name="name"/>
+                    <field name="bulk_create" width="20%"/>
+                    <field name="is_default" width="20%"/>
+                    <field name="active" width="20%"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="quota_master_search_view" model="ir.ui.view">
+            <field name="name">quota.master.search</field>
+            <field name="model">quota.master</field>
+            <field name="arch" type="xml">
+                <search string="Quota">
+                    <field name="name"/>
+                    <field name="active"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="quota_master_act_window" model="ir.actions.act_window">
+            <field name="name">Quota</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">quota.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Quota" id="quota_master_menu" parent="vg_colg.configuration_child_menu" action="quota_master_act_window" sequence="6"/>
+
+    </data>
+</odoo>

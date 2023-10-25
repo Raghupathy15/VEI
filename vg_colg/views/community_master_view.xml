@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="community_master_form_view" model="ir.ui.view">
+            <field name="name">community.master.form</field>
+            <field name="model">community.master</field>
+            <field name="arch" type="xml">
+                <form string="Community">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="community_master_tree_view" model="ir.ui.view">
+            <field name="name">community.master.tree</field>
+            <field name="model">community.master</field>
+            <field name="arch" type="xml">
+                <tree string="Community" editable="bottom">
+                    <field name="name" required="1"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="community_master_search_view" model="ir.ui.view">
+            <field name="name">community.master.search</field>
+            <field name="model">community.master</field>
+            <field name="arch" type="xml">
+                <search string="Community">
+                    <field name="name"/>
+                    <field name="code"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="community_master_act_window" model="ir.actions.act_window">
+            <field name="name">Community</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">community.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Community" id="community_master_menu" parent="configuration_child_menu" action="community_master_act_window"/>
+
+    </data>
+</odoo>

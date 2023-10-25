@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="50"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Welcome message template" string="Admission"
+                     data-key="vg_colg">
+
+                    <h2>Welcome Email template</h2>
+                    <div class="row mt16 o_settings_container" name="config_leave">
+                        <div class="col-xs-12 col-md-12 o_setting_box" name="config_leave_alias">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="welcome_mssg_subject" string="Subject" class="col-md-2"/>
+                                        <field name="welcome_mssg_subject"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="welcome_mssg_body" string="Body" class="col-md-2"/>
+                                        <field name="welcome_mssg_body" widget="html"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Document Email template</h2>
+                    <div class="row mt16 o_settings_container" name="config_leave">
+                        <div class="col-xs-12 col-md-12 o_setting_box" name="config_leave_alias">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="document_mssg_subject" string="Subject" class="col-md-2"/>
+                                        <field name="document_mssg_subject"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="document_mssg_body" string="Body" class="col-md-2"/>
+                                        <field name="document_mssg_body" widget="html"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Payment Email template</h2>
+                    <div class="row mt16 o_settings_container" name="config_leave">
+                        <div class="col-xs-12 col-md-12 o_setting_box" name="config_leave_alias">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="payment_mssg_subject" string="Subject" class="col-md-2"/>
+                                        <field name="payment_mssg_subject"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="payment_mssg_body" string="Body" class="col-md-2"/>
+                                        <field name="payment_mssg_body" widget="html"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vg_colg_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'vg_colg'}</field>
+    </record>
+
+    <menuitem id="vg_colg_config_settings_menu" name="Settings" parent="configuration_child_menu"
+              sequence="0" action="vg_colg_config_settings_action"/>
+</odoo>

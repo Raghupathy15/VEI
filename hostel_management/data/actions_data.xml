@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="open_action_room_allocation" model="ir.actions.server">
+			<field name="name">Room Allocation</field>
+			<field name="model_id" ref="vg_colg.model_student_details"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_details"/>
+            <field name="binding_view_types">list</field>
+			<field name="state">code</field>
+			<field name="code">
+				if records:
+				action = records.action_return_room_allocations_form()
+			</field>
+            <!-- <field name="groups_id"  eval="[(4, ref('base.group_user'))]"/> -->
+		</record>
+    </data>
+</odoo>

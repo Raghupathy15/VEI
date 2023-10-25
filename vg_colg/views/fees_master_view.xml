@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="fees_master_form_view" model="ir.ui.view">
+            <field name="name">fees.master.form</field>
+            <field name="model">fees.master</field>
+            <field name="arch" type="xml">
+                <form string="Fees">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" invisible="1"/>
+                                <field name="course_id"/>
+                                <field name="hotsel_fees" widget="radio"/>
+                                <field name="room_type" attrs="{'invisible': [('hotsel_fees', '!=', 'hosteler')]}"/>
+                                <!-- <field name="stages_id" attrs="{'invisible': [('hotsel_fees', '!=', 'dayscholar')]}"/> -->
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Fees Configuration">
+                                <field name="fees_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="amount" sum="Amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fees_master_tree_view" model="ir.ui.view">
+            <field name="name">fees.master.tree</field>
+            <field name="model">fees.master</field>
+            <field name="arch" type="xml">
+                <tree string="Fees">
+                    <!-- <field name="name"/> -->
+                    <field name="course_id"/>
+                    <!-- <field name="room_type"/> -->
+                </tree>
+            </field>
+        </record>
+
+        <record id="fees_master_search_view" model="ir.ui.view">
+            <field name="name">fees.master.search</field>
+            <field name="model">fees.master</field>
+            <field name="arch" type="xml">
+                <search string="Fees">
+                    <field name="course_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="fees_master_act_window" model="ir.actions.act_window">
+            <field name="name">Fees</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fees.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Fees" id="fees_master_menu" parent="configuration_child_menu" action="fees_master_act_window"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_view_employee_form_iherit" model="ir.ui.view">
+            <field name="name">hr.view.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <!-- <field name="priority" eval="1000"/> -->
+            <field name="arch" type="xml">
+                <data>
+                <xpath expr="//header" position="inside">
+                    <field name="employee_state" widget="statusbar" statusbar_visible="draft,working,resigned" options="{'clickable': '1'}" groups="hr.group_hr_manager"/>
+                </xpath>
+                <xpath expr="//field[@name='resource_calendar_id']" position="before">                            
+                        <field name="probation_days"/>        
+                        <field name="tds" invisible="1"/>
+                        <field name="tds_amount" invisible="1"/>        
+                        <!-- <field name="tds"/>
+                        <field name="tds_amount" attrs="{'invisible': [('tds', '!=', True)]}"/>         -->
+                    </xpath>
+                    <xpath expr="//field[@name='mobile_phone']" position="before">                            
+                        <field name="empl_id"/>        
+                        <field name="empl_type" invisible="0"/> 
+                        <field name="empl_category"/> 
+                        
+                    </xpath>
+                    <xpath expr="//group[field[@name='address_home_id']]" position="before">
+                        <group string="Communitcation Address" name="communication_address">
+                            <label for="communication_street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="communication_street" placeholder="Street..." class="o_address_street"/>
+                                <field name="communication_street2" placeholder="Street 2..." class="o_address_street"/>
+                                <field name="communication_city" placeholder="City" class="o_address_city"/>
+                                <field name="communication_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'default_country_id': country_id}"/>
+                                <field name="communication_zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="communication_country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                            </div>
+                            <field name="communication_phone"/>
+                            <field name="communication_mobile"/>
+                        </group>
+                    </xpath>
+
+                    <xpath expr="//group[field[@name='country_of_birth']]" position="after">
+                        <br/>
+                        <group string="Employee ID Proof" name="employee_proof">
+                            <field name="proof_lines" colspan="4" nolabel="1">
+                                <tree string="Employee ID Proof" editable="bottom"  create="1" delete="1" >
+                                    <field name="name"/>
+                                    <field name="number"/>
+                                    <field name="emp_id" invisible="1"/>
+                                    <field name="id_doc"/>
+                                </tree> 
+                                <form string="Employee ID Proof"> 
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="number"/>
+                                            <field name="emp_id" invisible="1"/>
+                                            <field name="id_doc"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field> 
+                            
+                        </group>
+                    </xpath>
+
+                    <xpath expr="//field[@name='parent_id']" position="before">
+                        <field name="job_id"/>  
+                    </xpath>
+                    <xpath expr="//page[@name='personal_information']" position="after">
+                        <page string="Education" name="products">
+                            <field name="education_lines" colspan="4" nolabel="1">
+                                <tree string="Education" editable="bottom" no_open="1" create="1" delete="1" >
+                                    <field name="name"/>
+                                    <field name="certification"/>
+                                    <field name="percentage"/>
+                                    <field name="emp_id" invisible="1"/>
+                                    <field name="education_doc"/>
+                                    <field name="note"/>
+                                </tree> 
+                                <form string="Education"> 
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="certification"/>
+                                            
+                                        </group>
+                                        <group>
+                                            <field name="percentage"/>
+                                            <field name="education_doc"/>
+                                        </group>
+                                        <group>
+                                            <notebook colspan="4">
+                                                <page string="Notes" name="notes">
+                                                    <field name="note"/>
+                                                </page>
+                                            </notebook>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>    
+                        </page>
+                        <page string="Work Experience" name="products">
+                            <field name="work_lines" colspan="4" nolabel="1">
+                                <tree string="Work Experience" editable="bottom"  create="1" delete="1" >
+                                    <field name="name"/>
+                                    <field name="job_role"/>
+                                    <field name="from_date"/>
+                                    <field name="to_date"/>
+                                    <field name="city"/>
+                                    <field name="emp_id" invisible="1"/>
+                                    <field name="work_doc"/>
+                                    <field name="note"/>
+                                </tree> 
+                                <form string="Work Experience"> 
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="job_role"/>
+                                            <field name="city"/>
+                                        </group>
+                                        <group>
+                                            <field name="from_date"/>
+                                            <field name="to_date"/>
+                                            <field name="city"/>
+                                            <field name="emp_id" invisible="1"/>
+                                            <field name="work_doc"/>
+                                        </group>
+                                        <group>
+                                            <notebook colspan="4">
+                                                <page string="Notes" name="notes">
+                                                    <field name="note"/>
+                                                </page>
+                                            </notebook>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>    
+                        </page>
+                        <page string="Extra Activities" name="products">
+                            <field name="extra_lines" colspan="4" nolabel="1">
+                                <tree string="Extra Activities" editable="bottom"  create="1" delete="1" >
+                                    <field name="name"/>
+                                    <field name="act_date"/>
+                                    <field name="venue"/>
+                                    <field name="topic"/>
+                                    <field name="emp_id" invisible="1"/>
+                                    <field name="work_doc"/>
+                                    <field name="note"/>
+                                </tree> 
+                                <form string="Extra Activities"> 
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="act_date"/>
+                                            <field name="venue"/>
+                                            <field name="topic"/>
+                                        </group>
+                                        <group>
+                                            <field name="emp_id" invisible="1"/>
+                                            <field name="work_doc"/>
+                                        </group>
+                                        <group>
+                                            <notebook colspan="4">
+                                                <page string="Notes" name="notes">
+                                                    <field name="note"/>
+                                                </page>
+                                            </notebook>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>    
+                        </page>
+                        <page string="Referral" name="referral">
+                            <field name="empl_referral_lines" colspan="4" nolabel="1">
+                                <tree string="Education" editable="bottom" no_open="1" create="1" delete="1" >
+                                    <field name="type"/>
+                                    <field name="name"/>
+                                    <field name="emp_id" invisible="1"/>
+                                    <field name="join_date"/>
+                                    <field name="note"/>
+                                </tree> 
+                            </field>    
+                        </page>
+                        <page string="Dedcution/Allowance" name="referral">
+                            <field name="ded_allow_lines" colspan="4" nolabel="1">
+                                UNP'<tree string="Dedcution/Allowance" editable="bottom" no_open="1" create="1" delete="1" >
+                                    <field name="rule_id"/>
+                                    <field name="emp_id" invisible="1"/>
+                                    <field name="fixed_amount"/>
+                                </tree> 
+                            </field>    
+                        </page>
+                        <!-- <page string="Education" name="education">
+                            <group>
+                            </group>
+                        </page> -->
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        
+    </data>
+</odoo>
+
+

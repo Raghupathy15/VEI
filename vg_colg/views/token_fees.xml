@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- <record id="token_fees1_form1_view" model="ir.ui.view">
+            <field name="name">token.fees.form</field>
+            <field name="model">token.fees</field>
+            <field name="arch" type="xml">
+                <form string="Token Fees">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="stream_id" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                                <field name="company_id" domain="[('stream_ids','in',stream_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="grade_id" domain="[('stream_ids','in',stream_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="degree_level_id" domain="[('stream_id','=',stream_id),('grade_id','=',grade_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="batch_id" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="course_id" domain="[('stream_id','=',stream_id),('company_id','=',company_id),('grade_id','=',grade_id),('degree_level_id','=',degree_level_id),('batch_id','=',batch_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                            </group>
+                            <group>
+                                <field name="quota_id" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <label for="academice_year_from" string="Acedemic Year" />
+                                <div class="o_row">
+                                    <span class="text-muted">From</span>
+                                    <field name="academice_year_from" class="oe_inline"/>
+                                    <span class="text-muted">To</span>
+                                    <field name="academice_year_to" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <field name="notes" placeholder="Notes..."/>
+                        </group>
+                        <notebook>
+                            <page name="fees_lines" string="Fees Lines">
+                                <field name="fees_lines" required="1">
+                            <tree editable="bottom">
+                                <field name="product_id" domain="[('token_ok','=',True)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="amount" required="1"/>
+                            </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record> -->
+
+        <record id="token_fees1_form1_view" model="ir.ui.view">
+            <field name="name">token.fees.form</field>
+            <field name="model">token.fees</field>
+            <field name="arch" type="xml">
+                <form string="Token Fees">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+							 <button class="oe_stat_button" type="object" name="action_open_advance_payments"
+									icon="fa-money">
+								<div class="o_stat_info">
+									<!-- <field name="fees_structure_count" class="o_stat_value"/> -->
+									<span class="o_stat_text">Advance Payments</span>
+								</div>
+							</button>    
+                        </div>   
+                        <group>
+                            <group>
+                                <field name="stream_id" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                                <field name="company_id" domain="[('stream_ids','in',stream_id)]"
+                                    options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="grade_id" domain="[('stream_ids','in',stream_id)]"
+                                    options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="degree_level_id"
+                                    domain="[('stream_id','=',stream_id),('grade_id','=',grade_id)]"
+                                    options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="batch_id"
+                                    options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <field name="course_id"
+                                    domain="[('stream_id','=',stream_id),('company_id','=',company_id),
+                                            ('grade_id','=',grade_id),('degree_level_id','=',degree_level_id),
+                                            ('batch_id','=',batch_id)]"
+                                    options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                            </group>
+                            <group>
+                                <field name="quota_id" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                <label for="academice_year_from" string="Academic Year"/>
+                                <div class="o_row">
+                                    <span class="text-muted">From</span>
+                                    <field name="academice_year_from" class="oe_inline"/>
+                                    <span class="text-muted">To</span>
+                                    <field name="academice_year_to" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <field name="notes" placeholder="Notes..."/>
+                        </group>
+                        <notebook>
+                            <page name="fees_lines" string="Fees Lines">
+                                <field name="fees_lines" required="1">
+                                    <tree editable="bottom">
+                                        <field name="product_id" domain="[('token_ok','=',True)]"
+                                            options="{'no_edit':True,'no_open':True,'no_create':True}" required="1"/>
+                                        <field name="amount" required="1" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="token_fees_tree2_view" model="ir.ui.view">
+            <field name="name">token.fees.tree</field>
+            <field name="model">token.fees</field>
+            <field name="arch" type="xml">
+                <tree string="Token Fees">
+                    <field name="course_id" optional="show" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                    <field name="degree_level_id" optional="show" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                    <field name="quota_id" optional="show" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                    <!-- <field name="fees"/> -->
+                </tree>
+            </field>
+        </record>
+
+        <record id="token_fees1_act_window" model="ir.actions.act_window">
+            <field name="name">Token Fees</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">token.fees</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

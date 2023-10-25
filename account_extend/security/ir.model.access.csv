@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_counter_master,counter.master,model_counter_master,,1,1,1,1
+access_no_due_gen,no.due.gen,model_no_due_gen,,1,1,1,1
+access_account_fees_details,account.fees.details,model_account_fees_details,,1,1,1,1
+access_student_fee_invoice,student.fee.invoice,model_student_fee_invoice,,1,1,1,1
+
+
+

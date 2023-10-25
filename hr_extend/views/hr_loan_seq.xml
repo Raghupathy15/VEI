@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate='1'>
+		<record id="ir_seq_hr_loan_datechange" model="ir.sequence">
+			<field name="name">Loan Datechange Request</field>
+			<field name="code">hr.loan.datechange.seq</field>
+			<field name="prefix">REQ/</field>
+			<field name="padding">4</field>
+			<field name="number_increment">1</field>
+			<field name="number_next_actual">1</field>
+			<field name="implementation">standard</field>
+		</record>
+		<record id="ir_seq_hr_employee_id" model="ir.sequence">
+			<field name="name">Employee ID</field>
+			<field name="code">employee.id</field>
+			<field name="prefix"></field>
+			<field name="padding">4</field>
+			<field name="number_increment">1</field>
+			<field name="number_next_actual">1</field>
+			<field name="implementation">standard</field>
+		</record>
+	</data>
+</odoo>

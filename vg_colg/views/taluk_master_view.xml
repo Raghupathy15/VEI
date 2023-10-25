@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="taluk_master_form_view" model="ir.ui.view">
+            <field name="name">taluk.master.form</field>
+            <field name="model">taluk.master</field>
+            <field name="arch" type="xml">
+                <form string="Taluk">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="taluk_master_tree_view" model="ir.ui.view">
+            <field name="name">taluk.master.tree</field>
+            <field name="model">taluk.master</field>
+            <field name="arch" type="xml">
+                <tree string="Taluk" editable="bottom">
+                    <field name="name" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="taluk_master_search_view" model="ir.ui.view">
+            <field name="name">taluk.master.search</field>
+            <field name="model">taluk.master</field>
+            <field name="arch" type="xml">
+                <search string="taluk">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="taluk_master_act_window" model="ir.actions.act_window">
+            <field name="name">Taluk</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">taluk.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Taluk" id="taluk_master_menu" parent="configuration_child_menu" action="taluk_master_act_window"/>
+
+    </data>
+</odoo>

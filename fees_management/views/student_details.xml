@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <record id="inherit_student_detail_form_view" model="ir.ui.view">
+            <field name="name">Student Details Form Inherit</field>
+            <field name="model">student.details</field>
+            <field name="inherit_id" ref="vg_colg.student_details_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" type="object" name="action_open_incoming_payment"
+                            icon="fa-credit-card">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Incoming Payments</span>
+                            <field name="incoming_payment_balance" class="oe_stat_value text-success"/>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="action_open_outgoing_payment"
+                            icon="fa-credit-card">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Outgoing Payments</span>
+                            <field name="outgoing_payment_balance" class="oe_stat_value text-success"/>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="action_open_student_concession"
+                            icon="fa-bank">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Concession</span>
+                            <field name="concession_balance" class="oe_stat_value text-success"/>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="action_open_student_refund"
+                            icon="fa-inr">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Refund</span>
+                            <field name="refund_total" class="oe_stat_value text-success"/>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="action_open_fees_details"
+                            icon="fa-file">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Fees Details</span>
+                            <field name="invoice_due" class="oe_stat_value text-danger"/>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="action_open_fees_line_details"
+                            icon="fa-money">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Fees Lines</span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <xpath expr="//field[@name='stream_id']" position="before">
+                    <field name="wallet_balance" string="Wallet" class="text-danger" attrs="{'invisible': [('wallet_balance', '&gt;=', 0)]}"/>
+                    <field name="wallet_balance" string="Wallet" class="text-success" attrs="{'invisible': [('wallet_balance', '&lt;', 0)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

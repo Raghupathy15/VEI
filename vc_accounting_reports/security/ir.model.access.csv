@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_daily_counter_wise_report,access_daily_counter_wise_report,model_daily_counter_wise_report,,1,1,1,1
+access_daily_counter_wise_detailed_report,access_daily_counter_wise_detailed_report,model_daily_counter_wise_detailed_report,,1,1,1,1
+access_consolidated_payment_report,access_consolidated_payment_report,model_consolidated_payment_report,,1,1,1,1

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="district.master" id="district_salem">
+            <field name="name">Salem</field>
+        </record>
+        <record model="district.master" id="district_namakkal">
+            <field name="name">Namakkal</field>
+        </record>
+        <record model="district.master" id="district_karur">
+            <field name="name">Karur</field>
+        </record>
+        <record model="district.master" id="district_coimbatore">
+            <field name="name">Coimbatore</field>
+        </record>
+        <record model="district.master" id="district_erode">
+            <field name="name">Erode</field>
+        </record>
+    </data>
+</odoo>

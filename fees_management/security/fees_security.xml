@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="fees_management_approver" model="res.groups">
+			<field name="name">Fees Approver</field>
+		</record>
+
+		<record id="concession_first_level_approver" model="res.groups">
+			<field name="name">Admission Officer - 1st Level Approver</field>
+		</record>
+
+		<record id="concession_second_level_approver" model="res.groups">
+			<field name="name">Chairman - 2nd Level Approver</field>
+		</record>
+
+		<record model="ir.rule" id="concession_rule">
+			<field name="name">Concession multi-company</field>
+			<field name="model_id" search="[('model','=','student.concession')]" model="ir.model"/>
+			<field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+		</record>
+
+		<record model="ir.rule" id="fees_management_rule">
+			<field name="name">Fees multi-company</field>
+			<field name="model_id" search="[('model','=','fees.management')]" model="ir.model"/>
+			<field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+		</record>
+
+		<!-- Fees master Groups-->
+		<record model="ir.module.category" id="module_fees_master">
+			<field name="name">Fees master approver</field>
+			<field name="sequence">103</field>
+			<field name="parent_id" eval="False"/>
+		</record>
+
+		<record model="ir.module.category" id="module_fees_administration">
+			<field name="name">Fees master approver</field>
+			<field name="parent_id" ref="module_fees_master"/>
+		</record>
+
+		<record id="group_user_fees_for" model="res.groups">
+			<field name="name">1st Appover</field>
+			<field name="category_id" ref="fees_management.module_fees_administration"/>
+		</record>
+
+		<record id="group_manager_fees_for" model="res.groups">
+			<field name="name">2nd Approver</field>
+			<field name="category_id" ref="fees_management.module_fees_administration"/>
+			<field name="implied_ids" eval="[(4, ref('fees_management.group_user_fees_for'))]"/>
+		</record>
+
+		<record id="groups_for_bulk_reset_of_move" model="res.groups">
+            <field name="name">Bulk Reset To Draft</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+        </record>
+
+	</data>
+</odoo>

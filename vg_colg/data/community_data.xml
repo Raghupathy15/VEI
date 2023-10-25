@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="community.master" id="community_oc">
+            <field name="name">OC</field>
+            <field name="code">OC</field>
+        </record>
+        <record model="community.master" id="community_bc">
+            <field name="name">BC</field>
+            <field name="code">BC</field>
+        </record>
+        <record model="community.master" id="community_mbc">
+            <field name="name">MBC</field>
+            <field name="code">MBC</field>
+        </record>
+        <record model="community.master" id="community_dnc">
+            <field name="name">DNC</field>
+            <field name="code">DNC</field>
+        </record>
+        <record model="community.master" id="community_sc">
+            <field name="name">SC</field>
+            <field name="code">SC</field>
+        </record>
+        <record model="community.master" id="community_sca">
+            <field name="name">SCA</field>
+            <field name="code">SCA</field>
+        </record>
+        <record model="community.master" id="community_st">
+            <field name="name">ST</field>
+            <field name="code">ST</field>
+        </record>
+    </data>
+</odoo>

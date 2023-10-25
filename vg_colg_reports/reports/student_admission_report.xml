@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Report Action -->
+        <record id="action_report_student_admission" model="ir.actions.report">
+            <field name="name">Student Admission</field>
+            <field name="type">ir.actions.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="model">student.admission</field>
+            <field name="report_name">vg_colg_reports.report_student_admission_view</field>
+            <field name="report_file">vg_colg_reports.report_student_admission_view</field>
+            <field name="binding_model_id" ref="vg_colg.model_student_admission"/>
+            <field name="paperformat_id" ref="vg_colg.paperformat_admission_report"/>
+        </record>
+
+        <template id="report_student_admission_view">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"></t>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"></t>
+                    </t>
+                    <div class="header">
+                        <div class="row mt32 mb32">
+                            <div class="col-12 text-center">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <div class="row mt32 mb32">
+                            <div class="col-12 text-center">
+
+                            </div>
+                        </div>
+                    </div>
+                    <t t-call="web.external_layout">
+                        <div class="page" style="border:black; border-width:5px; border-style:solid;">
+                        <style>
+                            .rounded-box {
+                            width: 400px;
+                            text-align: center;
+                            margin: 0 auto;
+                            padding: 7px;
+                            overflow: hidden;
+                            border: 2px solid black;
+                            border-radius: 10px;
+                        }
+                        </style>
+                            <table style="width:100%;">
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td>
+                                        <center><h1><strong>VIVEKANANDHA</strong></h1></center>
+                                    </td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td>
+                                        <center><h3><strong>EDUCATIONAL INSTITUTIONS FOR WOMEN</strong></h3></center>
+                                    </td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td>
+                                        <center><h3>Tiruchengode &amp; Sankagiri.,</h3></center>
+                                    </td>
+                                </tr>
+                            </table>
+                            <center>
+                                <table style="border:1px solid white !important">
+                                    <tr>
+                                        <td>
+                                            <div class="rounded-box" style="width:400px;  text-align: center; margin: 0 auto; ">
+                                                <h4>ENTRY FORM FOR ADMISSION</h4>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </center>
+                            <br/><br/>
+                            <table style="width:100%;" >
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Course</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td><t t-if="doc.courses_id"><span t-field="doc.courses_id"/></t> </td>
+                                 </tr>
+
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Name of the Student</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><span t-field="doc.name"/></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Date of Birth</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td><span t-field="doc.brith_date"/></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Parent / Guardian Name</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><span t-field="doc.parent_guardian_name"/></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Place</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><t t-if="doc.place_id"><span t-field="doc.place_id.name"/></t></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Taluk</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><t t-if="doc.taluk_id"><span t-field="doc.taluk_id.name"/></t></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">District</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><t t-if="doc.district_id"><span t-field="doc.district_id.name"/></t></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Pin Code</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><span t-field="doc.pin_code"/></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Parent/Guardian Occupation</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><span t-field="doc.parent_guardian_occupation"/></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Mobile No</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%; border-bottom: 2px solid black; border-style: dotted;"><p>1. <t t-if="doc.mobile_number"><span t-field="doc.mobile_number"/></t></p></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">WhatsApp No</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%; border-bottom: 2px solid black; border-style: dotted;"><p>2. <span t-field="doc.whatsapp_number"/></p></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">+2 / UG Regn Number</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><span t-field="doc.ug_regn_number"/></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">+2 Group / UG Branch</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><span t-field="doc.group_ug_number"/></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">+2 Total Mark / UG %</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><span t-field="doc.total_marks_ug"/></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Last Studied Institution</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><t t-if="doc.last_studied_institution_id"><span t-field="doc.last_studied_institution_id.name"/></t></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Community</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><t t-if="doc.community_id"><span t-field="doc.community_id.name"/></t></td>
+                                </tr>
+                                <tr style="width:100%; border:1px solid white !important">
+                                    <td style="width:48%;"><p style=" margin-left:8px;">Caste</p></td>
+                                    <td style="width:4%;">:</td>
+                                    <td style="width:48%;"><span t-field="doc.caste"/></td>
+                                </tr>
+                            </table>
+                            <br/><br/>
+                                <div style="border-top: 3px dotted black;"></div>
+                            <br/><br/><br/><br/><br/><br/><br/>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

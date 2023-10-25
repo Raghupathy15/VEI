@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="marriage_leave_cl" model="hr.leave.type">
+            <field name="name">Marriage Leave</field>
+            <field name="requires_allocation">yes</field>
+            <field name="employee_requests">no</field>
+            <field name="leave_validation_type">both</field>
+            <field name="allocation_validation_type">officer</field>
+            <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave"/>
+            <field name="allocation_notif_subtype_id" ref="hr_holidays.mt_leave_allocation"/>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="icon_id" ref="hr_holidays.icon_14"/>
+            <field name="color">2</field>
+            <field name="company_id" eval="False"/> 
+           <field name="sequence">5</field>
+           <!-- Explicitely set to False for it to be available to all companies -->
+        </record>
+
+        <record id="relative_death_unpaid" model="hr.leave.type">
+            <field name="name">Relative Death Leave</field>
+            <field name="requires_allocation">yes</field>
+            <field name="employee_requests">no</field>
+            <field name="leave_validation_type">both</field>
+            <field name="allocation_validation_type">officer</field>
+            <field name="request_unit">day</field>
+            <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave"/>
+            <field name="allocation_notif_subtype_id" ref="hr_holidays.mt_leave_allocation"/>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="icon_id" ref="hr_holidays.icon_28"/>
+            <field name="color">5</field>
+            <field name="company_id" eval="False"/> <!-- Explicitely set to False for it to be available to all companies -->
+            <field name="sequence">6</field>
+        </record>
+
+        <record id="cl_unpaid" model="hr.leave.type">
+            <field name="name">CL</field>
+            <field name="requires_allocation">yes</field>
+            <field name="employee_requests">no</field>
+            <field name="leave_validation_type">both</field>
+            <field name="allocation_validation_type">officer</field>
+            <field name="request_unit">day</field>
+            <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave"/>
+            <field name="allocation_notif_subtype_id" ref="hr_holidays.mt_leave_allocation"/>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="icon_id" ref="hr_holidays.icon_28"/>
+            <field name="color">5</field>
+            <field name="company_id" eval="False"/> <!-- Explicitely set to False for it to be available to all companies -->
+            <field name="sequence">7</field>
+        </record>
+
+        <record id="el_unpaid" model="hr.leave.type">
+            <field name="name">EL</field>
+            <field name="requires_allocation">yes</field>
+            <field name="employee_requests">no</field>
+            <field name="leave_validation_type">both</field>
+            <field name="allocation_validation_type">officer</field>
+            <field name="request_unit">day</field>
+            <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave"/>
+            <field name="allocation_notif_subtype_id" ref="hr_holidays.mt_leave_allocation"/>
+            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="icon_id" ref="hr_holidays.icon_28"/>
+            <field name="color">5</field>
+            <field name="company_id" eval="False"/> <!-- Explicitely set to False for it to be available to all companies -->
+            <field name="sequence">8</field>
+        </record>
+
+    </data>
+</odoo>
+
+
+

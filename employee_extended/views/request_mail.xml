@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <record id="hr_leave_view_form_mail" model="ir.ui.view">
+    <field name="name">hr.leave.view.form.mail</field>  
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="print_mail_report" string="Send Report" type="object" class="btn-primary"/>
+            </xpath>
+        </field>
+    </record> -->
+
+    <record id="hr_leave_view_form_mail" model="ir.ui.view">
+        <field name="name">hr.leave.view.form.mail</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//header" position="inside">
+                    <button name="print_mail_report" string="Send Mail" type="object" class="btn-primary"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="mail_template_order_report" model="mail.template">
+        <field name="name">Send Order Details Report To The Store</field>
+        <field name="model_id" ref="hr_holidays.model_hr_leave"/>
+        <field name="subject">Leave Request from {{ object.employee_id.name }}</field>
+        <field name="email_from">{{ object.employee_id.work_email }}</field>
+        <field name="email_to">{{ object.employee_id.leave_manager_id.login }}</field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html" type="xml">
+            <div>
+                Hai <span style="font-weight: bolder;" t-out="object.employee_id.leave_manager_id.name"/>,<br/>
+                    Name : <span style="font-weight: bolder;" t-out="object.employee_id.name"/><br/>
+                    Leave Type : <span style="font-weight: bolder;" t-out="object.holiday_status_id.name"/><br/>
+                    From : <span style="font-weight: bolder;" t-out="object.request_date_from"/><br/> 
+                    To : <span style="font-weight: bolder;" t-out="object.request_date_from"/><br/>
+                    Reason : <span style="font-weight: bolder;" t-out="object.name"/><br/><br/><br/>
+                    <!-- &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; -->
+                    Please find the attached File (if any) for the leave request in this mail.<br/>
+                    Please login to odoo for approving the leave request.<br/><br/>
+                    <div style="font-weight: bolder;"> Thanks &amp; Regards,<br/>
+                    <span style="font-weight: bolder;" t-out="object.employee_id.name"/> <br/>
+                    </div>
+            </div>
+        </field>
+    </record>
+
+</odoo>

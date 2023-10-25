@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="counter_master_tree_view" model="ir.ui.view">
+            <field name="name">counter.master.view.tree</field>
+            <field name="model">counter.master</field>
+            <field name="arch" type="xml">
+                <tree string="Counter Master" editable="bottom">
+                    <field name="name"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="counter_master_action" model="ir.actions.act_window">
+            <field name="name">Counter Master </field>
+            <field name="res_model">counter.master</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem
+            id="menu_hr_employee_type_tree"
+            action="counter_master_action"
+            parent="account.account_account_menu"
+            sequence="6"/>
+
+        
+    </data>
+</odoo>

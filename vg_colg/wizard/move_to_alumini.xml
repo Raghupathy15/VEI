@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="open_action_move_to_alumini" model="ir.actions.server">
+			<field name="name">Move to Alumini Students</field>
+			<field name="model_id" ref="vg_colg.model_student_details"/>
+			<field name="binding_model_id" ref="vg_colg.model_student_details"/>
+            <field name="binding_view_types">list</field>
+			<field name="state">code</field>
+			<field name="code">
+				if records:
+				action = records.action_move_alumini_list()
+			</field>
+            <field name="groups_id"  eval="[(4, ref('base.group_user'))]"/>
+		</record>
+
+</odoo>

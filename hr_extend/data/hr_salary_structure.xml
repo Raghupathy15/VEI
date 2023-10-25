@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="hr_rule_provident_fund" model="hr.salary.rule">
+            <field name="name">Provident Fund</field>
+            <field name="sequence" eval="1"/>
+            <field name="code">PF</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = 0
+wage = contract.wage
+if wage &lt; 18750.00:
+    res = (wage/100)*80
+    result= -((res/100)*20)
+else:
+    result=-1800
+            </field>
+        </record>
+
+         <record id="hr_rule_unpaid_leaves" model="hr.salary.rule">
+            <field name="name">Unpaidd Leaves</field>
+            <field name="sequence" eval="1"/>
+            <field name="code">UNP</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=0
+if worked_days.Unpaid:
+    result=-(contract.wage / worked_days.WORK100.number_of_hours)*worked_days.Unpaid.number_of_hours
+else:
+    result = 0
+            </field>
+        </record>
+
+        <record id="hr_rule_esic" model="hr.salary.rule">
+            <field name="name">ESIC</field>
+            <field name="sequence" eval="1"/>
+            <field name="code">ES</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=0
+wage = contract.wage
+if wage &lt; 21000.00:
+    result=-(wage/100)*0.75;  
+            </field>
+        </record>
+
+        <record id="hr_rule_esic" model="hr.salary.rule">
+            <field name="name">ESIC</field>
+            <field name="sequence" eval="1"/>
+            <field name="code">ES</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=0
+wage = contract.wage
+if wage &lt; 21000.00:
+    result=-(wage/100)*0.75;  
+            </field>
+        </record>
+
+        <record id="hr_rule_tds" model="hr.salary.rule">
+            <field name="name">TDS</field>
+            <field name="sequence" eval="1"/>
+            <field name="code">TDS</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=0
+if employee.tds:
+    result = employee.tds_amount
+            </field>
+        </record>
+
+
+
+        <record id="salary_structure_employee" model="hr.payroll.structure">
+            <field name="code">EMP</field>
+            <field name="name">Employee Salary structure</field>
+            <field eval="[(6, 0, [ref('hr_payroll_community.hr_rule_basic'), ref('hr_payroll_community.hr_rule_taxable'),ref('hr_payroll_community.hr_rule_net'),ref('hr_rule_provident_fund'),ref('hr_rule_unpaid_leaves'),ref('hr_rule_esic'),ref('hr_rule_esic'),ref('hr_rule_tds')])]" name="rule_ids"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+    </data>
+</odoo>
+
+
+

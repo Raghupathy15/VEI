@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+		<record model="ir.ui.view" id="view_fee_management_form_view_inherit">
+			<field name="name">fees.management.form</field>
+			<field name="model">fees.management</field>
+			<field name="inherit_id" ref="fees_management.fees_management_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='fees_ids']/tree/field[@name='fees_for_id']" position="after">
+					<field name="priority"/>
+				</xpath>
+			</field>
+    	</record>
+
+    </data>
+</odoo>

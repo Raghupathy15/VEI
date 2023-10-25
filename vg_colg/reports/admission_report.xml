@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="paperformat_admission_report" model="report.paperformat">
+        <field name="name">Admission Perforate Report</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_spacing">10</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="action_admission_report_pdf" model="ir.actions.report">
+        <field name="name">Admission Report</field>
+        <field name="model">admission.report.wizard</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">vg_colg.report_admission_courses</field>
+        <field name="report_file">vg_colg.report_admission_courses</field>
+        <field name="print_report_name">'Admission Report'</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_admission_report"/>
+    </record>
+
+
+    <!-- Template being called from the report -->
+    <template id="report_admission_courses">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id"></t>
+                </t>
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"></t>
+                </t>
+                <div class="header">
+                    <div class="row mt32 mb32">
+                        <div class="col-12 text-center">
+                            <hr style="margin:0px; width:100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <table style="width:100%;">
+                            <tr style="width:100%;">
+                                <td style="width:20%; height:24pt; border: 1px solid black;">
+                                     <img src="/vg_colg/static/image/cg_admission_logo.jpeg" style="height: 75px;width:100%"/>
+                                </td>
+                                <td style="width:80%; height:24pt; border: 1px solid black;">
+                                    <h4>&#160;&#160;&#160; &#160; VIVEKANANDHA EDUCATIONAL INSTITUTIONS</h4>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width:100%;">
+                            <tr style="width:100%; background-color: yellow;">
+                                <td style="width:100%; border: 1px solid black;"><center><h5>ADMISSION DAILY REPORT <t t-esc="doc.date_from"/> to <t t-esc="doc.date_to"/></h5></center></td>
+                            </tr>
+                        </table>
+                        <table style="width:100%;">
+                            <tr style="width:100%;">
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;" rowspan="3">S. No.</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;" rowspan="3">Course</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;" rowspan="3">Admission</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;" rowspan="3">2022-23<br/>As on</th>
+                                <th style="width:45%; background-color: #808080;border: 1px solid black;" colspan="4">ADMISSION - 2023-24</th>
+                                <th style="width:8%; background-color: #808080;border: 1px solid black;" rowspan="3">TOTAL <br/> Adm<br/> As on</th>
+                                <th style="width:7%; background-color: #808080;border: 1px solid black;" rowspan="3">TOTAL <br/>Intake</th>
+                            </tr>
+                            <tr style="width:100%;">
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;" colspan="2">Admission On</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;" colspan="2">Admission</th>
+                            </tr>
+                            <tr style="width:100%;">
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">Online</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">Direct</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">On</th>
+                                <th style="width:10%; background-color: #808080;border: 1px solid black;">As On</th>
+                            </tr>
+                            <t t-set="count" t-value="1"/>
+                            <t t-set="course_ids" t-value="doc.course_ids"/>
+                            <t t-if="not doc.course_ids">
+                                <t t-set="course_ids" t-value="request.env['courses.master'].sudo().search([])"/>
+                            </t>
+<!--                            <t t-foreach="doc.course_ids" t-as="course">-->
+                            <t t-foreach="course_ids" t-as="course">
+                                <tr style="width:100%;">
+                                    <td style="border: 1px solid black;"><span t-esc="count"/> </td>
+                                    <t t-set="count" t-value="count+1"/>
+                                    <td style="border: 1px solid black;"><span t-field="course.name"/></td>
+                                    <td style="border: 1px solid black;"> <span/></td>
+                                    <td style="border: 1px solid black;"> <span/></td>
+                                    <td style="border: 1px solid black;"> <span/></td>
+                                    <td style="border: 1px solid black;"> <span/></td>
+                                    <td style="border: 1px solid black;"> <span/></td>
+                                    <td style="border: 1px solid black;"> <span/></td>
+                                    <td style="border: 1px solid black;"> <span/></td>
+                                    <td style="border: 1px solid black;"> <span/></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

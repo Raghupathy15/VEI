@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_education_employee_tree" model="ir.ui.view">
+            <field name="name">education.employee.line.tree</field>
+            <field name="model">employee.education.line</field>
+            <field name="arch" type="xml">
+                <tree string="Education" create="false">
+                    <field name="name"/>
+                    <field name="certification"/>
+                    <field name="percentage"/>
+                    <field name="emp_id" invisible="1"/>
+                    <field name="education_doc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_employee_work_line_tree" model="ir.ui.view">
+            <field name="name">employee.work.line.tree</field>
+            <field name="model">employee.work.line</field>
+            <field name="arch" type="xml">
+                <tree string="Work Experience" create="false">
+                    <field name="name"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="note"/>
+                    <field name="job_role"/>
+                    <field name="city"/>
+                    <field name="emp_id" invisible="1"/>
+                    <field name="work_doc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_employee_activity_line_tree" model="ir.ui.view">
+            <field name="name">employee.activity.line.tree</field>
+            <field name="model">employee.activity.line</field>
+            <field name="arch" type="xml">
+                <tree string="Work Experience" create="false">
+                    <field name="name"/>
+                    <field name="note"/>
+                    <field name="act_date"/>
+                    <field name="venue"/>
+                    <field name="topic"/>
+                    <field name="emp_id" invisible="1"/>
+                    <field name="work_doc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_id_proof_tree" model="ir.ui.view">
+            <field name="name">id_proof_line.tree</field>
+            <field name="model">id.proof.line</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Proof" create="false">
+                    <field name="name"/>
+                    <field name="number"/>
+                    <field name="emp_id" invisible="1"/>
+                    <field name="id_doc"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="payment_consolidated_report_document">
+            <t t-call="fees_management.custom_1_externl_layout">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div style="margin-top:10px !important;" class="page">
+                    <div style="width:100%;">
+                        <div style="width:100%;margin-top:15px;">
+                            <p style="font-size:20px;text-align:right">
+                                
+                            </p>
+                        </div>
+                    </div>
+                    <t t-set="objs" t-value="o.get_payments()"/>
+                    
+                    <table class="table table-striped" style="margin-bottom:0px;">
+                        <thead>
+                            <th style="background-color:rgb(6, 136, 171); color:white;border-top:2px solid black;border-bottom:2px solid black;border-left:1px solid black;border-right:1px solid black;" colspan="10" align="center"><span style="font-size: 14pt;">Fees Payments Consolidated Report</span></th>
+                        </thead>
+                        <tr>
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">College Code </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.company_id.college_code">
+                                                    : <span style="color:solid black;" t-esc="o.company_id.college_code"/>
+                                                </t>
+                                                <t t-if="not o.company_id.college_code">
+                                                    : <span style="color:solid black;">Nill</span>
+                                                </t>
+                                            </b>
+
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">Start Date </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.start_date">
+                                                <b>: <span t-esc="o.start_date.strftime('%d - %b - %Y')" style="color:solid black;"/></b>
+                                            </t>
+                                            <t t-if="not o.start_date">
+                                                <b>: <span style="color:solid black;"/>Day One</b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">Course</span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.course_id">
+                                                    : <span style="color:solid black;" t-esc="o.course_id.name.split('-')[0]"/>
+                                                </t>
+                                                <t t-if="not o.course_id">
+                                                    : <span style="color:solid black;">All</span>
+                                                </t>
+                                            </b>
+
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">End Date </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.end_date">
+                                                <b>: <span t-esc="o.end_date.strftime('%d - %b - %Y')" style="color:solid black;"/></b>
+                                            </t>
+                                            <t t-if="not o.end_date">
+                                                <b>: <span style="color:solid black;"/></b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" align="center">
+                                
+                                <table style="border-color: white;" width="100%">
+                                    <tr>  
+                                        <td width="15%">
+                                            <span style="font-size: 13pt;">Batch &amp; Term</span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <b>
+                                                <t t-if="o.batch_id">
+                                                    : <span style="color:solid black;" t-esc="o.batch_id.name"/>
+                                                </t>
+                                                <t t-if="not o.batch_id">
+                                                    : <span style="color:solid black;">All</span>
+                                                </t>
+                                                <t t-if="o.term_id">
+                                                    &amp; <span style="color:solid black;" t-esc="o.term_id.name"/>
+                                                </t>
+                                                <t t-if="not o.term_id">
+                                                    &amp; <span style="color:solid black;">All</span>
+                                                </t>
+                                            </b>
+                                        </td>
+                                        <td width="15%" style="border-color: white;">
+                                            <span style="font-size: 13pt">Student Status </span>
+                                        </td>
+                                        <td width="35%" style="border-color: white;">
+                                            <t t-if="o.status == 'true' or not o.status ">
+                                                <b>: <span style="color:solid black;"/>Active</b>
+                                            </t>
+                                            <t t-if="o.status == 'false'">
+                                                <b>: <span style="color:solid black;"/>In Active</b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-striped" style="width:100%layout-width:fixed;max-width:1000px;margin-top:0px;">
+                        <thead style="font-size: 12pt;background-color:rgb(6, 136, 171);color:white;border-top:2px solid black;" align="center">
+                            <th style="border-left:1px solid black;">S.N</th>
+                            <th style="border-left:1px solid black;">Student ID</th>
+                            <th style="border-left:1px solid black;">Name</th>
+                            <!-- <th>Comm.</th> -->
+                            <th style="border-left:1px solid black;">Fee Description</th>
+                            <th style="border-left:1px solid black;">Receipt No</th>
+                            <th style="border-left:1px solid black;">Payment Date</th>
+                            <th style="border-left:1px solid black;">Demand</th>
+                            <th style="border-left:1px solid black;">Paid</th>
+                            <th style="border-left:1px solid black;border-right:1px solid black;">Balance</th>
+                        </thead>
+                        <tbody style="font-size:12pt;">
+                            <t t-set="total_demand" t-value="0.00"/>
+                            <t t-set="total_due" t-value="0.0"/>
+                            <t t-set="total_paid" t-value="0.0"/>
+                            <t t-set="count" t-value="0"/>
+                            <t t-foreach="enumerate(objs.items())" t-as="value">
+                                <t t-foreach="enumerate(value[1][1].get('lines'))" t-as="tmp_line">
+                                    <t t-if="tmp_line[0] == 0">
+                                        <tr style="background-color:rgb(209, 210, 213);">
+                                            <t t-set="count" t-value="count + 1"/>
+                                            <t t-set="line" t-value="tmp_line[1]"/>
+                                            <td style="border-left:1px solid black;" align="center"><span t-esc="count"/></td>
+                                            <t t-if="tmp_line[0] == 0">
+                                                <td style="border-left:1px solid black;" align="left"><b><span t-esc="line.student_id.role_no"/></b></td>
+                                            </t>
+                                            <t t-if="tmp_line[0] != 0">
+                                                <td style="border-left:1px solid black;"></td>
+                                            </t>    
+                                            <t t-if="tmp_line[0] == 0">
+                                                <td style="border-left:1px solid black;" align="left"><b><span t-esc="line.student_id.name"/></b></td>
+                                            </t>
+                                            <t t-if="tmp_line[0] != 0">
+                                                <td style="border-left:1px solid black;"></td>
+                                            </t>   
+                                            <!-- <td align="center"><span t-esc="line.student_id.community_id.name"/></td> -->
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="line.name"/></td>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="line.get_payment_names()"/></td>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="line.get_dates_as_str()"/></td>
+                                            <td style="border-left:1px solid black;" align="right"><b><span t-esc="line.price_total"/></b></td>
+                                            <td style="border-left:1px solid black;" align="right"><b><span t-esc="line.paid_amount"/></b></td>
+                                            <td style="border-left:1px solid black;border-right:1px solid black;" align="right"><b><span t-esc="line.price_total - line.paid_amount"/></b></td>
+                                            <t t-set="total_demand" t-value="total_demand + line.price_total"/>
+                                            <t t-set="total_due" t-value="total_due + (line.price_total - line.paid_amount)"/>
+                                            <t t-set="total_paid" t-value="total_paid + line.paid_amount"/>
+                                        </tr>
+                                    </t>
+                                    <t t-if="tmp_line[0] != 0">
+                                        <tr>
+                                            <t t-set="count" t-value="count + 1"/>
+                                            <t t-set="line" t-value="tmp_line[1]"/>
+                                            <td style="border-left:1px solid black;" align="center"><span t-esc="count"/></td>
+                                            <t t-if="tmp_line[0] == 0">
+                                                <td style="border-left:1px solid black;" align="left"><b><span t-esc="line.student_id.role_no"/></b></td>
+                                            </t>
+                                            <t t-if="tmp_line[0] != 0">
+                                                <td style="border-left:1px solid black;"></td>
+                                            </t>    
+                                            <t t-if="tmp_line[0] == 0">
+                                                <td style="border-left:1px solid black;" align="left"><b><span t-esc="line.student_id.name"/></b></td>
+                                            </t>
+                                            <t t-if="tmp_line[0] != 0">
+                                                <td style="border-left:1px solid black;"></td>
+                                            </t>   
+                                            <!-- <td align="center"><span t-esc="line.student_id.community_id.name"/></td> -->
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="line.name"/></td>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="line.get_payment_names()"/></td>
+                                            <td style="border-left:1px solid black;" align="left"><span t-esc="line.get_dates_as_str()"/></td>
+                                            <td style="border-left:1px solid black;" align="right"><b><span t-esc="line.price_total"/></b></td>
+                                            <td style="border-left:1px solid black;" align="right"><b><span t-esc="line.paid_amount"/></b></td>
+                                            <td style="border-left:1px solid black;border-right:1px solid black;" align="right"><b><span t-esc="line.price_total - line.paid_amount"/></b></td>
+                                            <t t-set="total_demand" t-value="total_demand + line.price_total"/>
+                                            <t t-set="total_due" t-value="total_due + (line.price_total - line.paid_amount)"/>
+                                            <t t-set="total_paid" t-value="total_paid + line.paid_amount"/>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="background-color:rgb(52, 170, 202);color:white;border-left:1px solid black;border-right:1px solid black;border-bottom:2px solid black;border-top:2px solid black;">
+                                <td colspan="6" align="right" style="font-size: 12pt;"><b>Total:</b></td>
+                                <td align="right" style="font-size: 12pt;"><b><span t-esc="total_demand"></span></b></td>
+                                <td align="right" style="font-size: 12pt;"><b><span t-esc="total_paid"></span></b></td>
+                                <td align="right" style="font-size: 12pt;"><b><span t-esc="total_due"></span></b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="payment_consolidated_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.company_id.partner_id.lang"/>
+                    <t t-call="fees_management.payment_consolidated_report_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_consolidated_report" model="ir.actions.report">
+            <field name="name">Consolidated Report</field>
+            <field name="model">payment.consolidated.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">fees_management.payment_consolidated_report_template</field>
+            <field name="report_file">fees_management.payment_consolidated_report_template</field>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="fees_management.paperformat_daily_collection_report"/>
+        </record>
+
+    </data>
+</odoo>

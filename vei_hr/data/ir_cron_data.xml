@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- CRON - Remainder to allocate section for students -->
+        <record id="ir_cron_allocate_section_for_students" model="ir.cron">
+            <field name="name">Remainder to allocate section for students</field>
+            <field name="model_id" ref="hr.model_hr_department"/>
+            <field name="type">ir.action.server</field>
+            <field name="state">code</field>
+            <field name="code">model.allocate_section_students()</field>
+            <field name="active" eval="True"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="nextcall" eval="(DateTime.now().replace(hour=9, minute=30) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        </record>
+
+    </data>
+</odoo>

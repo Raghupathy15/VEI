@@ -1,0 +1,236 @@
+<odoo>
+    <data>
+        <record id="view_room_master_form" model="ir.ui.view">
+            <field name="name">Room Master</field>
+            <field name="model">room.master</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="ready_to_occupy,partially_occupied,occupied,under_maintanance"/>
+                        <button type="object" class="oe_highlight" name="set_as_ready" groups="hostel_management.groups_for_room_un_allocator" string="Set Ready" states="under_maintanance,occupied,partially_occupied"/>
+                        <!-- <button type="object" class="oe_highlight" name="set_as_partial" string="Set Partial Occupied" states="ready_to_occupy,occupied,under_maintanance"/>
+                        <button type="object" class="oe_highlight" name="set_as_full" string="Set Fully Occupied" states="ready_to_occupy,partially_occupied,under_maintanance"/> -->
+                        <button type="object" class="btn btn-danger" groups="hostel_management.groups_for_room_un_allocator" name="set_as_under_maintanance" string="Set Under Maintanance" states="ready_to_occupy,partially_occupied,occupied"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="hostel_id" required="1" force_save="1"/>
+                                <field name="name" required="1"/>
+                                <field name="student_ids" groups="hostel_management.groups_for_room_allocator" domain="[('accomodation_check_box','=','hosteler'),('room_id','=',False)]" widget="many2many_tags" options="{'no_create':True,'no_edit':True,'no_open':True}" attrs="{'readonly':[('state','=','under_maintanance')]}"/>
+                                <field name="amenities_ids" widget="many2many_tags" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                                <field name="capacity"/>
+                                <field name="available_count"/>
+                            </group>
+                            <group>
+                                <field name="type_id" options="{'no_create':True,'no_edit':True,'no_open':True}" required="1"/>
+                                <field name="floor_id" domain="[('hostel_id','=',hostel_id),('room_type_ids','in',type_id)]" required="1" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                                <field name="guest_employee_ids" groups="hostel_management.groups_for_room_allocator" domain="[('accomodation_type','=','hosteler'),('room_id','=',False)]" widget="many2many_tags" options="{'no_create':True,'no_edit':True,'no_open':True}" force_save="1" attrs="{'readonly':[('state','=','under_maintanance')]}"/>
+                                <field name="warden_employee_ids" widget="many2many_tags" string="Warden"/>
+                                <field name="total_count"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="Students" id="student_ids">
+                                <field name="student_ids" domain="[('accomodation_check_box','=','hosteler'),('room_id','=',False)]" readonly="1" force_save="1" options="{'no_open':True,'no_quick_open':True}">
+                                    <tree editable="bottom">
+                                        <field name="role_no"/>
+                                        <field name="display_name"/>
+                                        <field name="courses_id"/>
+                                        <field name="batch_id"/>
+                                        <field name="special_care" optional="show"/>
+                                        <field name="special_care_reason" optional="hide"/>
+                                        <button class="btn btn-success" name="put_attendance" type="object" string="Present" attrs="{'invisible':[('attendance_status','=','present')]}"/>
+                                        <button class="btn btn-danger" name="put_attendance" type="object" string="Absent" attrs="{'invisible':[('attendance_status','=','absent')]}"/>
+                                        <field name="attendance_status" optional="show" widget="badge"/>
+                                        <button class="btn btn-danger" groups="hostel_management.groups_for_room_un_allocator" name="method_student_remove" type="object" string="Remove"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="Staff/Guest" id="employee_ids">
+                                <field name="guest_employee_ids" domain="[('accomodation_type','=','hosteler'),('room_id','=',False)]" readonly="1" force_save="1">
+                                    <tree editable="bottom">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="empl_id"/>
+                                        <field name="job_id"/>
+                                        <field name="display_name"/>
+                                        <button class="btn btn-danger" groups="hostel_management.groups_for_room_un_allocator" name="method_staff_remove" type="object" string="Remove"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="Amenities" id="amenities_ids">
+                                <field name="amenities_ids" readonly="1" force_save="1">
+                                    <tree editable="bottom">
+                                        <field name="display_name"/>
+                                        <field name="amount" sum="Total"/>
+                                        <field name="note"/>
+                                        <field name="active"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form> 
+            </field>
+        </record>
+
+        <record id="room_master_kanban_view" model="ir.ui.view">
+            <field name="name">room.master.kanban</field>
+            <field name="model">room.master</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <!-- Specify the columns in the Kanban view -->
+                <templates>
+                    <!-- Ready to Occupy -->
+                    <t t-name="kanban-box">
+                        <div class="o_kanban_card oe_kanban_global_click" 
+                                                            t-attf-style="
+                                                            border: 2px solid #{record.state.raw_value == 'ready_to_occupy' ? '#00FF00' : (record.state.raw_value == 'occupied' ? 'orange' : (record.state.raw_value == 'partially_occupied') ? 'green' : (record.state.raw_value == 'under_maintanance') ? 'red' : 'grey')};
+                                                            border-radius:5%;background-color:lightgrey;">
+                            <div class="o_kanban_primary">
+                                <table width="100%">
+                                    <tr>
+                                        <td>
+                                            <h2>ROOM</h2>
+                                        </td>
+                                        <td colspan="2" align="center">
+                                            <h3>
+                                                <field name="name"/>
+                                            </h3>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td colspan='3' align="center" style="color:black;">
+                                            <field name="type_id"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="right" style="color:darkviolet;">
+                                            <field name="state"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td align="left">
+                                            <span for="hostel_id">Hostel</span>
+                                        </td>
+                                        <td align="left" width="25%" style="color:black;">
+                                            :<field name="hostel_id"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td align="left">
+                                            <span for="floor_id">Floor</span>
+                                        </td>
+                                        <td align="left" style="color:black;">
+                                            :<field name="floor_id"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td align="left">
+                                            <span for="capacity">Capacity</span>
+                                        </td>
+                                        <td style="color:black;" align="left">
+                                            :<field name="capacity"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td align="left">
+                                            <span for="available_count">Available Count</span>
+                                        </td>
+                                        <td style="color:black;" align="left">
+                                            :<field name="available_count"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td align="left">
+                                            <span for="total_count">Occupied Count</span>
+                                        </td>
+                                        <td style="color:black;" align="left">
+                                            :<field name="total_count"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </field>
+        </record>
+
+
+        <record id="view_room_tree" model="ir.ui.view">
+			<field name="name">Room Master</field>
+			<field name="model">room.master</field>
+			<field name="arch" type="xml">
+				<tree string="Room">
+					<field name="name"/>
+                    <field name="hostel_id"/>
+                    <field name="floor_id"/>
+					<field name="type_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_room_master_search" model="ir.ui.view">
+            <field name="name">room.master.search</field>
+            <field name="model">room.master</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Room No"/>
+                    <field name="state" string="Status"/>
+                    <field name="type_id" string="Room Type"/>
+                    <field name="hostel_id" string="Hostel"/>
+                    <filter string="Occupied Rooms" name="filter_occupied" domain="[('state', '=', 'occupied')]"/>
+                    <filter string="Partially Occupied Rooms" name="filter_partially_occupied" domain="[('state','=','partially_occupied')]"/>
+                    <filter string="Under Maintanance Rooms" name="filter_under_maintanance" domain="[('state','=','under_maintanance')]"/>
+                    <filter string="Ready Rooms" name="filter_ready" domain="[('state', '=', 'ready_to_occupy')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_hostel" string="Hostel" context="{'group_by':'hostel_id'}"/>
+                        <filter name="group_by_floor" string="Floor" context="{'group_by':'floor_id'}"/>
+                        <filter name="group_by_state" string="Status" context="{'group_by':'state'}"/>
+                        <filter name="group_by_room_type" string="Room Type" context="{'group_by':'type_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_room_act_window" model="ir.actions.act_window">
+			<field name="name">Room</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">room.master</field>
+			<field name="view_mode">kanban,tree,form</field>
+		</record>
+
+         <record id="action_click_open_form" model="ir.actions.act_window">
+            <field name="name">Open Room Master</field>
+            <field name="res_model">room.master</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_room_master_form"/>
+            <field name="target">current</field> <!-- You can change the target as needed -->
+        </record>
+
+		<menuitem name="Rooms" id="rooms_menu_id" parent="hostel_management.main_hostel_management_menu" sequence="1"/>
+		<menuitem name="Room" id="sub_menu_rooms_id" parent="hostel_management.rooms_menu_id" action="hostel_management.action_room_act_window" sequence="1"/>
+        <menuitem name="Room" id="room_menu_id" parent="hostel_management.configuration_hostel_mgt_menu" action="hostel_management.action_room_act_window" sequence="13"/>
+    </data>
+</odoo>

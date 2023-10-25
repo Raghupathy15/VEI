@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="admission_status_report_tree_view" model="ir.ui.view">
+            <field name="name">admission.status.report.tree</field>
+            <field name="model">admission.status.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="inquiry_id"/>
+                    <field name="admission_id"/>
+                    <field name="name"/>
+                    <field name="student_whatsapp"/>
+<!--                    <field name="inquiry_state"/>-->
+                    <field name="inquiry_state" widget="badge" decoration-success="inquiry_state == 'confirmed'" decoration-info="inquiry_state == 'inquiry'"/>
+                    <field name="degree_level_id"/>
+                    <field name="courses_id"/>
+<!--                    <field name="admission_state"/>-->
+                    <field name="admission_state" widget="badge" decoration-success="admission_state == 'admission_list'" decoration-info="admission_state == 'new'" decoration-danger="admission_state == 'token_fees'"/>
+<!--                    <field name="document_state"/>-->
+                    <field name="document_state" widget="badge" decoration-warning="document_state == 'doc_not_collected'" decoration-primary="document_state == 'doc_partially_collected'"/>
+<!--                    <field name="admission_list_state"/>-->
+                    <field name="admission_list_state" widget="badge" decoration-success="admission_list_state == 'confirmed'" decoration-primary="admission_list_state == 'draft'" decoration-info="admission_list_state == 'doc_collected'" decoration-danger="admission_list_state == 'onhold'"/>
+                    <field name="stream_id"/>
+                    <field name="company_id"/>
+                    <field name="quota_id"/>
+                    <field name="email"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="admission_status_report_search_view" model="ir.ui.view">
+            <field name="name">admission.status.report.search</field>
+            <field name="model">admission.status.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="inquiry_id"/>
+                    <field name="admission_id"/>
+                    <field name="student_whatsapp"/>
+                    <field name="email"/>
+
+                    <group expand="0" string="Group By...">
+						<filter name="Inquiry Status" domain="[]" context="{'group_by':'inquiry_state'}"/>
+						<filter name="Admission Status" domain="[]" context="{'group_by':'admission_state'}"/>
+						<filter name="Document Status" domain="[]" context="{'group_by':'document_state'}"/>
+						<filter name="Admission List Status" domain="[]" context="{'group_by':'admission_list_state'}"/>
+                        <filter name="Stream" domain="[]" context="{'group_by':'stream_id'}"/>
+                        <filter name="College" domain="[]" context="{'group_by':'company_id'}"/>
+                        <filter name="Quota" domain="[]" context="{'group_by':'quota_id'}"/>
+                        <filter name="Course" domain="[]" context="{'group_by':'courses_id'}"/>
+                        <filter name="Degree" domain="[]" context="{'group_by':'degree_level_id'}"/>
+                        <filter name="Date" string="Date" domain="[]" context="{'group_by':'create_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="admission_status_report_act_window" model="ir.actions.act_window">
+            <field name="name">Admission Status Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">admission.status.report</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem name="Admission Status Report" id="admission_status_report_menu" parent="vg_colg.menu_parent_report_wizard" action="admission_status_report_act_window" sequence="1"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="section_master_form_view" model="ir.ui.view">
+            <field name="name">section.master.form</field>
+            <field name="model">section.master</field>
+            <field name="arch" type="xml">
+                <form string="Stages">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="section_master_tree_view" model="ir.ui.view">
+            <field name="name">section.master.tree</field>
+            <field name="model">section.master</field>
+            <field name="arch" type="xml">
+                <tree string="Stages">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="section_master_search_view" model="ir.ui.view">
+            <field name="name">section.master.search</field>
+            <field name="model">section.master</field>
+            <field name="arch" type="xml">
+                <search string="Stages">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="section_master_act_window" model="ir.actions.act_window">
+            <field name="name">Sections</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">section.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Sections" id="stages_master_menu" parent="configuration_child_menu" action="section_master_act_window"/>
+
+    </data>
+</odoo>

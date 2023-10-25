@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record id="payment_consolidated_report_wizard_view" model="ir.ui.view">
+            <field name="name">Payment Consolidated Report Wizard</field>
+            <field name="model">payment.consolidated.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="batch_id" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                            <field name="semester_id" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                            <field name="status" string="Status"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
+                            <field name="course_id" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                            <field name="term_id" string="Term" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                            <!-- <field name="company_id" invisible="1"/> -->
+                        </group>
+                    </group>
+                    <footer>
+                    <button name="print_pdf" type="object" string="Print"
+                            class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_payment_consolidated_report_wizard" model="ir.actions.act_window">
+            <field name="name">Fees Payments Consolidated Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payment.consolidated.report.wizard</field>
+            <field name="view_id" ref="payment_consolidated_report_wizard_view"/>
+            <field name="context">{}</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_payment_consolidated_report" name="Fees Payments Consolidated Report" action="action_payment_consolidated_report_wizard"
+                  parent="account.menu_finance_reports" sequence="12"/>
+    </data>
+</odoo>

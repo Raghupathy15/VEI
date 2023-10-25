@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <record id="account.action_report_payment_receipt" model="ir.actions.report">
+            <field name="name">Payment Receipt</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">account.report_payment_receipt</field>
+            <field name="report_file">account.report_payment_receipt</field>
+            <!-- <field name="binding_model_id" ref="model_account_payment"/> -->
+            <field name="binding_model_id" eval="False"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="inherit_account_move_form_view" model="ir.ui.view">
+            <field name="name">Account Move Fees Details</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                        <field name="line_invoice_count" invisible="1"/>
+                        <button name="action_return_child_invoices" type="object" class="oe_stat_button" string="Line invoices" attrs="{'invisible':[('line_invoice_count','=',0)]}"/>
+                        <!-- <span t-esc="len(record.line_invoices_ids)"/> -->
+                </xpath>
+                <xpath expr="//field[@name='invoice_user_id']" position="attributes">
+                    <attribute name="string">Cashier</attribute>
+                </xpath>
+                <xpath expr="//form/header/button[@name='button_draft']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//group[@id='header_right_group']" position="inside">
+                    <field name="batch_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Batch"/>
+                    <field name="semester_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Semaster"/>
+                </xpath>
+
+                <xpath expr="//field[@name='semester_id']" position="after">
+                    <!-- <field name="fee_payment_type" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Payment Type"/> -->
+                    <field name="fees_for_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Fees for"/>
+                    <field name="parent_invoice_id" readonly="1" force_save='1' attrs="{'invisible':[('parent_invoice_id','=',False)]}"/>
+                    <field name="one_time_fee_id" invisible="0"/>
+                    <field name="last_payment" invisible="1"/>
+
+                    <!-- <field name="term"/> -->
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
+                    <field name="is_hostel"/>
+                    <field name="course_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Course" optional="show"/>
+                    <field name="batch_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Batch" optional="show"/>
+                    <field name="course_year" string="Course Year" optional="show"/>
+                    <field name="semester_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Semester" optional="show"/>
+                    <field name="fees_for_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Term" optional="show"/>
+                    <field name="priority" string="Priority"/>
+                    <field name="start_date" optional="show"/>
+                    <field name="end_date" optional="show"/>
+                    <field name="paid_amount"/>
+                    <field name="due_date" optional="show"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@id='other_tab']" position="before">
+                    <page name="concession" string="Concession" attrs="{'invisible':[('move_type','not in',['out_invoice','out_refund'])]}">
+                        <field name="map_concession_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                            <tree editable="bottom">
+                                <field name="details_id" invisible="0"/>
+                                <field name="concession_id" domain="[('state','=','approved'),('roll_no_id','=',details_id)]" required="1" string="Concession" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                                <field name="available_amount" string="Available Amount" readonly="1" force_save="1"/>
+                                <field name="allocated_amount" string="Allocated Amount"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">
+                    <field name="price_total" optional="show"/>
+                    <field name="payment_state" widget="badge" 
+                            decoration-danger="payment_state == 'not_paid'"
+                            decoration-warning="payment_state == 'partially_paid'"
+                            decoration-success="payment_state == 'paid'" optional="show"/>
+                    <field name="payment_ref_ids" widget="many2many_tags" readonly="1" force_save="1" optional="hide"/>
+                    <field name="is_concession" invisible="1"/>
+                    <field name="parent_state" invisible="1"/>
+                    <button name="action_custom_create_invoice" string="Pay" style="width:50px;" class="btn btn-primary" type="object" attrs="{'invisible':['|','|','|',('parent.move_type','!=','out_invoice'),('parent_state','!=','draft'),('is_concession','=',True),('payment_state','!=','not_paid')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_account_move_invoice_tree_view" model="ir.ui.view">
+            <field name="name">Invoice - Semester and Term</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_date']" position="before">
+                    <field name="batch_id" string="Batch" optional="show"/>
+                    <field name="course_id" string="Course" optional="show"/>
+                    <field name="semester_id" string="Semester" optional="show"/>
+                    <field name="fees_for_id" string="Term" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="fee_account_move_line_tree_view" model="ir.ui.view">
+            <field name="name">Account Move Line Tree View</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_id" string="Particulars"/>
+                    <field name="is_hostel"/>
+                    <field name="move_id"/>
+                    <field name="course_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Course" optional="show"/>
+                    <field name="batch_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Batch" optional="show"/>
+                    <field name="semester_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Semester" optional="show"/>
+                    <field name="fees_for_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Term" optional="show"/>
+                    <field name="course_year" string="Course Year" optional="show"/>
+                    <field name="priority" string="Priority"/>
+                    <field name="start_date" optional="show"/>
+                    <field name="end_date" optional="show"/>
+                    <field name="due_date" optional="show"/>
+                    <field name="account_id" optional="show"/>
+                    <field name="price_subtotal" optional="show"/>
+                    <field name="price_total" optional="show" sum="Total"/>
+                    <field name="payment_state" optional="show" widget="badge" 
+                            decoration-danger="payment_state == 'not_paid'"
+                            decoration-warning="payment_state == 'partially_paid'"
+                            decoration-success="payment_state == 'paid'"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="account_move_line_search_view">
+            <field name="name">Account Move Line Search View Inherited For Hostel</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter name="hostel_ok" string="Hostel Fee" domain="[('product_id.hostel_ok', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
+
+        
+        <record model="ir.ui.view" id="account_view_account_move_filter_inherit">
+            <field name="name">Account Move Search View Inherited For Fees</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="admission_id" string="Admission No"/>
+                    <field name="details_id" string="Roll Number"/>
+                    <filter string="Admission No" name="admission_id" domain="[]" context="{'group_by': 'admission_id'}"/>
+                    <filter name="details_id" string="Roll Number" domain="[]" context="{'group_by': 'details_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="inheri_account_view_account_move_filter_inherit">
+            <field name="name">Account Move Search View Inherited For Fees</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_move_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="admission_id" string="Admission No"/>
+                    <field name="details_id" string="Roll Number"/>
+                    <filter string="Admission No" name="admission_id" domain="[]" context="{'group_by': 'admission_id'}"/>
+                    <filter name="details_id" string="Roll Number" domain="[]" context="{'group_by': 'details_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

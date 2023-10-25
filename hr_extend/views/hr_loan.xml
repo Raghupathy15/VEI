@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="act_datechange_request" model="ir.actions.act_window">
+            <field name="name">Date Change Request</field>
+            <field name="res_model">hr.loan.datechange</field>
+            <field name="context">{'default_loan_id': active_id}</field>
+        </record>
+
+        <record id="hr_loan_form_iherit" model="ir.ui.view">
+            <field name="name">hr.view.loan.form.inherit</field>
+            <field name="model">hr.loan</field>
+            <field name="inherit_id" ref="ohrms_loan.hr_loan_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <div class="oe_button_box" position="inside">
+                        <button name="%(act_datechange_request)d"
+                            class="oe_stat_button"
+                            icon="fa-money"
+                            type="action">
+                            <field name="datechange_count" widget="statinfo" string="Request" help="Pay Slip Request Details"/>
+                        </button>
+                    </div>
+                    <xpath expr="//button[@name='compute_installment']" position="after">
+                        <button name="request_datechange" type="object" string="Raise Request" class="oe_highlight"/>
+                    </xpath>
+                    <xpath expr="//field[@name='employee_id']" position="after">
+                        <field name="loan_type"/>
+                    </xpath>
+                    <xpath expr="//field[@name='loan_amount']" position="after">
+                        <field name="amt_with_interest"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        
+
+        <record id="hr_loan_datechange_tree_view" model="ir.ui.view">
+            <field name="name">hr.loan.tree</field>
+            <field name="model">hr.loan.datechange</field>
+            <field name="arch" type="xml">
+                <tree string="Loan Requests" create="0">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="request_date_from"/>
+                    <field name="request_date_to"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Loan Form view-->
+        <record id="hr_loan_datechange_form_view" model="ir.ui.view">
+            <field name="name">hr.loan.datechange.form</field>
+            <field name="model">hr.loan.datechange</field>
+            <field name="arch" type="xml">
+                <form string="Loan Request">    
+                    <header>
+                        <button name="action_submit" type="object" string="Submit" states="draft" class="oe_highlight"/>
+                        <button name="action_cancel" type="object" string="Cancel" states="draft" />
+                        <button name="action_approve" type="object" string="Approve" states="confirm" groups="hr.group_hr_manager" class="oe_highlight"/>
+                        <button name="action_refuse" type="object" string="Refuse" states="confirm" groups="hr.group_hr_manager"  class="oe_highlight"/>
+                        <button name="action_draft" type="object" states="confirm,refuse,cancel" string="Change to Draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate,refuse,cancel" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="employee_id"/>
+                            <field name="request_date_from"/>
+                            <field name="request_date_to"/>
+                            <field name="report_note"/>   
+                        </group>
+                        <group>
+                        <label for="attachment_ids" string="Supporting Document"/>
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>      
+
+
+
+        <record id="act_hr_employee_loan_datechange_request" model="ir.actions.act_window">
+            <field name="name">Loans</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.loan.datechange</field>
+            <field name="binding_model_id" ref="hr.model_hr_employee"/>
+            <field name="view_mode">tree,form</field>
+            <field name="context"></field>
+            <field name="view_id" eval="hr_loan_datechange_tree_view"/>
+        </record> 
+
+        <menuitem id="menu_hr_loan_datechange_request" 
+            name="Date Change Request"
+            parent="ohrms_loan.menu_base_hr_loan_request"
+            groups="hr.group_hr_manager" 
+            action="hr_extend.act_hr_employee_loan_datechange_request"/>
+    </data>
+</odoo>
+
+

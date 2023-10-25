@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Sequences gate pass -->
+        <record id="seq_gate_pass" model="ir.sequence">
+            <field name="name">Gate Pass</field>
+            <field name="code">gate.pass</field>
+            <field name="prefix">GP/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

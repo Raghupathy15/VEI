@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="data_first_semester" model="semester.master">
+            <field name="name">1st Semester</field>
+            <field name="active">True</field>
+        </record>
+        <record id="data_second_semester" model="semester.master">
+            <field name="name">2nd Semester</field>
+            <field name="active">True</field>
+        </record>
+        <record id="data_third_semester" model="semester.master">
+            <field name="name">3rd Semester</field>
+            <field name="active">True</field>
+        </record>
+        <record id="data_fourth_semester" model="semester.master">
+            <field name="name">4th Semester</field>
+            <field name="active">True</field>
+        </record>
+        <record id="data_fifth_semester" model="semester.master">
+            <field name="name">5th Semester</field>
+            <field name="active">True</field>
+        </record>
+        <record id="data_sixth_semester" model="semester.master">
+            <field name="name">6th Semester</field>
+            <field name="active">True</field>
+        </record>
+        <record id="data_seventh_semester" model="semester.master">
+            <field name="name">7th Semester</field>
+            <field name="active">True</field>
+        </record>
+        <record id="data_eithth_semester" model="semester.master">
+            <field name="name">8th Semester</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

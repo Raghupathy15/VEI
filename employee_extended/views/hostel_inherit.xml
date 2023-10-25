@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="room_occupancy_tree_view" model="ir.ui.view">
+            <field name="name">room.occupancy.view.tree</field>
+            <field name="model">room.occupancy</field>
+            <field name="arch" type="xml">
+                <tree string="Room and Occupancy" editable="bottom">
+                    <field name="room_no" colspan="10"/>
+                    <field name="occupancy"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="room_occupancy_action" model="ir.actions.act_window">
+            <field name="name">Room Occupancy </field>
+            <field name="res_model">room.occupancy</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="menu_room_occupancy_type_tree" action="room_occupancy_action" parent="hostel_management.configuration_hostel_mgt_menu" sequence="2"/>
+
+        <record id="hostel_management_form_view_inherit" model="ir.ui.view">
+            <field name="name">hostel.management.form.view.inherit</field>
+            <field name="model">hostel.management</field>
+            <field name="inherit_id" ref="hostel_management.hostel_management_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Room and Occupancy">
+                            <field name="room_occupancy" widget="one2many_list" nolabel="1" mode="tree">
+                                <tree string="Room and Occupancy" editable="bottom" no_create="1" no_open="1" >
+                                    <field name="room_no"/>
+                                    <field name="occupancy" colspan="30"/>
+                                    <field name="hostel_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+                <xpath expr="//field[@name='room_no']" position="attributes">
+                    <attribute name="required">0</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='occupancy']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+
+        </record>
+
+    </data>
+</odoo>

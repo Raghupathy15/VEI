@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record model="room.type" id="room_ordinay">
+			<field name="name">Ordinary</field>
+		</record>
+		<record model="room.type" id="room_special">
+			<field name="name">Special</field>
+		</record>
+		<record model="room.type" id="room_delux">
+			<field name="name">Delux</field>
+		</record>
+		<record model="room.type" id="room_special_delux">
+			<field name="name">Special Delux</field>
+		</record>
+		
+	</data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="courses.master" id="courses_csa">
+            <field name="name">Computer Science and Applications</field>
+            <field name="token_num">CSA</field>
+        </record>
+        <record model="courses.master" id="courses_mathematics">
+            <field name="name">Mathematics</field>
+            <field name="token_num">MATH</field>
+        </record>
+        <record model="courses.master" id="courses_physics">
+            <field name="name">Physics</field>
+            <field name="token_num">PHY</field>
+        </record>
+        <record model="courses.master" id="courses_chemistry">
+            <field name="name">Chemistry</field>
+            <field name="name">CHE</field>
+        </record>
+        <record model="courses.master" id="courses_bio_chemistry">
+            <field name="name">Bio Chemistry</field>
+            <field name="token_num">BCHE</field>
+        </record>
+        <record model="courses.master" id="courses_bio_technology">
+            <field name="name">Bio Technology</field>
+            <field name="token_num">BTECH</field>
+        </record>
+        <record model="courses.master" id="courses_micro_biology">
+            <field name="name">Micro Biology</field>
+            <field name="token_num">MBIO</field>
+        </record>
+        <record model="courses.master" id="courses_nutrition_dietetics">
+            <field name="name">Nutrition &amp; Dietetics</field>
+            <field name="token_num">ND</field>
+        </record>
+        <record model="courses.master" id="courses_costume_design_fashion">
+            <field name="name">Costume design &amp; Fashion</field>
+            <field name="token_num">CDF</field>
+        </record>
+        <record model="courses.master" id="courses_commerce">
+            <field name="name">Commerce</field>
+            <field name="token_num">CM</field>
+        </record>
+        <record model="courses.master" id="courses_tamil">
+            <field name="name">Tamil</field>
+            <field name="token_num">TML</field>
+        </record>
+        <record model="courses.master" id="courses_english">
+            <field name="name">English</field>
+            <field name="token_num">EN</field>
+        </record>
+    </data>
+</odoo>

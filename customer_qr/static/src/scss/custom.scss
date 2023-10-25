@@ -1,0 +1,90 @@
+.reservation_form{
+    input, select{
+        height: 45px;
+        background: #f1f1f1;
+    }
+}
+.RegistrationThankYou{
+    .merci{
+        font-size: 115px;
+        font-weight: bold;
+    }
+    .reservation_no{
+        font-size: 40px;
+        font-weight: bold;
+    }
+}
+.o_footer_copyright{
+    display: none;
+}
+
+@media (max-width: 767px){
+    .RegistrationThankYou{
+        .reservation_thank_you_div{
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+        .merci{
+            font-size: 65px;
+        }
+        .reservation_no{
+            font-size: 20px;
+        }
+    }
+}
+
+li.o_no_autohide_item{
+    display:none !important;
+}
+
+
+
+/* Image With Radio Button */
+
+.parent{
+    padding-top: 6px;
+}
+.parent>.row{
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.col img{
+    height:100px;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 1s;
+    object-fit: cover;
+}
+.col label{
+    overflow: hidden;
+    position: relative;
+}
+.imgbgchk:checked + label>.tick_container{
+    opacity: 1;
+}
+/*         aNIMATION */
+.imgbgchk:checked + label>img{
+    transform: scale(1.25);
+    opacity: 0.3;
+}
+.tick_container {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    cursor: pointer;
+    text-align: center;
+}
+.tick {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    padding: 6px 12px;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+}

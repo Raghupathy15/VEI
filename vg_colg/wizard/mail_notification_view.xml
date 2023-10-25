@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mail_notification_wizard_form" model="ir.ui.view">
+        <field name="name">mail.notification.wizard.form</field>
+        <field name="model">mail.notification.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="document_mssg_subject"/>
+                        <field name="document_mssg_body"/>
+                        <field name="admission_ids" options="{'no_create':True,'no_create_edit':True}"
+                               widget="many2many_tags" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_send_mail" string="Send Mail" type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mail_notification_wizard" model="ir.actions.act_window">
+        <field name="name">Mail Notification</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mail.notification.wizard</field>
+        <field name="view_id" ref="view_mail_notification_wizard_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

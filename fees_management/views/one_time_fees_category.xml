@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="one_time_fees_category_form_view" model="ir.ui.view">
+			<field name="name">one.time.fees.category.form</field>
+			<field name="model">one.time.fees.category</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+							</group>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="one_time_fees_category_view" model="ir.ui.view">
+			<field name="name">one.time.fees.category.tree</field>
+			<field name="model">one.time.fees.category</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="one_time_fees_category_act_window" model="ir.actions.act_window">
+			<field name="name">One time fees category</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">one.time.fees.category</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+		<menuitem name="One time fees category" id="one_time_fees_category_menu" parent="configuration_fees_menu" action="one_time_fees_category_act_window"/>
+
+
+	</data>
+</odoo>

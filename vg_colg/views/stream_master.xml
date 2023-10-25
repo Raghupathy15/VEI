@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="stream_master_form_view" model="ir.ui.view">
+            <field name="name">stream.master.form</field>
+            <field name="model">stream.master</field>
+            <field name="arch" type="xml">
+                <form string="stream">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stream_master_tree_view" model="ir.ui.view">
+            <field name="name">stream.master.tree</field>
+            <field name="model">stream.master</field>
+            <field name="arch" type="xml">
+                <tree string="stream">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stream_master_search_view" model="ir.ui.view">
+            <field name="name">stream.master.search</field>
+            <field name="model">stream.master</field>
+            <field name="arch" type="xml">
+                <search string="stream">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="stream_master_act_window" model="ir.actions.act_window">
+            <field name="name">Stream</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stream.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Stream" id="stream_master_menu" parent="vg_colg.configuration_child_menu" action="stream_master_act_window" sequence='25'/>
+
+    </data>
+</odoo>

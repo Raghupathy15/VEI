@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="inherit_product_product_form_view" model="ir.ui.view">
+            <field name="name">Product Form View is Hostel</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet[@name='product_form']/div[@name='options']" position="inside">
+                    <span class="d-inline-block">
+                        <field name="hostel_ok"/>
+                        <label for="hostel_ok"/>
+                    </span>
+                </xpath>
+                <!-- <xpath expr="//sheet[@name='product_form']/div[@name='options']" position="after">
+                    <br/>
+                    <group>
+                        <group>
+                            <field name="courses_ids" widget="many2many_tags" attrs="{'invisible':[('hostel_ok','=',False)],'required':[('hostel_ok','=',True)]}" string="Course" options="{'no_open':True,'no_create':True,'no_edit':True}"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </xpath> -->
+            </field>
+        </record>
+    </data>
+</odoo>

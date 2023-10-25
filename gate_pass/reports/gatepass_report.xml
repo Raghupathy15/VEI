@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <report id="gatepass_report_visiter_pass" string="VISITOR GATE PASS" model="gate.pass" report_type="qweb-pdf"
+        name ="gate_pass.visiter_pass" file="gatepass.visiter"/>
+    <template id = "gate_pass.visiter_pass">
+        <t t-call="web.external_layout">
+            <t t-call="web.html_container">
+                
+                 <div style="padding-top:1px" >
+                  
+                    <h2 style="text-align:center" >GATE PASS</h2>
+                   
+                    <table style="width:10%; padding-top:50px">
+                        
+                        <tr height="80">
+                           Employee Name: 
+                        </tr>
+                       
+                    </table>
+                    <!-- <span t-esc="docs.expensereportfcmfunction(sum([o.price_subtotal for o in docs]),min([o.date_expense for o in docs]),max([o.date_expense for o in docs]),user.name,user.id)" /> -->
+                    <table style="width:100%; ">
+                        <tr >
+                            <td height="80">Visitor Name</td>
+                            <td height="80" ><span t-field="docs.name"/></td>
+                            
+                        </tr>
+                          <tr >
+                           
+                            <td height="80">Mobile number</td>
+                            <td height="80" ><span t-field="docs.mob_no"/></td>
+                            
+                        </tr>
+                          <tr >
+                            
+                            <td height="80">In Time</td>
+                            <td height="80" ><span t-field="docs.date_in"/></td>
+                            
+                        </tr>
+                          <tr >
+                            <td >Out Time</td>
+                            <td height="80" ><span t-field="docs.date_out"/></td>
+                            
+                        </tr>
+                          <tr >
+                            
+                            <td >Institution</td>
+                            <td height="80" ><span t-field="docs.company_id"/></td>
+                            
+                        </tr>
+
+                      
+                        
+                    </table>
+
+                  
+                
+
+                </div>
+
+            </t>
+
+        </t>
+    </template>
+</odoo>

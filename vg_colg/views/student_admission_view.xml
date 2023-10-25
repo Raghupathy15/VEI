@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="student_admission_form_view" model="ir.ui.view">
+			<field name="name">student.admission.form</field>
+			<field name="model">student.admission</field>
+			<field name="arch" type="xml">
+				<form string="Student Admission">
+					<header>
+						<button string="Send for Councelling" name="action_confirm_admission" type="object" states="inquiry" class="oe_highlight"/>
+						<field name="state" widget="statusbar"/> 
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<button class="oe_stat_button" type="object" name="get_stud_confirm" icon="fa-user" attrs="{'invisible': [('admission_confirmation_count', '=', 0)]}">
+								<field string="Admission Form" name="admission_confirmation_count" widget="statinfo"/>
+							</button>
+							<button class="oe_stat_button" type="object" name="action_open_fees"
+									icon="fa-inr" attrs="{'invisible':[('fees_count','=',0)]}">
+								<div class="o_stat_info">
+									<field name="fees_count" class="o_stat_value"/>
+									<span class="o_stat_text">Fees</span>
+								</div>
+							</button>
+						</div>
+						<div class="oe_title">
+							<span class="o_form_label">Inquiry No</span>
+							<h1>
+								<field name="seq_code" placeholder="Seq" readonly="1"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="location" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<label for="name" class="oe_edit_only" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<div class="row">
+									<div class="col-6">
+										<field name="name"  required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+									</div>
+									<div class="col-2">
+										<label for ="name_initial"/>
+									</div>
+									<div class="col-2">
+										<field name="name_initial" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+									</div>
+									<div class="col-2">
+									</div>
+								</div>
+								<field name="email" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="gender" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="aadhar" invisible="1"/>
+								<field name="birth_date" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="parent_guardian_name" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="parent_guardian_occupation" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="aadhaar_code" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="mobile_number" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="whatsapp_number" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="blood_group" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="caste" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="community_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="institution_group_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="last_studied_institution_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+							</group>
+							<group>
+								<field name="inquiry_mode" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="stream_id" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="company_id" domain="[('stream_ids','in',stream_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                                <field name="grade_id" domain="[('stream_ids','in',stream_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="degree_level_id" required="1" domain="[('stream_id','=',stream_id),('grade_id','=',grade_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="courses_id" domain="[('stream_id','=',stream_id),('company_id','=',company_id),('grade_id','=',grade_id),('degree_level_id','=',degree_level_id)]" options="{'no_edit':True,'no_open':True,'no_create':True}" required="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="quota_id" required="1" options="{'no_edit':True,'no_open':True,'no_create':True}" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="ug_regn_number" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="group_ug_number" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="total_marks_ug" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="place_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="taluk_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="district_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="pin_code" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="councelling_room" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								<field name="token_num" readonly="1" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+							</group>
+						</group>
+						<notebook>
+						<page string="Reference Details">
+							<group>
+								<group>
+									<field name="referred_name" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+									<field name="ref_mobile" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								</group>
+								<group>
+									<field name="ref_designation_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+									<field name="ref_college_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+								</group>
+							</group>
+						</page>
+							<page string="Batch Details">
+							<group>
+								<group>
+									<field name="batch_id" readonly="1" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}" required="1"/>
+									<field name="batch_start_year" readonly="1" force_save="1"/>
+									<field name="duration" readonly="1" force_save="1"/>
+									<field name="batch_ending_year" readonly="1" force_save="1"/>
+								</group>
+								<group>
+								</group>
+							</group>
+						</page>
+					</notebook>
+					</sheet>
+					
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="student_admission_tree_view" model="ir.ui.view">
+			<field name="name">student.admission.tree</field>
+			<field name="model">student.admission</field>
+			<field name="arch" type="xml">
+				<tree string="Student Admission">
+					<field name="seq_code" string="Inquiry No"/>
+					<field name="name"/>
+					<field name="birth_date"/>
+					<field name="whatsapp_number"/>
+					<field name="aadhaar_code"/>
+					<field name="token_num" readonly="1"/>
+					<field name="state" widget="badge" decoration-success="state == 'confirmed'" decoration-info="state == 'inquiry'"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="student_admission_search_view" model="ir.ui.view">
+			<field name="name">student.admission.search</field>
+			<field name="model">student.admission</field>
+			<field name="arch" type="xml">
+				<search string="Student Admission">
+					<field name="seq_code"/>
+					<field name="name"/>
+					<field name="aadhaar_code"/>
+					<group expand="0" string="Group By...">
+						<filter name="Aadhar No" domain="[]" context="{'group_by':'aadhaar_code'}"/>
+						<filter name="date" domain="[]" context="{'group_by':'create_date'}"/>
+						<filter name="courses_id" domain="[]" context="{'group_by':'courses_id'}"/>
+						<filter name="degree_level_id" domain="[]" context="{'group_by':'degree_level_id'}"/>
+						<filter name="location" domain="[]" context="{'group_by':'location'}"/>
+						<filter name="referred_by_id" domain="[]" context="{'group_by':'referred_by_id'}"/>
+						<filter name="referred_name" domain="[]" context="{'group_by':'referred_name'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="student_admission_act_window" model="ir.actions.act_window">
+			<field name="name">Admission Inquiry</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">student.admission</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Admission" id="main_get_pass_menu" web_icon="vg_colg,static/description/icon.png"/>
+		<menuitem name="Admission" id="sub_men_admision" parent="main_get_pass_menu" sequence="1"/>
+		<menuitem name="Admission Inquiry" id="student_admission_menu" parent="sub_men_admision" action="student_admission_act_window" sequence="1"/>
+		<menuitem name="Configurations" id="configuration_child_menu" parent="main_get_pass_menu" sequence="10"/>
+
+
+	</data>
+</odoo>

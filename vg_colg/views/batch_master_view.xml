@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <record id="batch_details_master_form_view" model="ir.ui.view">
+            <field name="name">Batch Form View</field>
+            <field name="model">batch.courses.master</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1" force_save="1"/>
+                            <field name="start_month" required="1"/>
+                            <field name="start_year" required="1" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="end_month" required="1"/>
+                            <field name="end_year" required="1" force_save="1"/>
+                            <field name="duration" required="1" force_save="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="batch_courses_master_tree_view" model="ir.ui.view">
+            <field name="name">Batch Tree View</field>
+            <field name="model">batch.courses.master</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" readonly="1"/>
+                    <field name="start_month"/>
+                    <field name="start_year" required="1"/>
+                    <field name="end_month"/>
+                    <field name="end_year" required="1"/>
+                    <field name="duration" required="1"/>
+                    <field name="active" width="20%"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="batch_courses_master_search_view" model="ir.ui.view">
+            <field name="name">batch.courses.master.search</field>
+            <field name="model">batch.courses.master</field>
+            <field name="arch" type="xml">
+                <search string="Batch">
+                    <field name="name"/>
+                    <field name="start_year"/>
+                    <field name="end_year"/>
+                    <field name="duration"/>
+                    <field name="active"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="batch_courses_master_act_window_1" model="ir.actions.act_window">
+            <field name="name">Batch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">batch.courses.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Batch" sequence="5" id="batch_courses_master_menu" parent="configuration_child_menu" action="batch_courses_master_act_window_1"/>
+
+    </data>
+</odoo>

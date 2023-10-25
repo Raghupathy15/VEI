@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "Hostel management",
+    'summary': "Hostel management",
+    'description': "Hostel management",
+    'category': 'custom',
+    'version': "16.0.0.1",
+    'depends': ['base','mail','hr','vg_colg'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        # 'data/room_data.xml',
+        # 'data/categoy_data.xml',
+        'data/actions_data.xml',
+        'views/hostel_management_views.xml',
+        'views/category_master_views.xml',
+        'views/room_type_views.xml',
+        'views/room_type_views.xml',
+        'views/product_product.xml',
+        'views/product_template.xml',
+        'views/admission_form.xml',
+        'views/student_details.xml',
+        'views/room_master.xml',
+        'views/hostel_master.xml',
+        'views/floor_master.xml',
+        'views/hr_employee.xml',
+        'views/amenities_master_view.xml',
+        'views/room_allocation.xml',
+    ],
+
+    'installable': True,
+    'application': False,
+}

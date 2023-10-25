@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="category_master_form_view" model="ir.ui.view">
+			<field name="name">category.master.form</field>
+			<field name="model">category.master</field>
+			<field name="arch" type="xml">
+				<form string="Category Master">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+							</group>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="category_master_tree_view" model="ir.ui.view">
+			<field name="name">category.master.tree</field>
+			<field name="model">category.master</field>
+			<field name="arch" type="xml">
+				<tree string="Category Master">
+					<field name="name"/>
+					<!-- <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'draft'" decoration-danger="state == 'rejected'"/> -->
+				</tree>
+			</field>
+		</record>
+
+		<!-- <record id="fees_management_search_view" model="ir.ui.view">
+			<field name="name">fees.management.search</field>
+			<field name="model">fees.management</field>
+			<field name="arch" type="xml">
+				<search string="Fees management">
+					<field name="seq_code"/>
+					<field name="name"/>
+					<group expand="0" string="Group By...">
+						<filter name="date" domain="[]" context="{'group_by':'create_date'}"/>
+						<filter name="courses_id" domain="[]" context="{'group_by':'courses_id'}"/>
+						<filter name="location" domain="[]" context="{'group_by':'location'}"/>
+						<filter name="referred_by_id" domain="[]" context="{'group_by':'referred_by_id'}"/>
+						<filter name="referred_name" domain="[]" context="{'group_by':'referred_name'}"/>
+					</group>
+				</search>
+			</field>
+		</record> -->
+
+		<record id="category_master_act_window" model="ir.actions.act_window">
+			<field name="name">Category Master</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">category.master</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+		<menuitem name="Category Master" id="category_master_menu" parent="configuration_hostel_mgt_menu" action="category_master_act_window"/>
+
+
+	</data>
+</odoo>

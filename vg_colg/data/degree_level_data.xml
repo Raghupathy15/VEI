@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+
+        <!-- Arts Data -->
+        <record id="bsc_data" model="degree.level.master">
+            <field name="name">B.Sc</field>
+            <field name="stream_id" ref="arts_data"/>
+            <field name="grade_id" ref="grade_ug"/>
+            <field name="active">True</field>
+        </record>
+
+        <record id="msc_data" model="degree.level.master">
+            <field name="name">M.Sc</field>
+            <field name="stream_id" ref="arts_data"/>
+            <field name="grade_id" ref="grade_pg"/>
+            <field name="active">True</field>
+        </record>   
+
+        <record id="phd_data" model="degree.level.master">
+            <field name="name">Phd</field>
+            <field name="stream_id" ref="arts_data"/>
+            <field name="grade_id" ref="grade_phd"/>
+            <field name="active">True</field>
+        </record>   
+
+        <record id="mphill_data" model="degree.level.master">
+            <field name="name">Mphill</field>
+            <field name="stream_id" ref="arts_data"/>
+            <field name="grade_id" ref="grade_mphill"/>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Engg Data -->
+        <record id="be_data" model="degree.level.master">
+            <field name="name">BE</field>
+            <field name="stream_id" ref="engg_data"/>
+            <field name="grade_id" ref="grade_ug"/>
+            <field name="active">True</field>
+        </record>
+
+        <record id="me_data" model="degree.level.master">
+            <field name="name">ME</field>
+            <field name="stream_id" ref="engg_data"/>
+            <field name="grade_id" ref="grade_pg"/>
+            <field name="active">True</field>
+        </record>   
+    </data>
+</odoo>

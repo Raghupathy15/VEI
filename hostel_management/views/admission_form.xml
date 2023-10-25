@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="admission_form_view_inherit" model="ir.ui.view">
+            <field name="name">Admission Form View Inherit</field>
+            <field name="model">admission.confirmation</field>
+            <field name="inherit_id" ref="vg_colg.admission_confirmation_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='room']" position="replace">
+                    <field name="room_type_id" attrs="{'invisible': [('accomodation_check_box', '=', 'dayscholar')]}" string="Room Type" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                    <!-- domain="[('courses_ids','in',courses_id)]" -->
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

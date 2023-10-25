@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="fees_management_form_view" model="ir.ui.view">
+			<field name="name">fees.management.form</field>
+			<field name="model">fees.management</field>
+			<field name="arch" type="xml">
+				<form string="Fees Management">
+					<header>
+						<button string="Sent for Approval" name="action_send_approval" type="object" states="draft" class="oe_highlight"/>
+						<button string="Approve" name="action_approved" type="object" states="waiting_for_approval" class="oe_highlight" groups="fees_management.fees_management_approver"/>
+						<button string="Reject" name="button_reject" type="object" states="waiting_for_approval" class="oe_highlight" groups="fees_management.fees_management_approver"/>
+						<button string="Generate Invoice" name="generate_invoice" type="object" states="approved" class="oe_highlight"/>
+						<field name="state" widget="statusbar"/> 
+					</header>
+					<sheet>
+						<group>
+							<group>
+								<field name="stream_id" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+								<field name="company_id" required="1" domain="[('stream_ids','in',stream_id)]" options="{'no_create_edit': True, 'no_open': True, 'no_create': True,'no_edit': True}" style="font-weight: bold" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+								<field name="grade_id" required="1" domain="[('stream_ids','in',stream_id)]" options="{'no_create_edit': True, 'no_open': True, 'no_create': True,'no_edit': True}" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+								<field name="degree_level_id" required="1" domain="[('stream_id','=',stream_id),('grade_id','=',grade_id)]" options="{'no_open': True,'no_create':True,'no_edit':True}" force_save="1" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+								<!-- <field name="degree_ids" options="{'no_open': True,'no_create':True,'no_edit':True}" widget="many2many_tags" force_save="1" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/> -->
+								<field name="course_year" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+								<field name="batch_id" force_save="1" options="{'no_open': True,'no_create':True,'no_edit':True}" required="1" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+								<field name="course_ids" required="1" domain="[('stream_id','=',stream_id),('company_id','=',company_id),('grade_id','=',grade_id),('degree_level_id','=',degree_level_id),('batch_id','=',batch_id)]" options="{'no_open': True,'no_create':True,'no_edit':True}" widget="many2many_tags" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+							</group>
+							<group>
+								<label for="academice_year_from" string="Acedemic Year" />
+	                            <div class="o_row">
+	                                <span class="text-muted">From</span>
+	                                <field name="academice_year_from" required="1" class="oe_inline" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+	                                <span class="text-muted">To</span>
+	                                <field name="academice_year_to" required="1" class="oe_inline" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+	                            </div>
+	                            <!-- <label for="academice_term_from" string="Term" />
+	                            <div class="o_row">
+	                                <span class="text-muted">From</span>
+	                                <field name="academice_term_from" class="oe_inline" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+	                                <span class="text-muted">To</span>
+	                                <field name="academice_term_to" class="oe_inline" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+	                            </div> -->
+	                            <field name="type" required="1" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+								<field name="quota_id" required="1" options="{'no_open': True,'no_create':True,'no_edit':True}" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+								<!-- <field name="payment_term_id"/> -->
+							</group>
+						</group>
+						<!-- <group>
+							<field name="course_ids" options="{'no_open': True,'no_create':True,'no_edit':True}" widget="many2many_tags" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+						</group> -->
+						<group>
+							<field name="notes" placeholder="Internal notes ..." attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}"/>
+						</group>
+						<div class="row">
+							<div class="col-10">
+							</div>
+							<div class="col-2">
+								<button type="object" class="oe_highlight" name="duplicate_fees_details_lines" string="Duplicate Lines" states="draft,waiting_for_approval"/>
+							</div>
+						</div>
+						<notebook colspan="4">
+							<page string="Fees Details">
+								<field name="fees_ids" attrs="{'readonly':[('state','not in',['draft','waiting_for_approval'])]}">
+									<tree editable="bottom" delete="1">
+										<field name="product_id" options="{'no_open': True,'no_create': True,'no_edit': True}" domain="[('type','=','service')]"/>
+										<field name="is_hostel"/>
+										<field name="is_common" string="Hostel common" optional="show"/>
+										<field name="day_scholar_common" optional="show"/>
+										<field name="semester_id" options="{'no_open': True,'no_create': True,'no_edit': True}" required="1"/>
+										<field name="domain_filter" invisible="1"/>
+										<field name="fees_for_id" domain="domain_filter" string="Term" options="{'no_open': True,'no_create': True,'no_edit': True}" required="1"/>
+										<field name="start_date" required="1"/>
+										<field name="end_date" required="1"/>
+										<field name="due_date" required="1"/>
+										<field name="amount" sum="Total"/>
+										<field name="attachment_binary" widget="binary"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="fees_management_tree_view" model="ir.ui.view">
+			<field name="name">fees.management.tree</field>
+			<field name="model">fees.management</field>
+			<field name="arch" type="xml">
+				<tree string="Fees Management">
+					<!-- <field name="fees_for_id"/> -->
+					<field name="stream_id"/>
+					<field name="company_id" optional="hide"/>
+					<field name="grade_id" optional="show"/>
+					<field name="degree_level_id" optional="show"/>
+					<field name="course_ids" widget="many2many_tags"/>
+					<field name="batch_id"/>
+					<field name="quota_id"/>
+					<field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'draft'" decoration-danger="state == 'rejected'"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="fees_management_search_view" model="ir.ui.view">
+			<field name="name">fees.management.search</field>
+			<field name="model">fees.management</field>
+			<field name="arch" type="xml">
+				<search string="Fees management">
+					<field name="fees_for_id"/>
+					<group expand="0" string="Group By...">
+						<filter name="Fees For" domain="[]" context="{'group_by':'fees_for_id'}"/>
+						<!-- <filter name="course_id" domain="[]" context="{'group_by':'course_id'}"/> -->
+						<!-- <filter name="degree_id" domain="[]" context="{'group_by':'degree_id'}"/> -->
+						<filter name="grade_id" domain="[]" context="{'group_by':'grade_id'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="fees_details_list_view" model="ir.ui.view">
+            <field name="name">Fees Details</field>
+            <field name="model">fees.details</field>
+            <field name="arch" type="xml">
+                <tree create="0" delete="0">  
+                    <field name="product_id"/>
+                    <!-- <field name="payment_type"/> -->
+					<field name="semester_id"/>
+                    <field name="terms"/>
+					<field name="start_date"/>
+					<field name="end_date"/>
+					<field name="due_date"/>
+                    <field name="amount"/>
+					<field name="attachment_binary" widget="binary"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fees_details_from_view" model="ir.ui.view">
+            <field name="name">Fees Details</field>
+            <field name="model">fees.details</field>
+            <field name="arch" type="xml">
+                <form>  
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                            <!-- <field name="payment_type"/> -->
+                        </group>
+                        <group>
+                            <field name="terms"/>
+                            <field name="amount"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+		<record id="fees_management_act_window" model="ir.actions.act_window">
+			<field name="name">Fees Details</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">fees.management</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="fees_heads_act_window" model="ir.actions.act_window">
+			<field name="name">Fees Heads</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.template</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'default_type':'service','default_detailed_type':'service'}</field>
+			<field name="domain">[('type','=','service')]</field>
+		</record>
+
+		<menuitem name="Fees Management" id="main_fees_management_menu" web_icon="fees_management,static/description/icon.png"/>
+		<menuitem name="Fees" id="configuration_fees_child_menu" parent="main_fees_management_menu" sequence="10"/>
+		<menuitem name="Fees Details" id="fees_management_menu" parent="configuration_fees_child_menu" action="fees_management_act_window" sequence="1"/>
+		<menuitem name="Configurations" id="configuration_fees_menu" parent="main_fees_management_menu" sequence="10"/>
+		<menuitem name="Fees Heads" parent="configuration_fees_menu" id="fees_heads_menu" action="fees_heads_act_window" sequence="30"/>
+
+	</data>
+</odoo>

@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+        <!-- Email Template -->
+        <record id="mail_remainder_allocate_section_template" model="mail.template">
+            <field name="name">Remainder to allocate section for students</field>
+            <field name="subject">Remainder to allocate section for students</field>
+            <field name="model_id" ref="hr.model_hr_department"/>
+            <field name="email_to">{{object.manager_id.work_email}}</field>
+            <field name="body_html" type="html">
+                <p>Dear
+                    <span style="font-weight: bold;">
+                        <t t-out="object.manager_id.name"/>
+                    </span>
+                    ,
+                </p>
+                <p>Please allocate the section for the following new students. To allocate section please click on <a t-att-href="ctx['action_url']"
+                                                        style="background-color: #875A7B; padding: 10px 15px 10px 15px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                        Here
+                                                    </a> </p>
+                <br/>
+                <br/>
+                <table class="table" width="100%" border="1">
+                    <tr>
+                        <th>S.no.</th>
+                        <th>Roll no</th>
+                        <th>Student Name</th>
+                    </tr>
+                    <t t-foreach="ctx['student_datas']" t-as="student_data">
+                        <tr>
+                            <th>
+                                <t t-out="student_data['sr_no']"/>
+                            </th>
+                            <th>
+                                 <t t-out="student_data['role_no']"/>
+                            </th>
+                            <th>
+                                 <t t-out="student_data['name']"/>
+                            </th>
+                        </tr>
+                    </t>
+                </table>
+                <br/>
+                <br/>
+            </field>
+        </record>
+
+    </data>
+</odoo>

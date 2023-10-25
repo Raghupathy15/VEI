@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+        <record id="view_room_allocation_master_form_view" model="ir.ui.view">
+            <field name="name">Room Allocation Form View</field>
+            <field name="model">room.allocation.master</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="hostel_id" required="1" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                                <field name="room_type_id" required="1" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                                <field name="state" force_save="1" readonly="1" widget="badge" decoration-success="state == 'partially_occupied'" decoration-warning="state == 'occupied'" decoration-danger="state == 'under_maintanance'"/>
+                                <field name="available" string="Available" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="floor_id" domain="[('hostel_id','=',hostel_id),('room_type_ids','=',room_type_id)]" required="1" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                                <field name="room_id" domain="[('floor_id','=',floor_id)]" required="1" options="{'no_edit':True,'no_open':True,'no_create':True}"/>
+                                <field name="occupancy" string="Room Occupancy" force_save="1" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button class="oe_highlight" name="final_allocation" type="object" string="Allocate"/>
+                        <button class="oe_highlight" special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_room_allocation_action_id" model="ir.actions.act_window">
+            <field name="name">Allocations</field>
+            <field name="res_model">student.details</field>
+            <field name="view_mode">list</field>
+            <field name="context">{'search_default_room_type_id':1}</field>
+            <field name="domain">[('accomodation_check_box','=','hosteler'),('room_id','=',False)]</field>
+        </record>
+
+        <record id="view_room_allocated_action_id" model="ir.actions.act_window">
+            <field name="name">Allocated</field>
+            <field name="res_model">student.details</field>
+            <field name="view_mode">list</field>
+            <field name="context">{'search_default_room_type_id':1}</field>
+            <field name="domain">[('accomodation_check_box','=','hosteler'),('room_id','!=',False)]</field>
+        </record>
+
+        <menuitem name="Allocation" id="rooms_allocation_menu_id" groups="hostel_management.groups_for_room_allocator" parent="hostel_management.main_hostel_management_menu" action="hostel_management.view_room_allocation_action_id" sequence="3"/>
+        <menuitem name="Allocated" id="rooms_allocated_menu_id" parent="hostel_management.main_hostel_management_menu" action="hostel_management.view_room_allocated_action_id" sequence="4"/>
+    </data>
+</odoo>

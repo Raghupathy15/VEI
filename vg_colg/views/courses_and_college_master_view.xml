@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="courses_college_master_form_view_2" model="ir.ui.view">
+            <field name="name">courses.college.master.form</field>
+            <field name="model">courses.college.master</field>
+            <field name="arch" type="xml">
+                <form string="Courses">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" required="1" options="{'no_create':True,'no_open':True,'no_edit':True,'no_quick_create':True}"/>
+                            </group>
+                            <group>
+                                <field name="courses_ids" widget="many2many_tags" required="1" options="{'no_create':True,'no_edit':True,'no_quick_create':True}"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="courses_college_master_tree_view" model="ir.ui.view">
+            <field name="name">courses.college.master.tree</field>
+            <field name="model">courses.college.master</field>
+            <field name="arch" type="xml">
+                <tree string="Courses and College">
+                    <field name="company_id" required="1" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                    <field name="courses_ids" required="1" widget="many2many_tags" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="courses_college_master_search_view" model="ir.ui.view">
+            <field name="name">courses.college.master.search</field>
+            <field name="model">courses.college.master</field>
+            <field name="arch" type="xml">
+                <search string="Courses">
+                    <field name="company_id"/>
+                    <field name="courses_ids"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="courses_college_master_act_window_1" model="ir.actions.act_window">
+            <field name="name">Courses and Colleges</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">courses.college.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Courses and College" id="courses_college_master_menu" parent="configuration_child_menu" action="courses_college_master_act_window_1" sequence="2"/>
+
+    </data>
+</odoo>

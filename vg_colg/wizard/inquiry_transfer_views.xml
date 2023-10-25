@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- For Enquiry Transfer wizard -->
+        <record id="view_transfer_inquiry_wizard" model="ir.ui.view">
+            <field name="name">transfer.inquiry.wizard</field>
+            <field name="model">transfer.inquiry.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="curr_collage" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="tras_collage" required="1" options="{'no_open': True, 'no_create': True}"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_transfer" type="object" string="Transfer"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_inquiry_transfer_wizard" model="ir.actions.act_window">
+            <field name="name">Inquiry Transfer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">transfer.inquiry.wizard</field>
+            <field name="view_id" ref="view_transfer_inquiry_wizard"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

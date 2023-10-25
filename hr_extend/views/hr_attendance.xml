@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_view_attendace_tree_iherit" model="ir.ui.view">
+            <field name="name">hr.view.attendace.tree.inherit</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='employee_id']" position="before">                            
+                        <field name="empl_id"/>
+                        <field name="status"/>
+                    </xpath>
+                    <xpath expr="//field[@name='check_out']" position="after">                            
+                        <field name="late" invisible="1"/>
+                        <field name="late_time"/>
+                    </xpath>
+                    <xpath expr="//field[@name='worked_hours']" position="after">                            
+                        <field name="extra_hour"/>
+                        <button string="TIME OFF" name="action_raise_leave" type="object" class="oe_highlight" attrs="{'invisible': [ ('late', '=', 'True')]}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+

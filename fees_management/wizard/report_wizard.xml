@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="custom_report_wizard_form_view" model="ir.ui.view">
+            <field name="name">custom.report.form.view</field>
+            <field name="model">custom.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Custom Report">
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="batch_id" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                            <field name="semester_id" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                            <field name="cashier_ids" widget="many2many_tags" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
+                            <field name="course_id" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                            <field name="term_id" string="Term" options="{'no_edit':True,'no_create':True,'no_open':True}"/>
+                            <field name="status" string="Status"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_pdf" type="object" string="Print"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_daily_collection_report" model="ir.actions.act_window">
+            <field name="name">Daily Collection Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">custom.report.wizard</field>
+            <field name="view_id" ref="custom_report_wizard_form_view"/>
+            <field name="context">{}</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_daily_collection_report" name="Daily Collection Report" action="action_daily_collection_report"
+                  parent="account.menu_finance_reports" sequence="10"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="grade.master" id="grade_ug">
+            <field name="name">UG</field>
+        </record>
+        <record model="grade.master" id="grade_pg">
+            <field name="name">PG</field>
+        </record>
+        <record model="grade.master" id="grade_mphill">
+            <field name="name">M. Phil</field>
+        </record>
+        <record model="grade.master" id="grade_phd">
+            <field name="name">Ph. D</field>
+        </record>
+        
+    </data>
+</odoo>

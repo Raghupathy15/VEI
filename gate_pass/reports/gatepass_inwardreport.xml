@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <report id="gatepass_report_material_inward" string="MATERIAL INWARD" model="gate.pass" report_type="qweb-pdf"
+        name ="gate_pass.material_inward" file="gatepas.material"/>
+    <template id = "gate_pass.material_inward">
+        <t t-call="web.external_layout">
+            <t t-call="web.html_container">
+                
+               <table style="width: 100%; margin-right: calc(7%);">
+                    <tbody>
+                        <tr>
+                            <td height="80" style="width:30%;">Date</td>
+                            <td height="80" style="width:30%;"><span t-field="docs.date_in"/></td>
+                            <td height="80" style="width: 40%;" rowspan="8"></td>
+                        </tr>
+                        <tr>
+                            <td height="80" style="width:30%;">Name</td>
+                            <td height="80" style="width:30%;"><span t-field="docs.name"/></td>
+                        </tr>
+                        <tr>
+                            <td height="80" style="width:30%;">Name Of Company</td>
+                            <td height="80" style="width:30%;"><span t-field="docs.company_id"/></td>
+                        </tr>
+                        <tr>
+                            <td height="80" style="width:30%;">Vehicle</td>
+                            <td height="80" style="width:30%;"></td>
+                        </tr>
+                        <tr>
+                            <td height="80" style="width:30%;">Phone</td>
+                            <td height="80" style="width:30%;"><span t-field="docs.mob_no"/></td>
+                        </tr>
+                        <tr>
+                            <td height="80" style="width:30%;">To Place</td>
+                            <td height="80" style="width:30%;"></td>
+                        </tr>
+                        <tr>
+                            <td height="80" style="width:30%;">Taken By</td>
+                            <td height="80" style="width:30%;"></td>
+                        </tr>
+                        <tr>
+                            <td height="80" style="width:30%;">Security Verified</td>
+                            <td height="80" style="width:30%;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="width: 100%; margin-right: calc(7%);">
+                    <tbody>
+                        <tr>
+                            <td height="25" style="width: 20.0000%;">slno</td>
+                            <td height="25" style="width: 20.0000%;">Description</td>
+                            <td height="25" style="width: 19.2213%;">Quantity</td>
+                            <td height="25" style="width: 25.5548%;">Bill No</td>
+                            <td height="25" style="width: 15.2061%;">Bill Date</td>
+                        </tr>
+                        <tr>
+                            <td height="25" style="width: 20.0000%;"></td>
+                            <td height="25" style="width: 20.0000%;"></td>
+                            <td height="25" style="width: 19.2213%;"></td>
+                            <td height="25" style="width: 25.5548%;"></td>
+                            <td height="25" style="width: 15.2061%;"></td>
+                        </tr>
+                        <tr>
+                            <td height="25" style="width: 39.9312%; text-align: right;" colspan="2">Total</td>
+                            <td height="25" style="width: 19.2213%;"></td>
+                            <td height="25" style="width: 25.5548%;"></td>
+                            <td height="25" style="width: 15.2061%;"></td>
+                        </tr>
+                        <tr>
+                            <td height="80" style="width: 99.9075%; text-align: right;" colspan="5">Verified Sign</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </t>
+
+        </t>
+    </template>
+</odoo>

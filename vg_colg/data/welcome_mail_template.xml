@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mail_template_demo_student_admission_template" model="mail.template">
+            <field name="name">Welcome Mail</field>
+            <field name="subject">Welcome Admission Mail</field>
+            <field name="model_id" ref="vg_colg.model_student_admission"/>
+            <field name="email_to">{{ (not object and object.email) }}</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                    <tr>
+                        <td align="center">
+                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                   style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+                                <tbody>
+                                    <!-- CONTENT -->
+                                    <tr>
+                                        <td style="min-width: 590px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                                   style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                                <tr>
+                                                    <td valign="top" style="font-size: 13px;">
+                                                        <div>
+                                                            Dear <t t-out="object.name or ''"> Demo</t>,
+                                                            <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                                Thanks for submitting the form.
+                                                                Your enquiry no is <t t-out="object.seq_code or ''"> Code</t>.
+                                                            </p>
+                                                            <br/>
+                                                            <p> This is auto generated Email. Please do not reply.</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+         <record id="mail_student_admission_template" model="mail.template">
+            <field name="name">Welcome Mail</field>
+            <field name="subject">{{object.welcome_mssg_subject}}</field>
+            <field name="model_id" ref="vg_colg.model_student_admission"/>
+            <field name="email_to">{{object.email}}</field>
+            <field name="body_html" type="html">
+                <p>Dear <span style="font-weight: bold;"><t t-out="object.name"/></span>,
+                </p>
+                <p>Your Inquiry no is <span style="font-weight: bold;"><t t-out="object.seq_code"/></span>.
+                </p>
+                <p><t t-out="object.welcome_mssg_body"/></p>
+            </field>
+        </record>
+
+        <record id="mail_notification_template" model="mail.template">
+            <field name="name">Notification Mail</field>
+            <field name="subject">{{object.document_mssg_subject}}</field>
+            <field name="model_id" ref="vg_colg.model_admission_list"/>
+            <field name="email_to">{{object.email}}</field>
+            <field name="body_html" type="html">
+                <p>Dear <span style="font-weight: bold;"><t t-out="object.name"/></span> - <span style="font-weight: bold;"><t t-out="object.admission_id.admission_no"/></span>
+                </p>
+                <p><t t-out="object.document_mssg_body"/></p>
+            </field>
+        </record>
+
+        <record id="payment_mail_notification_template" model="mail.template">
+            <field name="name">Payment Notification Mail</field>
+            <field name="subject">{{object.payment_mssg_subject}}</field>
+            <field name="model_id" ref="vg_colg.model_admission_list"/>
+            <field name="email_to">{{object.email}}</field>
+            <field name="body_html" type="html">
+                <p>Dear <span style="font-weight: bold;"><t t-out="object.name"/></span>,
+                </p>
+                <p><t t-out="object.payment_mssg_body"/></p>
+            </field>
+        </record>
+
+        <record id="mail_cancel_admission_template" model="mail.template">
+            <field name="name">Admission Cancel</field>
+            <field name="subject">Admission Cancel</field>
+            <field name="model_id" ref="vg_colg.model_admission_confirmation"/>
+            <field name="email_to">{{object.email}}</field>
+            <field name="body_html" type="html">
+                <p>Dear <span style="font-weight: bold;"><t t-out="object.name"/></span>,</p>
+                <p>Your admission is cancelled.</p>
+            </field>
+        </record>
+
+        <record id="mail_cancel_admission_list_template" model="mail.template">
+            <field name="name">Admission Cancel</field>
+            <field name="subject">Admission Cancel</field>
+            <field name="model_id" ref="vg_colg.model_admission_list"/>
+            <field name="email_to">{{object.email}}</field>
+            <field name="body_html" type="html">
+                <p>Dear <span style="font-weight: bold;"><t t-out="object.name"/></span>,</p>
+                <p>Your admission is cancelled.</p>
+            </field>
+        </record>
+
+        <record id="mail_student_admission_confirmation_details_template" model="mail.template">
+            <field name="name">Student Admission Confirmation Details</field>
+            <field name="subject">Student Admission Confirmation Details</field>
+            <field name="model_id" ref="vg_colg.model_admission_list"/>
+            <field name="email_to">{{object.curr_collage.principle_id.login}}</field>
+            <field name="body_html" type="html">
+                <p>Dear <span style="font-weight: bold;"><t t-out="object.curr_collage.principle_id.name"/></span>,</p>
+                <p>Please find the list of students who's admission is confirmed on <t t-out="ctx['today']"/></p>
+                <br/><br/>
+                <table class="table" width="100%" border="1">
+                    <tr>
+                        <th>S.no.</th>
+                        <th>Student Name</th>
+                        <th>Admission no</th>
+                    </tr>
+                        <tr>
+                            <th>
+                                1
+                            </th>
+                            <th>
+                                 <t t-out="object.name"/>
+                            </th>
+                            <th>
+                                 <t t-out="object.admission_id.admission_no"/>
+                            </th>
+                        </tr>
+                </table>
+                  <br/><br/>
+            <p>Thanks &amp; Regards,</p>
+            <p><t t-out="object.curr_collage.name"/> !</p>
+            <br/><br/>
+            <p>Note: This is auto generated E-mail. Please do not reply.</p>
+            </field>
+        </record>
+
+        <record id="mail_student_admission_confirmation_details_multi_template" model="mail.template">
+            <field name="name">Student Admission Confirmation Details</field>
+            <field name="subject">Student Admission Confirmation Details</field>
+            <field name="model_id" ref="vg_colg.model_admission_list"/>
+            <field name="email_to">{{object.curr_collage.principle_id.login}}</field>
+            <field name="body_html" type="html">
+                <p>Dear <span style="font-weight: bold;"><t t-out="object.curr_collage.principle_id.name"/></span>,</p>
+                <p>Please find the list of students who's admission is confirmed on <t t-out="ctx['today']"/></p>
+                <br/><br/>
+                <table class="table" width="100%" border="1">
+                    <tr>
+                        <th>S.no.</th>
+                        <th>Student Name</th>
+                        <th>Admission no</th>
+                    </tr>
+                    <t t-foreach="ctx['admission_datas']" t-as="admission_data">
+                        <tr>
+                            <th>
+                                <t t-out="admission_data['sr_no']"/>
+                            </th>
+                            <th>
+                                 <t t-out="admission_data['name']"/>
+                            </th>
+                            <th>
+                                 <t t-out="admission_data['admission_no']"/>
+                            </th>
+                        </tr>
+                    </t>
+                </table>
+
+                <br/><br/>
+            <p>Thanks &amp; Regards,</p>
+            <p><t t-out="object.curr_collage.name"/> !</p>
+            <br/><br/>
+            <p>Note: This is auto generated E-mail. Please do not reply.</p>
+            </field>
+        </record>
+
+        <record id="mail_template_student_mandatory_documents" model="mail.template">
+            <field name="name"> Mandatory Documents</field>
+            <field name="subject">Mandatory Documents Mail</field>
+            <field name="model_id" ref="vg_colg.model_admission_list"/>
+            <field name="email_to">{{ (not object and object.email) }}</field>
+            <field name="email_from">communication@vivekanandha.ac.in</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                    <tr>
+                        <td align="center">
+                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                   style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+                                <tbody>
+                                    <!-- CONTENT -->
+                                    <tr>
+                                        <td style="min-width: 590px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                                   style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                                <tr>
+                                                    <td valign="top" style="font-size: 13px;">
+                                                        <div>
+                                                            <b>Dear <t t-out="object.name or ''">Demo</t>,</b>
+                                                            <p>
+                                                                Greetings from <t t-out="object.curr_collage.name or ''">College</t>.
+                                                                Your document verification is still pending !.. Kindly submit the documents ASAP.
+                                                            </p>
+                                                            <br/>
+                                                            <p>Thanks,
+                                                                <t t-out="object.curr_collage.name or ''">College</t>.</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

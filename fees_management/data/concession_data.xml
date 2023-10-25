@@ -1,0 +1,9 @@
+<odoo>
+    <data noupdate='1'>
+        <record id="concession_service_product" model="product.template">
+            <field name="name">Concession</field>
+            <field name="default_code">CONCESSION</field>
+            <field name="detailed_type">service</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="concession_rejection_wizard_view_id" model="ir.ui.view">
+            <field name="name">concession.rejection.wizard</field>
+            <field name="model">concession.rejection.wizard</field>
+            <field name="arch" type="xml">
+                <form >
+                    <group>
+                        <field name= "name" string="Reason" required="1" colspan="2"/>
+                    </group>
+                    <footer>
+                        <button name="action_concession_reject" string="Reject" type="object" class="mr-2 oe_button oe_form_button_save oe_highlight" />
+                    
+                        <button special="cancel" class="oe_button oe_highlight" string="Cancel" />
+                   </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

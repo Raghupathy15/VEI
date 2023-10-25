@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+        <record id="arts_data" model="stream.master">
+            <field name="name">Arts</field>
+        </record>
+        <record id="engg_data" model="stream.master">
+            <field name="name">Engineering</field>
+        </record>
+    </data>
+</odoo>

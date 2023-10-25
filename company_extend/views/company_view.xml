@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<record id="base.action_res_company_form" model="ir.actions.act_window">
+		<field name="name">Colleges</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">res.company</field>
+		<field name="view_mode">tree,kanban,form</field>
+		<field name="help" type="html">
+		  <p class="o_view_nocontent_smiling_face">
+			Create a new Colleges
+		  </p><p>
+			Create and manage the colleges that will be managed by Odoo from here. Shops or subsidiaries can be created and maintained from here.
+		  </p>
+		</field>
+	</record>
+
+	<menuitem id="base.menu_users" name="Users &amp; Colleges" parent="base.menu_administration" sequence="1"/>
+
+
+	<record id="view_company_tree_inherit" model="ir.ui.view">
+		<field name="name">res.company.tree</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="base.view_company_tree"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="attributes">
+				<attribute name="string">College Name</attribute>
+			</xpath>
+			<xpath expr="//field[@name='partner_id']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//field[@name='name']" position="after">
+				<field name="phone"/>
+				<field name="website" string="Website"/>
+			</xpath>
+		</field>
+	</record>
+
+	<record id="view_company_form_inherit" model="ir.ui.view">
+		<field name="name">res.company.form</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="base.view_company_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='partner_id']" position="before">                             
+				<field name="college_code"/>        
+			</xpath>
+			<xpath expr="//field[@name='name']" position="attributes">
+				<attribute name="string">College Name</attribute>
+			</xpath>
+			<xpath expr="//field[@name='partner_id']" position="after">
+				<field name="type"/>
+			</xpath>
+			<xpath expr="//field[@name='partner_id']" position="after">
+				<field name="trust_id"/>
+			</xpath>
+			<xpath expr="//field[@name='parent_id']" position="attributes">
+				<attribute name="string">Parent College</attribute>
+			</xpath>
+			<xpath expr="//field[@name='company_registry']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//field[@name='phone']" position="before">
+				<field name="admission_sequence"/>
+			</xpath>
+			<xpath expr="//field[@name='partner_id']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

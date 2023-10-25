@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="vc_accounting_reports.external_consolidated_standard">
+        <!-- <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style"> -->
+        <div class="header" style="width:100%;">
+            <!-- <div style="width:100%;">
+                <div style="width:100%;margin-top:15px;">
+                    <p style="font-size:20px;text-align:right">College Copy</p>
+                </div>
+            </div> -->
+            <br/>
+            <br/>
+            <div class="row">
+                <div style="height:130px;width:150px;margin-top:15px;">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:130px;max-width:150px;" alt="Logo"/>
+                </div>
+                <div>
+                    <h3><span style="text-align:left;margin-top:15px;" t-field="company.name"/></h3>
+                    <!-- <span style="margin-left:245px;" t-field="company.street"/>,<span t-field="company.street2"/><br/>
+                    <span style="margin-left:310px;" t-field="company.city"/>  -->
+                </div>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+        <!-- <div> -->
+            <div>
+                <t t-call="web.address_layout"/>
+            </div>
+            <t t-out="0"/>
+        </div>
+    </template>
+
+    <template id="vc_accounting_reports.externl_layout_consolidated">
+        <t t-if="not o" t-set="o" t-value="o"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="docs.env.company"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <!-- <t t-if="company.external_report_layout_id" t-call="{{company.external_report_layout_id.sudo().key}}"><t t-out="0"/></t> -->
+        <t t-call="vc_accounting_reports.external_consolidated_standard"><t t-out="0"/></t>
+
+    </template>
+
+    <template id="vc_accounting_reports.consolidated_report_document">
+        <t t-call="vc_accounting_reports.externl_layout_consolidated">
+            <!-- <t t-set="o" t-value="o.with_context(lang=lang)"/> -->
+            <br/><br/><br/><br/><br/><br/><br/>
+            <div class="page">
+            <t t-set="lines" t-value="docs._get_invoices_lines()"/>
+            <t t-set="dates" t-value="docs.datetime_now()"/>
+                    <t t-set="term" t-value="docs._get_term()"/>
+                <div class="row">
+                    <div style="width:100%;text-font:14px;">
+                        <p>Account Report for Demand/Random Paid/Pending Report</p>
+                    </div>
+                    <br/>
+                </div>
+                <br/><br/>
+                <div class="row">
+                    <div style="width:100%;text-font:14px;">
+                        <p>Report for <span t-esc="dates['company_name']"/> for <span t-esc="term"/> as on <span t-esc="dates['datetime']"/></p>
+                    </div>
+                    <br/>
+                </div>
+                <br/><br/>
+                <!-- <t t-set="l" t-value="request.env.context.get('active_ids', [])"/> -->
+                <table style="width:100% !important;text-font:14px;">
+                    <thead> 
+                        <tr style="border:1px solid black;width:100%; !important">
+                            <th style="border:1px solid black;width:15%;text-align:center;">No</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Student ID</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Student Name</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Grade</th>  
+                            <th style="border:1px solid black;width:15%;text-align:center;">Fee Description</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Demand</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Paid</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Consession</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Balance</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Receipt No</th>
+                            <th style="border:1px solid black;width:15%;text-align:center;">Payment Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set='number' t-value='1'/>
+                        <t t-foreach="lines" t-as="val">
+                            <tr style="border:1px solid black;width:100%; !important;text-font:14px;">
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="number"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['id']"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['name']"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['grade']"/></td>  
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['description']"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['amount']"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['paid']"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['consession']"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['balance']"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['number']"/></td>
+                                <td style="border:1px solid black;width:100%; !important;width:15%;text-align:center;"><span t-esc="val['date']"/></td>
+                            </tr>
+                            <t t-set='number' t-value='number+1'/>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="vc_accounting_reports.report_action_consolidated_receipt">
+        <t t-call="web.html_container">
+            <!-- <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="vc_accounting_reports.consolidated_report_document" t-lang="lang"/>
+            </t> -->
+            <t t-call="vc_accounting_reports.consolidated_report_document" t-lang="lang"/>
+        </t>
+    </template>
+
+    <!-- <record id="action_report_fee_payment_receipt" model="ir.actions.report">
+            <field name="name">Fee Payment</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">fees_management.report_fee_payment_receipt</field>
+            <field name="report_file">fees_management.report_fee_payment_receipt</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record> -->
+
+    <record id="action_consolidated_report_pdf" model="ir.actions.report">
+        <field name="name">Consolidated Payment Report</field>
+        <field name="model">account.move.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">vc_accounting_reports.report_action_consolidated_receipt</field>
+        <field name="report_file">vc_accounting_reports.report_action_consolidated_receipt</field>
+        <!-- <field name="print_report_name">'Consolidated Payment Report'</field> -->
+        <field name="binding_type">report</field>
+        <!-- <field name="paperformat_id" ref="vg_colg.paperformat_admission_report"/> -->
+    </record>
+</odoo>

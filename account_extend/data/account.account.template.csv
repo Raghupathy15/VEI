@@ -1,0 +1,5 @@
+"id","name","code","account_type","chart_template_id/id","tag_ids/id","reconcile"
+"909213","Dummy Account 1","909213","income","l10n_in.indian_chart_template_standard","","False"
+"909214","Dummy Account 2","909214","income","l10n_in.indian_chart_template_standard","","False"
+"909215","Dummy Account 3","909215","income","l10n_in.indian_chart_template_standard","","False"
+"909216","Dummy Account 4","909216","income","l10n_in.indian_chart_template_standard","","False"

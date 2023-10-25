@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="one_time_fees_form_view" model="ir.ui.view">
+			<field name="name">one.time.fees.form</field>
+			<field name="model">one.time.fees</field>
+			<field name="arch" type="xml">
+				<form string="One time fees">
+					<header>
+						<button string="Generate" name="generate_student_onetime_fee" type="object" states="draft" class="oe_highlight"/>
+						<button string="Create Invoice" name="confirm_generate_onetime_invoice" type="object" states="confirmed" class="oe_highlight"/>
+						<field name="state" widget="statusbar"/> 
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<button class="oe_stat_button" type="object" name="action_open_student_onefees"
+									icon="fa-bars">
+								<div class="o_stat_info">
+									 <field name="generated_number" class="oe_stat_value text-success"/>
+									<span class="o_stat_text">Student's List</span>
+								</div>
+							</button>
+							<button class="oe_stat_button" type="object" name="action_open_student_onefees_invoice"
+									icon="fa-bars">
+								<div class="o_stat_info">
+									 <field name="invoice_generated_number" class="oe_stat_value text-success"/>
+									<span class="o_stat_text">Invoices</span>
+								</div>
+							</button>
+						</div>
+						<group>
+							<group>
+								<field name="name" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="stream_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="college_id" invisible="0" options="{'no_open': True, 'no_create': True}" style="font-weight: bold" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="grade_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="degree_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}" invisible="1"/>
+								<field name="degree_level_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name='batch_id' string="Batch" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="course_ids" widget="many2many_tags" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
+								<field name="semester_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
+								<field name="term_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
+								<field name="last_payment" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+							</group>
+							<group>
+								<field name="created_date"/>
+								<label for="academice_year_from" string="Acedemic Year" />
+								<div class="o_row">
+									<span class="text-muted">From</span>
+									<field name="academice_year_from" class="oe_inline" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+									<span class="text-muted">To</span>
+									<field name="academice_year_to" class="oe_inline" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								</div>
+								<field name="course_year" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="section_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="due_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+								<field name="quota_id" string="Quota" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
+								<field name="details_id" string="Student ID" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True}"/>
+							</group>
+							<field name="notes" placeholder="Internal notes ..."/>
+						</group>
+						<notebook colspan="4">
+							<page string="Fees Details">
+								<field name="fees_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+									<tree editable="bottom" delete="1">
+										<field name="product_id" options="{'no_open': True, 'no_create': True}"/>
+										<field name="amount" sum="Total"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="one_time_fees_tree_view" model="ir.ui.view">
+			<field name="name">one.time.fees.tree</field>
+			<field name="model">one.time.fees</field>
+			<field name="arch" type="xml">
+				<tree string="One time fees" edit="false">
+					<field name="name"/>
+					<field name="created_date"/>
+					<field name="course_ids" widget="many2many_tags"/>
+					<field name="degree_ids" widget="many2many_tags"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="one_time_fees_search_view" model="ir.ui.view">
+			<field name="name">one.time.fees.search</field>
+			<field name="model">one.time.fees</field>
+			<field name="arch" type="xml">
+				<search string="One time Fees">
+					<field name="name"/>
+					<field name="course_ids"/>
+					<field name="degree_ids"/>
+					<group expand="0" string="Group By...">
+						<filter name="Fees Name" domain="[]" context="{'group_by':'name'}"/>
+						<!-- <filter name="course_id" domain="[]" context="{'group_by':'course_id'}"/> -->
+						<!-- <filter name="degree_id" domain="[]" context="{'group_by':'degree_id'}"/> -->
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="one_time_fees_line_list_view" model="ir.ui.view">
+            <field name="name">One Time Fees Line List View</field>
+            <field name="model">one.time.fees.line</field>
+            <field name="arch" type="xml">
+                <tree delete="0" create="0">  
+                    <field name="product_id"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="one_time_fees_line_form_view" model="ir.ui.view">
+            <field name="name">One Time Fees Line Form View</field>
+            <field name="model">one.time.fees.line</field>
+            <field name="arch" type="xml">
+                <form create="0" edit="0" delete="0">  
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+		<record id="one_time_fees_act_window" model="ir.actions.act_window">
+			<field name="name">One Time Fees</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">one.time.fees</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="One Time Fees" id="one_time_fees_menu" parent="configuration_fees_child_menu" action="one_time_fees_act_window" sequence="3"/>
+
+		<menuitem name="Token Fees" id="token_fees_menu" parent="fees_management.configuration_fees_child_menu" action="vg_colg.token_fees1_act_window" sequence="2"/>
+
+		
+		<record id="validate_one_time_fee_view" model="ir.ui.view">
+            <field name="name">Create Invoice</field>
+            <field name="model">validate.one.time.fees</field>
+            <field name="arch" type="xml">
+                <form string="WARNING">
+                    <span class="o_form_label">Please check the student's list before creating the Invoice.</span>
+                    <footer>
+                        <button string="Create Invoice" name="confim_one_time_fees" type="object" default_focus="1" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+	</data>
+</odoo>

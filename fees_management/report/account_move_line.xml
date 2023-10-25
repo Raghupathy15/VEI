@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="fee_report_move_line_tree_view" model="ir.ui.view">
+            <field name="name">Account Move Line Tree View</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="move_id" string="Invoice"/>
+                    <field name="product_id" string="Particulars"/>
+                    <field name="is_hostel"/>
+                    <field name="course_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Course" optional="show"/>
+                    <field name="batch_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Batch" optional="show"/>
+                    <field name="semester_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Semester" optional="show"/>
+                    <field name="fees_for_id" options="{'no_create':True,'no_edit':True,'no_open':True}" string="Term" optional="show"/>
+                    <field name="course_year" string="Course Year" optional="show"/>
+                    <field name="priority" string="Priority"  optional="hide"/>
+                    <field name="start_date" optional="hide"/>
+                    <field name="end_date" optional="hide"/>
+                    <field name="due_date" optional="hide"/>
+                    <field name="account_id" optional="hide"/>
+                    <field name="price_subtotal" optional="show"/>
+                    <field name="price_total" optional="show" sum="Total"/>
+                    <field name="paid_amount"/>
+                    <field name="payment_state" optional="show" widget="badge" 
+                            decoration-danger="payment_state == 'not_paid'"
+                            decoration-warning="payment_state == 'partially_paid'"
+                            decoration-success="payment_state == 'paid'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_report_move_line_tree_view_act_window" model="ir.actions.act_window">
+			<field name="name">Consolidated Report</field>
+			<field name="type">ir.actions.act_window</field>
+            <field name="view_id" ref="fee_report_move_line_tree_view"/>
+            <field name="domain">[('journal_id.type','=','sale'),('account_id.account_type','=','income')]</field>
+            <field name="context">{'default_journal_type':'sale'}</field>
+			<field name="res_model">account.move.line</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+        <menuitem id="fee_report_move_line_tree_view_menuitem" name="Consolidated Report" action="fee_report_move_line_tree_view_act_window"
+                  parent="vg_colg.menu_parent_report_wizard" sequence="10"/>
+    </data>
+</odoo>

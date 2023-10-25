@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- For Transfer Courses wizard -->
+        <record id="view_transfer_courses_wizard" model="ir.ui.view">
+            <field name="name">transfer.college.wizard</field>
+            <field name="model">transfer.courses.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="student_id" required="1" readonly="1"/>
+                        <group>
+                            <field name="courses_id" readonly="1"/>
+                            <field name="degree_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="to_courses_id"/>
+                            <field name="to_degree_id"/>
+                        </group>
+                    </group>
+                    <field name="remarks" placeholder="Remarks ..."/>
+                    <footer>
+                        <button name="action_transfer_courses" type="object" string="Transfer Courses"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_transfer_courses_wizard" model="ir.actions.act_window">
+            <field name="name">Transfer Courses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">transfer.courses.wizard</field>
+            <field name="view_id" ref="view_transfer_courses_wizard"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="create_website_student_admission" name="Create Student Admission" customize_show="True">
+        <t t-call="website.layout">
+            <form action="/student-admission-created" id="stdCreated" method="post" class="form-horizontal mt16"
+                  enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="container mb64">
+                    <div class="row">
+                        <div class="col-md-12 col-12 pt48 pb16">
+                            <h1 class="text-center">
+                                <span class="pb8" style="border-bottom:3px solid green;letter-spacing: 3px;">Student
+                                    Admission Inquiry
+                                </span>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row mt64">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-md-6 col-12">
+                                    <label class="control-label mt16 d-none" for="location">
+                                        Location
+                                    </label>
+                                    <select class="form-control d-none" name="location">
+                                       <option t-attf-value="sankagiri" t-att-selected="location == 'sankagiri'">Sankagiri</option>
+                                       <option t-attf-value="thirichengodu" t-att-selected="location == 'thirichengodu'">Thirichengodu</option>
+                                    </select>
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <label class="control-label mt16" for="name">
+                                                Name of the Student
+                                            </label>
+                                            <input type="text" class="form-control"
+                                                name="name"/>
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="control-label mt16" for="initial">
+                                                Initial
+                                            </label>
+                                            <input type="text" class="form-control"
+                                                name="initial" required="required"/>
+                                        </div>
+                                    </div>
+                                    <label class="control-label mt16" for="email">
+                                        Email
+                                    </label>
+                                    <input type="text" id="std_email" class="form-control" required=""
+                                           name="email"/>
+                                    <span id="email2"/>
+                                    <label class="control-label mt16" for="birth_date">
+                                        Date of Birth
+                                    </label>
+                                    <input type="date" class="form-control"
+                                           name="birth_date" required="required"/>
+                                    <label class="control-label mt16" for="gender">
+                                        Gender
+                                    </label>
+                                    <select name="gender" class="form-control" id="gender" placeholder="Gender" required="required">
+                                        <option value="">
+                                            
+                                        </option>
+                                        <option value="male">
+                                            Male
+                                        </option>
+                                        <option value="female">
+                                            Female
+                                        </option>
+                                        <option value="others">
+                                            Others
+                                        </option>
+                                    </select>
+                                    <label class="control-label mt16" for="parent_guardian_name">
+                                        Parent / Guardian Name
+                                    </label>
+                                    <input type="text" class="form-control"
+                                           name="parent_guardian_name"/>
+                                    <label class="control-label mt16" for="parent_guardian_occupation">
+                                        Parent / Guardian Occupation
+                                    </label>
+                                    <input type="text" class="form-control"
+                                           name="parent_guardian_occupation"/>
+                                    <label class="control-label mt16" for="aadhar_code">
+                                        Aadhaar No.
+                                    </label>
+                                    <input type="text" class="form-control" required=""
+                                           name="aadhar_code" id="aadharcard"/>
+                                    <label class="control-label mt16" for="mobile_number">
+                                        Mobile Number
+                                    </label>
+                                    <input type="number" class="form-control"
+                                           name="mobile_number" required="required"/>
+                                    <label class="control-label mt16" for="whatsapp_number">
+                                        Whatsapp Number
+                                    </label>
+                                    <input type="number" class="form-control"
+                                           name="whatsapp_number" required="required"/>
+                                    <label class="control-label mt16" for="caste">
+                                        Caste
+                                    </label>
+                                    <input type="text" class="form-control"
+                                           name="caste"/>
+                                    <label class="control-label mt16" for="community_id">
+                                        Community
+                                    </label>
+                                    <select name="community_id" class="form-control" id="community_id" required="required">
+                                        <option value=''>
+                                        </option>
+                                        <t t-foreach="community_master" t-as="community">
+                                            <option t-att-value="community.id">
+                                                <t t-esc="community.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    
+                                    
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label class="control-label mt16" for="place_id">
+                                        Place
+                                    </label>
+                                    <select name="place_id" class="form-control" id="place_id" required="required">
+                                        <t t-foreach="places" t-as="place">
+                                            <option t-att-value="place.id">
+                                                <t t-esc="place.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    <label class="control-label mt16" for="taluk_id">
+                                        Taluk
+                                    </label>
+                                    <select name="taluk_id" class="form-control" id="taluk_id" required="required">
+                                        <t t-foreach="taluks" t-as="taluk">
+                                            <option t-att-value="taluk.id">
+                                                <t t-esc="taluk.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="control-label mt16" for="district_id">
+                                                District
+                                            </label>
+                                            <select name="district_id" class="form-control" id="district_id" required="required">
+                                                <t t-foreach="districts" t-as="district">
+                                                    <option t-att-value="district.id">
+                                                        <t t-esc="district.name"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="control-label mt16" for="pin_code" required="required">
+                                                Pin Code
+                                            </label>
+                                            <input type="text" class="form-control"
+                                                name="pin_code"/>
+                                        </div>
+                                    </div>
+                                    <!-- <label class="control-label mt16" for="batch">
+                                        Batch
+                                    </label>
+                                    <input type="text" class="form-control"
+                                           name="batch" t-att-value="batch"/> -->
+                                    <label class="control-label mt16" for="ug_regn_number">
+                                        +2 / UG Regn Number
+                                    </label>
+                                    <input type="number" class="form-control"
+                                           name="ug_regn_number"/>
+                                    <label class="control-label mt16" for="group_ug_branch">
+                                        +2 Group / UG Branch
+                                    </label>
+                                    <input type="text" class="form-control"
+                                           name="group_ug_branch"/>
+                                    <label class="control-label mt16" for="total_marks_ug">
+                                        +2 Total Marks / UG %
+                                    </label>
+                                    <input type="number" class="form-control"
+                                           name="total_marks_ug"/>
+                                    <label class="control-label mt16" for="institution_group_id">
+                                        Institution Group
+                                    </label>
+                                    <select name="institution_group_id" class="form-control" id="institution_group_id">
+                                        <t t-foreach="institution_groups" t-as="institution_group">
+                                            <option t-att-value="institution_group.id">
+                                                <t t-esc="institution_group.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    <label class="control-label mt16" for="last_studied_institution_id">
+                                        Last Studied Institution
+                                    </label>
+                                    <select name="last_studied_institution_id" class="form-control" id="last_studied_institution_id">
+                                        <t t-foreach="last_studied_institutions" t-as="last_studied_institution">
+                                            <option t-att-value="last_studied_institution.id">
+                                                <t t-esc="last_studied_institution.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    <label class="control-label mt16" for="referred_by_id">
+                                        Stream
+                                    </label>
+                                    <t t-set="streams"
+                                       t-value="request.env['stream.master'].sudo().
+                                       search([])"/>
+                                    <select name="stream_by_id" class="form-control" id="stream_by_id" required="required">
+                                        <option value=''>
+                                        </option>
+                                        <t t-foreach="streams" t-as="stream_id">
+                                            <option t-att-value="stream_id.id">
+                                                <t t-esc="stream_id.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    <label class="control-label mt16" for="company_by_id">
+                                        College
+                                    </label>
+                                    <t t-set="companies"
+                                       t-value="request.env['res.company'].sudo().
+                                       search([])"/>
+                                    <select name="company_by_id" class="form-control" id="company_by_id" required="required">
+                                        <option value=''>
+                                        </option>
+                                        <t t-foreach="companies" t-as="company_id">
+                                            <option t-att-value="company_id.id">
+                                                <t t-esc="company_id.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="control-label mt16" for="grade_id">
+                                                Grade
+                                            </label>
+                                            <select name="grade_id" class="form-control" id="grade_id" required="required">
+                                                <option value=''>
+                                                </option>
+                                                <t t-foreach="grade_id" t-as="grade_ids">
+                                                    <option t-att-value="grade_id.id">
+                                                        <t t-esc="grade_id.name"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="control-label mt16" for="degree_id">
+                                                Degree
+                                            </label>
+                                            <select name="degree_id" class="form-control" id="degree_id" required="required">
+                                                <option value=''>
+                                                </option>
+                                                <t t-foreach="degree_id" t-as="degree">
+                                                    <option t-att-value="degree.id">
+                                                        <t t-esc="degree.name"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <label class="control-label mt16" for="courses_id">
+                                        Courses
+                                    </label>
+                                    <select name="courses_id" class="form-control" id="courses_id" required="required">
+                                        <option value=''>
+                                        </option>
+                                        <t t-foreach="courses" t-as="course">
+                                            <option t-att-value="course.id">
+                                                <t t-esc="course.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                   <!--  <label class="control-label mt16" for="referred_by_id">
+                                        Referred By
+                                    </label>
+                                    <select name="referred_by_id" class="form-control" id="referred_by_id">
+                                        <t t-foreach="references" t-as="reference">
+                                            <option t-att-value="reference.id">
+                                                <t t-esc="reference.name"/>
+                                            </option>
+                                        </t>
+                                    </select> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt40 pb40 text-center">
+                            <button type="submit" class="btn btn-success pt8 pb8 font-weight-bold" style="width: 130px;font-size: 18px;">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <template id="std_thanks" name="Thank You">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container mt48 mb48">
+                    <h1>Thanks!</h1>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="alert alert-success" role="status">
+                                You form is submitted successfully.
+                            </div>
+                            <p>
+                                Your enquiry No is
+                                <strong t-field="student.seq_code"/>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="std_panding" name="Panding Inquiry">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container mt48 mb48">
+                    <h1>Panding Inquiry!</h1>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="alert alert-success" role="status">
+                                You have a pending Inquiry.
+                            </div>
+                            <p>
+                                Your pending enquiry No is
+                                <strong t-field="student.seq_code"/>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+</odoo>
